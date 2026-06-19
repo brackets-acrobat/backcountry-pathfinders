@@ -33,10 +33,18 @@ a { color: var(--ink); }
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;            /* l'en-tête passe à la ligne sur fenêtre étroite */
+    gap: .5rem 1rem;
     padding: .75rem 1.25rem;
     background: var(--accent);
     color: var(--ink);
 }
+.site-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.site-nav a:first-child { margin-left: 0; }
 .brand {
     color: var(--ink);
     text-decoration: none;
@@ -92,6 +100,60 @@ a { color: var(--ink); }
     color: var(--muted);
     font-size: 1.1rem;
 }
+
+/* ---- Navigation : utilisateur connecté ---- */
+.nav-user { color: var(--ink); opacity: .85; font-weight: 700; margin-left: 1rem; }
+
+/* ---- Sélecteur de langue (toggle FR|EN) ---- */
+.lang-toggle {
+    display: inline-flex;
+    margin-left: 1rem;
+    border: 1px solid rgba(0, 0, 0, .35);
+    border-radius: 999px;
+    overflow: hidden;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    line-height: 1;
+    text-decoration: none;
+    user-select: none;
+}
+.lang-opt {
+    padding: .28rem .6rem;
+    color: rgba(255, 255, 255, .8);
+    transition: background-color .15s ease, color .15s ease;
+}
+.lang-opt.is-active { background: #000; color: #fff; }
+.lang-toggle:hover .lang-opt:not(.is-active) { color: #fff; }
+
+/* ---- Formulaires (inscription / connexion) ---- */
+.form-section { max-width: 420px; }
+.form-section h1 { color: var(--ink); margin-top: 0; }
+.form { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.25rem; }
+.form label { display: flex; flex-direction: column; gap: .35rem; font-size: .95rem; color: var(--ink); }
+.form .hint { color: var(--muted); font-weight: 400; font-size: .85rem; }
+.form input {
+    padding: .55rem .7rem;
+    background: #111;
+    color: var(--ink);
+    border: 1px solid #333;
+    border-radius: 6px;
+    font: inherit;
+}
+.form input:focus { outline: none; border-color: var(--accent); }
+.form .btn { margin-top: .5rem; align-self: flex-start; }
+.form-alt { margin-top: 1.25rem; color: var(--muted); }
+
+/* ---- Boîte d'alerte / erreurs ---- */
+.alert {
+    background: #2a1410;
+    border: 1px solid var(--accent);
+    color: #ffd9c2;
+    padding: .6rem .9rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+.alert ul { margin: 0; padding-left: 1.2rem; }
 
 /* ---- Pied ---- */
 .site-footer {

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1); ?>
 
 <section class="hero">
-    <h1>404 — Page introuvable</h1>
-    <p>La page demandée n'existe pas (ou plus).</p>
-    <p><a href="<?= BASE_URL ?>/">← Retour à la carte</a></p>
+    <h1><?= t('error404.heading') ?></h1>
+    <p><?= t('error404.text') ?></p>
+    <p><a href="<?= BASE_URL ?>/"><?= t('error404.back') ?></a></p>
 </section>

@@ -19,6 +19,7 @@ if (!is_file($autoload)) {
     exit;
 }
 require $autoload;
+require dirname(__DIR__) . '/src/helpers.php';   // fonctions globales (t(), …)
 
 use App\Core\View;
 use Bramus\Router\Router;
@@ -34,11 +35,31 @@ if (!empty($config['app']['debug'])) {
     ini_set('display_errors', '0');
 }
 
+// --- Base de données ---
+// Connexion paresseuse : configurée ici, établie au premier accès réel.
+App\Core\Database::configure($config['db']);
+
+// --- Session ---
+App\Core\Auth::demarrer();
+
+// --- Langue (FR/EN) ---
+App\Core\Lang::initialiser();
+
 // --- Routes ---
 $router = new Router();
 
 // Site web (pages HTML)
 $router->get('/', 'App\Controllers\CarteController@index');
+
+// Changement de langue
+$router->get('/langue/(\w+)', 'App\Controllers\LangController@changer');
+
+// Authentification
+$router->get('/inscription',  'App\Controllers\AuthController@formulaireInscription');
+$router->post('/inscription', 'App\Controllers\AuthController@inscription');
+$router->get('/connexion',    'App\Controllers\AuthController@formulaireConnexion');
+$router->post('/connexion',   'App\Controllers\AuthController@connexion');
+$router->get('/deconnexion',  'App\Controllers\AuthController@deconnexion');
 
 // API desktop (JSON) — à câbler plus tard
 // $router->post('/api/releve', 'App\Api\ReleveController@store');

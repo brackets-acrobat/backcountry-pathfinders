@@ -15,7 +15,7 @@ class CarteController
     public function index(): void
     {
         (new View())->render('carte', [
-            'title' => 'Carte des lieux',
+            'title' => t('page.map.title'),
         ]);
     }
 }
