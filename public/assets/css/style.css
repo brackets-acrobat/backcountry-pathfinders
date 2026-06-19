@@ -1,0 +1,102 @@
+/* ============================================================
+   Charte graphique Backcountry Pathfinders
+   - Fond de page : noir
+   - Accent (bandeau, bordures de boutons) : #AD4F09
+   - Textes : blancs
+   ============================================================ */
+
+:root {
+    --bg: #000000;          /* fond de page */
+    --accent: #ad4f09;      /* bandeau + contours boutons */
+    --accent-hover: #c75c0c;/* survol */
+    --ink: #ffffff;         /* texte */
+    --muted: #c9c9c9;       /* texte secondaire */
+    --line: #2a2a2a;        /* séparateurs discrets */
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a { color: var(--ink); }
+
+/* ---- Bandeau (en-tête) ---- */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .75rem 1.25rem;
+    background: var(--accent);
+    color: var(--ink);
+}
+.brand {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+.site-nav a {
+    color: var(--ink);
+    text-decoration: none;
+    margin-left: 1rem;
+}
+.site-nav a:hover { text-decoration: underline; }
+
+/* ---- Contenu ---- */
+.site-main {
+    flex: 1;
+    width: min(1100px, 100%);
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem;
+}
+.hero h1 { color: var(--ink); margin-top: 0; }
+.hero p { color: var(--muted); max-width: 60ch; line-height: 1.6; }
+
+/* ---- Boutons (style réutilisable) ---- */
+.btn {
+    display: inline-block;
+    padding: .5rem 1.1rem;
+    font: inherit;
+    color: var(--ink);
+    background: transparent;
+    border: 2px solid var(--accent);   /* contour orange */
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color .15s ease, border-color .15s ease;
+}
+.btn:hover,
+.btn:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent-hover);
+    outline: none;
+}
+
+/* ---- Emplacement de la future carte ---- */
+.map-placeholder {
+    margin-top: 1.5rem;
+    height: 420px;
+    display: grid;
+    place-items: center;
+    background: #0d0d0d;
+    border: 2px dashed var(--accent);
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 1.1rem;
+}
+
+/* ---- Pied ---- */
+.site-footer {
+    padding: 1rem 1.25rem;
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+}

@@ -1,0 +1,18 @@
+# Dépendances Composer (régénérées par `composer install`)
+/vendor/
+
+# Config locale (identifiants DB) — ne jamais versionner
+/config/config.php
+
+# Fichiers envoyés par les utilisateurs / l'appli desktop
+/storage/uploads/*
+!/storage/uploads/.gitkeep
+/storage/cache/*
+!/storage/cache/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# Divers OS / éditeurs
+.DS_Store
+Thumbs.db
+*.log

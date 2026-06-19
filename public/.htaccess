@@ -1,0 +1,20 @@
+# Toutes les requêtes qui ne correspondent pas à un fichier/dossier réel
+# sont redirigées vers le front controller (index.php).
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Servi sous http://localhost/backcountry/ → la base est /backcountry/
+    RewriteBase /backcountry/
+
+    # Ne pas réécrire les fichiers et dossiers existants (assets, images…)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Tout le reste passe par index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Sécurité : empêcher l'accès direct à d'éventuels fichiers sensibles
+<FilesMatch "\.(env|ini|log|sql)$">
+    Require all denied
+</FilesMatch>

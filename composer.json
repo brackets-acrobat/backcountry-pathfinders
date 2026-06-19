@@ -1,0 +1,19 @@
+{
+    "name": "backcountry/community",
+    "description": "Site communautaire Backcountry Pathfinders — carte et relevés de lieux de poser MSFS 2024",
+    "type": "project",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "php": ">=8.1",
+        "bramus/router": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

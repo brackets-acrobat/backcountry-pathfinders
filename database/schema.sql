@@ -1,0 +1,11 @@
+-- Schéma de la base Backcountry Pathfinders
+-- À compléter à l'étape « conception de la base de données ».
+--
+-- Tables prévues :
+--   utilisateurs   — comptes de la communauté
+--   lieux          — lieux de poser (dédupliqués par coordonnées)
+--   releves        — relevés individuels rattachés à un lieu (relief, sol, friction)
+--   contributions  — qui a contribué quoi
+--   commentaires   — commentaires/notes des utilisateurs
+--
+-- (création des tables à venir)
