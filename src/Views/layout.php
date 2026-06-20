@@ -16,7 +16,7 @@ $title = $title ?? 'Backcountry Pathfinders';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= View::e($title) ?> — Backcountry Pathfinders</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
+    <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
 </head>
 <body>
     <header class="site-header">
@@ -24,7 +24,7 @@ $title = $title ?? 'Backcountry Pathfinders';
         <nav class="site-nav">
             <a href="<?= BASE_URL ?>/"><?= t('nav.map') ?></a>
             <?php if (Auth::estConnecte()): ?>
-                <span class="nav-user"><?= View::e(Auth::utilisateur()['pseudo']) ?></span>
+                <a class="nav-user" href="<?= BASE_URL ?>/compte" title="<?= t('nav.account') ?>"><?= View::e(Auth::utilisateur()['pseudo']) ?></a>
                 <a href="<?= BASE_URL ?>/deconnexion"><?= t('nav.logout') ?></a>
             <?php else: ?>
                 <a href="<?= BASE_URL ?>/connexion"><?= t('nav.login') ?></a>
@@ -47,6 +47,6 @@ $title = $title ?? 'Backcountry Pathfinders';
         <small><?= t('footer.tagline') ?></small>
     </footer>
 
-    <script src="<?= BASE_URL ?>/assets/js/app.js"></script>
+    <script src="<?= asset('js/app.js') ?>"></script>
 </body>
 </html>

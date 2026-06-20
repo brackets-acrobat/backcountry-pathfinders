@@ -51,6 +51,27 @@ return [
     'login.no_account'    => 'Pas encore de compte ?',
     'login.register_link' => 'Créer un compte',
 
+    // Navigation (suite)
+    'nav.account' => 'Mon compte',
+
+    // Espace compte / clés API
+    'page.account.title'        => 'Mon compte',
+    'account.heading'           => 'Mon compte',
+    'account.api_section'       => 'Clés API',
+    'account.api_intro'         => 'Génère une clé API et renseigne-la dans l\'application desktop pour qu\'elle envoie tes relevés vers le site.',
+    'account.new_key_placeholder' => 'Nom de la clé (ex. « PC salon »)',
+    'account.create_key'        => 'Générer une clé',
+    'account.key_created_warning' => 'Copie cette clé maintenant : pour des raisons de sécurité, elle ne sera plus jamais affichée.',
+    'account.copy'              => 'Copier',
+    'account.no_keys'           => 'Aucune clé pour le moment.',
+    'account.col_label'         => 'Nom',
+    'account.col_created'       => 'Créée le',
+    'account.col_last_used'     => 'Dernière utilisation',
+    'account.never_used'        => 'Jamais',
+    'account.unnamed'           => 'sans nom',
+    'account.delete_key'        => 'Supprimer',
+    'account.delete_confirm'    => 'Supprimer cette clé ? L\'application qui l\'utilise ne pourra plus envoyer de relevés.',
+
     // Messages d'erreur (validation)
     'error.csrf'             => 'Session expirée, merci de réessayer.',
     'error.pseudo_length'    => 'Le pseudo doit faire entre 3 et 40 caractères.',

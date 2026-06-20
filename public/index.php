@@ -42,6 +42,11 @@ App\Core\Database::configure($config['db']);
 // --- Session ---
 App\Core\Auth::demarrer();
 
+// Auto-déconnexion propre si le compte en session n'existe plus (ex. supprimé).
+if (App\Core\Auth::estConnecte() && App\Models\Utilisateur::parId(App\Core\Auth::id()) === null) {
+    App\Core\Auth::deconnecter();
+}
+
 // --- Langue (FR/EN) ---
 App\Core\Lang::initialiser();
 
@@ -61,13 +66,18 @@ $router->get('/connexion',    'App\Controllers\AuthController@formulaireConnexio
 $router->post('/connexion',   'App\Controllers\AuthController@connexion');
 $router->get('/deconnexion',  'App\Controllers\AuthController@deconnexion');
 
-// API desktop (JSON) — à câbler plus tard
-// $router->post('/api/releve', 'App\Api\ReleveController@store');
+// Espace compte (clés API) — réservé aux connectés
+$router->get('/compte',                 'App\Controllers\CompteController@index');
+$router->post('/compte/cles',           'App\Controllers\CompteController@creerCle');
+$router->post('/compte/cles/supprimer', 'App\Controllers\CompteController@supprimerCle');
+
+// API desktop (JSON) — reçoit les relevés de l'appli, auth par clé API
+$router->post('/api/releve', 'App\Api\ReleveController@store');
 
 // Page 404
 $router->set404(function () {
     http_response_code(404);
-    (new View())->render('errors/404', ['title' => 'Page introuvable']);
+    (new View())->render('errors/404', ['title' => t('page.404.title')]);
 });
 
 $router->run();

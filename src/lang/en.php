@@ -51,6 +51,27 @@ return [
     'login.no_account'    => 'No account yet?',
     'login.register_link' => 'Create an account',
 
+    // Navigation (continued)
+    'nav.account' => 'My account',
+
+    // Account area / API keys
+    'page.account.title'        => 'My account',
+    'account.heading'           => 'My account',
+    'account.api_section'       => 'API keys',
+    'account.api_intro'         => 'Generate an API key and enter it in the desktop application so it can send your surveys to the site.',
+    'account.new_key_placeholder' => 'Key name (e.g. "Living room PC")',
+    'account.create_key'        => 'Generate a key',
+    'account.key_created_warning' => 'Copy this key now: for security reasons, it will never be shown again.',
+    'account.copy'              => 'Copy',
+    'account.no_keys'           => 'No keys yet.',
+    'account.col_label'         => 'Name',
+    'account.col_created'       => 'Created',
+    'account.col_last_used'     => 'Last used',
+    'account.never_used'        => 'Never',
+    'account.unnamed'           => 'unnamed',
+    'account.delete_key'        => 'Delete',
+    'account.delete_confirm'    => 'Delete this key? The application using it will no longer be able to send surveys.',
+
     // Error messages (validation)
     'error.csrf'             => 'Your session has expired, please try again.',
     'error.pseudo_length'    => 'The username must be between 3 and 40 characters.',

@@ -6,6 +6,10 @@
     # Servi sous http://localhost/backcountry/ → la base est /backcountry/
     RewriteBase /backcountry/
 
+    # Transmettre l'en-tête Authorization à PHP (Apache le filtre sinon) — pour l'API
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     # Ne pas réécrire les fichiers et dossiers existants (assets, images…)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
