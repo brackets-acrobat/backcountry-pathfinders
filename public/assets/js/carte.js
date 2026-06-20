@@ -145,6 +145,22 @@
                 return;
             }
 
+            // Regroupement des marqueurs proches (Leaflet.markercluster) :
+            // pastille verte numérotée quand les points se chevauchent, qui
+            // éclate en marqueurs individuels au zoom.
+            var clusters = L.markerClusterGroup({
+                showCoverageOnHover: false,
+                maxClusterRadius: 50,
+                iconCreateFunction: function (cluster) {
+                    var n = cluster.getChildCount();
+                    return L.divIcon({
+                        html: '<div class="bcp-cluster"><span>' + n + '</span></div>',
+                        className: 'bcp-cluster-wrap',
+                        iconSize: L.point(38, 38),
+                    });
+                },
+            });
+
             var bornes = [];
             lieux.forEach(function (lieu) {
                 var marker = L.circleMarker([lieu.lat, lieu.lon], {
@@ -153,10 +169,12 @@
                     weight: 1,
                     fillColor: couleurSurface(lieu.surface),
                     fillOpacity: 0.9,
-                }).addTo(map);
+                });
                 marker.bindPopup(popupHtml(lieu));
+                clusters.addLayer(marker);
                 bornes.push([lieu.lat, lieu.lon]);
             });
+            map.addLayer(clusters);
 
             if (bornes.length === 1) {
                 map.setView(bornes[0], 12);

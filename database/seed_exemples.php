@@ -49,7 +49,7 @@ function profil(int $altBase, array $deltas): array
     return $pts;
 }
 
-// --- Définition des 3 lieux d'exemple ---
+// --- Définition des lieux d'exemple ---
 $exemples = [
     [
         'nom'         => 'Banc de gravier de la Bella Coola',
@@ -68,6 +68,26 @@ $exemples = [
         'note'        => 4,
         'difficulte'  => 3,
         'discussion'  => 'Posé tôt le matin, vent calme. Surface roulante mais ferme, rien à signaler.',
+    ],
+    [
+        // 2e lieu en Colombie-Britannique, à ~3,5 km du précédent : se regroupe
+        // avec lui quand la carte est dézoomée (démonstration du clustering).
+        'nom'         => 'Prairie d\'amont, vallée de Bella Coola',
+        'lat'         => 52.238000,
+        'lon'         => -126.470000,
+        'alt'         => 122,
+        'surface'     => 'Grass',
+        'etat'        => 'Normal',
+        'friction'    => 0.540,
+        'longueur'    => 320,
+        'pente'       => 4.0,
+        'denivele'    => 14,
+        'aeronef'     => 'Piper PA-18 Super Cub',
+        'profil'      => profil(122, [0, 2, 5, 8, 11, 13, 14, 13, 12]),
+        'commentaire' => 'Prairie naturelle en léger faux-plat, herbe rase. Sol portant en été, plus mou après la pluie.',
+        'note'        => 5,
+        'difficulte'  => 2,
+        'discussion'  => 'Beau terrain dégagé, approche sans obstacle. Idéal pour un premier poser en brousse dans la vallée.',
     ],
     [
         'nom'         => 'Alpage des Aravis',
