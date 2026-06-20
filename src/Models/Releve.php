@@ -16,7 +16,7 @@ class Releve
     private const CHAMPS = [
         'id_utilisateur', 'date_releve', 'latitude', 'longitude', 'altitude_m',
         'type_surface', 'etat_surface', 'friction', 'longueur_utile_m',
-        'pente_max_pct', 'denivele_m', 'profil_relief', 'aeronef', 'capture', 'commentaire',
+        'pente_max_pct', 'denivele_m', 'cap_moyen_deg', 'profil_relief', 'aeronef', 'capture', 'commentaire',
     ];
 
     /**

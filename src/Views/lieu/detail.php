@@ -157,11 +157,12 @@ $couleurDifficulte = static function (float $d): string {
                             'longueur_utile_m' => t('survey.usable_length'),
                             'pente_max_pct'    => t('survey.max_slope'),
                             'denivele_m'       => t('survey.elevation_gain'),
+                            'cap_moyen_deg'    => t('survey.heading'),
                             'aeronef'          => t('survey.aircraft'),
                         ];
-                        // Distances en mètres (colonnes *_m) affichées en pieds ; pente en %.
+                        // Distances en mètres (colonnes *_m) affichées en pieds ; pente en % ; cap en °.
                         $enPieds = ['longueur_utile_m', 'denivele_m'];
-                        $unites  = ['pente_max_pct' => ' %'];
+                        $unites  = ['pente_max_pct' => ' %', 'cap_moyen_deg' => ' °'];
                         foreach ($champs as $cle => $label):
                             $val = $r[$cle] ?? null;
                             if ($val === null || $val === '') { continue; }

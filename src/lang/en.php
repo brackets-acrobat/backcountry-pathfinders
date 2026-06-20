@@ -64,6 +64,7 @@ return [
     'survey.usable_length'  => 'Usable length',
     'survey.max_slope'      => 'Max slope',
     'survey.elevation_gain' => 'Elevation change',
+    'survey.heading'        => 'Landing heading',
     'survey.aircraft'       => 'Aircraft',
     'survey.relief_profile' => 'Relief profile',
 

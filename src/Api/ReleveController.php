@@ -16,8 +16,8 @@ use Throwable;
  *   { "latitude": 45.5, "longitude": 3.1, "date_releve": "2026-06-20 14:30:00",
  *     "altitude_m": 1100, "type_surface": "Grass", "etat_surface": "Normal",
  *     "friction": 0.42, "longueur_utile_m": 240, "pente_max_pct": 3.5,
- *     "denivele_m": 4, "profil_relief": [...], "aeronef": "Kitfox",
- *     "capture": "fichier.jpg", "commentaire": "..." }
+ *     "denivele_m": 4, "cap_moyen_deg": 187.5, "profil_relief": [...],
+ *     "aeronef": "Kitfox", "capture": "fichier.jpg", "commentaire": "..." }
  */
 class ReleveController
 {

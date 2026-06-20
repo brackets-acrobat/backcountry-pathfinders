@@ -64,6 +64,7 @@ return [
     'survey.usable_length'  => 'Longueur utile',
     'survey.max_slope'      => 'Pente max',
     'survey.elevation_gain' => 'Dénivelé',
+    'survey.heading'        => 'Cap au poser',
     'survey.aircraft'       => 'Aéronef',
     'survey.relief_profile' => 'Profil de relief',
 

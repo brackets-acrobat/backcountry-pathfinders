@@ -98,7 +98,8 @@ CREATE TABLE IF NOT EXISTS releves (
     longueur_utile_m SMALLINT UNSIGNED NULL,                -- longueur exploitable estimée (m)
     pente_max_pct    DECIMAL(4,1) NULL,                     -- pente max le long de l'axe (%)
     denivele_m       SMALLINT NULL,                         -- dénivelé sur la zone (m)
-    profil_relief    JSON NULL,                             -- échantillons du passage bas : [{"d":0,"alt":...}, ...]
+    cap_moyen_deg    DECIMAL(4,1) NULL,                     -- cap moyen au poser (°, moyenne circulaire jusqu'à < 20 kt)
+    profil_relief    JSON NULL,                             -- échantillons du roulage : [{"d":0,"alt":...}, ...]
     aeronef          VARCHAR(80) NULL,                      -- avion utilisé (friction/longueur en dépendent)
     capture          VARCHAR(120) NULL,                     -- nom de fichier dans storage/uploads
     commentaire      TEXT NULL,                             -- note libre propre à ce relevé
