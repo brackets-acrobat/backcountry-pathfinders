@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 use App\Core\Lang;
+use App\Core\Turnstile;
 
 if (!function_exists('t')) {
     /**
@@ -36,6 +37,24 @@ if (!function_exists('pieds')) {
         }
 
         return (int) round((float) $metres * 3.280839895);
+    }
+}
+
+if (!function_exists('turnstile_widget')) {
+    /**
+     * Markup du widget Cloudflare Turnstile (script + conteneur), ou chaîne vide
+     * si le CAPTCHA est désactivé. À placer à l'intérieur du <form>.
+     */
+    function turnstile_widget(): string
+    {
+        if (!Turnstile::estActif()) {
+            return '';
+        }
+
+        $cle = htmlspecialchars(Turnstile::clePublique(), ENT_QUOTES, 'UTF-8');
+
+        return '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>'
+            . '<div class="cf-turnstile" data-sitekey="' . $cle . '"></div>';
     }
 }
 

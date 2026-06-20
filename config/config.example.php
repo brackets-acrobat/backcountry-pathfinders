@@ -19,4 +19,10 @@ return [
         'debug' => true,     // false en production
         'name'  => 'Backcountry Pathfinders',
     ],
+    // Cloudflare Turnstile (anti-bot, https://dash.cloudflare.com → Turnstile).
+    // Laisser les deux clés vides désactive proprement le CAPTCHA (dev sans clés).
+    'turnstile' => [
+        'site_key'   => '',   // clé de site (publique), commence par 0x...
+        'secret_key' => '',   // clé secrète (serveur) — NE PAS versionner
+    ],
 ];

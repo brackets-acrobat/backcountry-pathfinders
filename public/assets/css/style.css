@@ -17,7 +17,8 @@
     --title: #ffffff;       /* titres */
     --muted: #888888;       /* texte secondaire */
     --line: #2a2a2a;        /* séparateurs discrets */
-    --danger: #ff5252;      /* erreurs / alertes */
+    --danger: #ff5252;      /* erreurs / alertes / difficulté élevée */
+    --warn: #ff9f1c;        /* orange — difficulté moyenne */
     --mono: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
@@ -231,7 +232,33 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
 .place-head h1 { margin: 0; }
 .place-coords { margin: .25rem 0 1rem; font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .muted { color: var(--muted); }
-.stars { color: var(--accent); letter-spacing: .08em; }
+/* ---- Moyenne en étoiles fractionnaires (façon Amazon) ----
+   Deux couches superposées : 5 étoiles grises en fond, 5 étoiles vertes
+   par-dessus, clippées à la largeur = moyenne/5 (style="width:X%"). On colore
+   les <i> (pas le conteneur) pour passer devant la règle globale i[class^="ph-"]. */
+.stars-avg {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.1rem;
+    line-height: 1;
+    white-space: nowrap;
+}
+.stars-avg .stars-base,
+.stars-avg .stars-fill { display: block; }
+.stars-avg .stars-base i,
+.stars-avg .stars-fill i { display: inline-block; }   /* adjacentes, sans interstice */
+.stars-avg .stars-base i { color: var(--muted); }      /* fond gris (étoiles vides) */
+.stars-avg .stars-fill {
+    position: absolute;
+    top: 0; left: 0;
+    overflow: hidden;                                   /* la largeur clippe le remplissage */
+    white-space: nowrap;
+}
+.stars-avg .stars-fill i { color: var(--accent); }     /* remplissage vert (défaut) */
+/* Paliers de couleur pour la difficulté (vert ≤2,33 / orange ≤3,67 / rouge au-delà) */
+.stars-avg.is-orange .stars-fill i { color: var(--warn); }
+.stars-avg.is-red    .stars-fill i { color: var(--danger); }
 
 .place-stats {
     display: flex;
@@ -400,6 +427,75 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     margin-top: 1rem;
 }
 .alert ul { margin: 0; padding-left: 1.2rem; }
+.alert-success {
+    background: #11240f;
+    border-color: var(--accent);
+    color: #bdf3b3;
+}
+
+/* ---- Contribution : noter + commenter un lieu ---- */
+.contribution { margin: 1.5rem 0; }
+.login-prompt { margin: 1.25rem 0; }
+.login-prompt a { color: var(--accent); }
+.login-prompt a:hover { color: var(--accent-hover); }
+
+.form-rating {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-top: .75rem;
+}
+.rating-field { display: flex; flex-direction: column; gap: .35rem; }
+.rating-label { font-size: .95rem; color: var(--ink); }
+
+/* ---- Notation par étoiles (radios, CSS pur, sans JS) ---- */
+.star-rating { display: inline-flex; flex-direction: row-reverse; gap: .15rem; }
+.star-rating input {
+    position: absolute;
+    width: 1px; height: 1px;
+    opacity: 0;            /* masqué mais focusable au clavier */
+}
+.star-rating label {
+    cursor: pointer;
+    font-size: 1.6rem;
+    line-height: 1;
+}
+/* On colore l'icône <i> elle-même (et pas le label) pour passer DEVANT la règle
+   globale i[class^="ph-"]{color:var(--accent)} qui forcerait toutes les étoiles en vert. */
+.star-rating label i { display: block; color: var(--muted); transition: color .1s; }  /* étoile vide */
+/* étoile cochée + toutes celles à sa gauche (suivantes dans le DOM) */
+.star-rating input:checked ~ label i { color: var(--accent); }
+/* aperçu au survol : on neutralise le coché puis on colore jusqu'au survolé */
+.star-rating:hover input:checked ~ label i { color: var(--muted); }
+.star-rating label:hover i,
+.star-rating label:hover ~ label i { color: var(--accent-hover); }
+/* accessibilité clavier */
+.star-rating input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+.form-comment { display: flex; flex-direction: column; gap: .6rem; margin: .75rem 0 1.5rem; }
+.form-comment textarea {
+    padding: .55rem .7rem;
+    background: var(--panel-2);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font: inherit;
+    resize: vertical;
+    min-height: 3.2rem;
+    font-family: inherit;
+}
+.form-comment textarea:focus { outline: none; border-color: var(--accent); }
+.form-rating .btn,
+.form-comment .btn { align-self: flex-start; }
+
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0);
+    white-space: nowrap; border: 0;
+}
 
 /* ---- Pied ---- */
 .site-footer {

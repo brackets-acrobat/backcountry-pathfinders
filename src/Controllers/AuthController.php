@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\Turnstile;
 use App\Core\View;
 use App\Models\Utilisateur;
 use PDOException;
@@ -44,6 +45,9 @@ class AuthController
 
         if (!Auth::verifierCsrf($_POST['csrf'] ?? null)) {
             $erreurs[] = 'error.csrf';
+        }
+        if (!Turnstile::verifier($_POST[Turnstile::champ()] ?? null, $_SERVER['REMOTE_ADDR'] ?? null)) {
+            $erreurs[] = 'error.captcha';
         }
         if (mb_strlen($pseudo) < 3 || mb_strlen($pseudo) > 40) {
             $erreurs[] = 'error.pseudo_length';
@@ -106,6 +110,9 @@ class AuthController
 
         if (!Auth::verifierCsrf($_POST['csrf'] ?? null)) {
             $erreurs[] = 'error.csrf';
+        }
+        if (!Turnstile::verifier($_POST[Turnstile::champ()] ?? null, $_SERVER['REMOTE_ADDR'] ?? null)) {
+            $erreurs[] = 'error.captcha';
         }
 
         if (!$erreurs) {

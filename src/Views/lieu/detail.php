@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Core\Auth;
 use App\Core\View;
 
 /**
@@ -9,25 +10,60 @@ use App\Core\View;
  * @var array<string,mixed>             $agregats
  * @var array<int,array<string,mixed>>  $releves
  * @var array<int,array<string,mixed>>  $commentaires
+ * @var array{note:?int,difficulte:?int}|null $maNote
+ * @var array{type:string,cle:string}|null    $flash
  */
 
 $nom = ($lieu['nom'] ?? '') !== '' ? (string) $lieu['nom'] : t('place.untitled');
 $lat = (float) $lieu['latitude'];
 $lon = (float) $lieu['longitude'];
+$idLieu = (int) $lieu['id'];
+$connecte = Auth::estConnecte();
 
-/** Rendu compact d'une note moyenne en étoiles. */
-$etoiles = static function (?float $note): string {
+/**
+ * Widget d'étoiles cliquables (radios 1..5, CSS pur — pas de JS) ; valeur
+ * courante pré-cochée. Radios listés de 5 à 1 pour que le remplissage CSS
+ * (sélecteur ~) colore l'étoile choisie et celles à sa gauche.
+ */
+$starRating = static function (string $name, ?int $courant) : string {
+    $html = '<span class="star-rating" role="radiogroup">';
+    for ($i = 5; $i >= 1; $i--) {
+        $id  = 'r-' . View::e($name) . '-' . $i;
+        $chk = ($courant === $i) ? ' checked' : '';
+        $html .= '<input type="radio" name="' . View::e($name) . '" value="' . $i . '" id="' . $id . '"' . $chk . '>'
+              . '<label for="' . $id . '" title="' . $i . '/5" aria-label="' . $i . '/5">'
+              . '<i class="ph-fill ph-star"></i></label>';
+    }
+    return $html . '</span>';
+};
+
+/**
+ * Rendu d'une moyenne en étoiles FRACTIONNAIRES (façon Amazon) : 5 étoiles
+ * grises en fond, surmontées des mêmes 5 étoiles vertes clippées à la largeur
+ * exacte (moyenne/5). Ex. 3.72 → 74,4 % de largeur verte → 3 pleines + 72 % de
+ * la 4e. Suivi de la valeur numérique entre parenthèses.
+ */
+$etoiles = static function (?float $note, string $variante = '', int $decimales = 1): string {
     if ($note === null) {
         return '<span class="muted">—</span>';
     }
-    $pleines = (int) round($note);
-    $s = '';
-    for ($i = 1; $i <= 5; $i++) {
-        $s .= $i <= $pleines
-            ? '<i class="ph-fill ph-star"></i>'
-            : '<i class="ph-light ph-star star-empty"></i>';
-    }
-    return '<span class="stars">' . $s . '</span> <span class="muted">(' . number_format($note, 1) . ')</span>';
+    $note = max(0.0, min(5.0, $note));
+    $pct  = number_format($note / 5 * 100, 1, '.', '');          // ex. "74.4"
+    $cinq = str_repeat('<i class="ph-fill ph-star"></i>', 5);
+    $valeur = View::e(number_format($note, $decimales));
+    $classe = 'stars-avg' . ($variante !== '' ? ' ' . $variante : '');
+
+    return '<span class="' . $classe . '" role="img" aria-label="' . $valeur . '/5">'
+         . '<span class="stars-base">' . $cinq . '</span>'
+         . '<span class="stars-fill" style="width:' . $pct . '%" aria-hidden="true">' . $cinq . '</span>'
+         . '</span> <span class="muted">(' . $valeur . ')</span>';
+};
+
+/** Palier de couleur de la difficulté moyenne : vert ≤2,33 / orange ≤3,67 / rouge au-delà. */
+$couleurDifficulte = static function (float $d): string {
+    if ($d <= 2.33) { return ''; }            // vert (couleur par défaut)
+    if ($d <= 3.67) { return 'is-orange'; }
+    return 'is-red';
 };
 ?>
 
@@ -38,6 +74,12 @@ $etoiles = static function (?float $note): string {
 
 <section class="place">
     <p class="place-back"><a href="<?= BASE_URL ?>/"><i class="ph-bold ph-arrow-left"></i> <?= t('place.back_to_map') ?></a></p>
+
+    <?php if ($flash !== null): ?>
+        <div class="alert<?= ($flash['type'] ?? '') === 'success' ? ' alert-success' : '' ?>">
+            <?= View::e(t($flash['cle'])) ?>
+        </div>
+    <?php endif; ?>
 
     <header class="place-head">
         <h1><?= View::e($nom) ?></h1>
@@ -56,11 +98,10 @@ $etoiles = static function (?float $note): string {
         </div>
         <div class="stat">
             <span class="stat-label"><?= t('map.difficulty') ?></span>
-            <span class="stat-value">
-                <?= $agregats['difficulte_moyenne'] !== null
-                    ? View::e(number_format($agregats['difficulte_moyenne'], 1)) . '/5'
-                    : '<span class="muted">—</span>' ?>
-            </span>
+            <span class="stat-value"><?php
+                $diffMoy = $agregats['difficulte_moyenne'];
+                echo $etoiles($diffMoy, $diffMoy !== null ? $couleurDifficulte($diffMoy) : '', 2);
+            ?></span>
         </div>
         <div class="stat">
             <span class="stat-label"><?= t('map.surveys') ?></span>
@@ -70,6 +111,29 @@ $etoiles = static function (?float $note): string {
 
     <div id="place-map" class="place-map"
          data-lat="<?= View::e((string) $lat) ?>" data-lon="<?= View::e((string) $lon) ?>"></div>
+
+    <?php if ($connecte): ?>
+        <section id="avis" class="contribution">
+            <h2><?= t('place.your_review') ?></h2>
+            <form class="form-rating" method="post" action="<?= BASE_URL ?>/lieu/<?= $idLieu ?>/note">
+                <input type="hidden" name="csrf" value="<?= View::e(Auth::jetonCsrf()) ?>">
+                <span class="rating-field">
+                    <span class="rating-label"><?= t('map.rating') ?></span>
+                    <?= $starRating('note', $maNote['note'] ?? null) ?>
+                </span>
+                <span class="rating-field">
+                    <span class="rating-label"><?= t('map.difficulty') ?></span>
+                    <?= $starRating('difficulte', $maNote['difficulte'] ?? null) ?>
+                </span>
+                <button type="submit" class="btn"><?= t('place.save_rating') ?></button>
+            </form>
+            <p class="hint muted"><?= t('place.rating_hint') ?></p>
+        </section>
+    <?php else: ?>
+        <p class="login-prompt muted">
+            <a href="<?= BASE_URL ?>/connexion"><?= t('place.login_to_contribute') ?></a>
+        </p>
+    <?php endif; ?>
 
     <h2><?= t('place.surveys_heading') ?></h2>
     <?php if ($releves === []): ?>
@@ -123,7 +187,19 @@ $etoiles = static function (?float $note): string {
         </ul>
     <?php endif; ?>
 
-    <h2><?= t('place.comments_heading') ?></h2>
+    <h2 id="commentaires"><?= t('place.comments_heading') ?></h2>
+
+    <?php if ($connecte): ?>
+        <form class="form-comment" method="post" action="<?= BASE_URL ?>/lieu/<?= $idLieu ?>/commentaire">
+            <input type="hidden" name="csrf" value="<?= View::e(Auth::jetonCsrf()) ?>">
+            <label class="sr-only" for="comment-texte"><?= t('place.add_comment') ?></label>
+            <textarea id="comment-texte" name="texte" rows="3" maxlength="2000"
+                      placeholder="<?= View::e(t('place.comment_placeholder')) ?>" required></textarea>
+            <?= turnstile_widget() ?>
+            <button type="submit" class="btn"><?= t('place.comment_submit') ?></button>
+        </form>
+    <?php endif; ?>
+
     <?php if ($commentaires === []): ?>
         <p class="muted"><?= t('place.no_comments') ?></p>
     <?php else: ?>

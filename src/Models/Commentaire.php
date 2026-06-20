@@ -11,6 +11,22 @@ use App\Core\Database;
  */
 class Commentaire
 {
+    /** Ajoute un commentaire à un lieu et renvoie son id. */
+    public static function ajouter(int $idLieu, int $idUtilisateur, string $texte): int
+    {
+        $stmt = Database::pdo()->prepare(
+            "INSERT INTO commentaires (id_lieu, id_utilisateur, texte)
+             VALUES (:lieu, :user, :texte)"
+        );
+        $stmt->execute([
+            'lieu'  => $idLieu,
+            'user'  => $idUtilisateur,
+            'texte' => $texte,
+        ]);
+
+        return (int) Database::pdo()->lastInsertId();
+    }
+
     /**
      * Commentaires d'un lieu, du plus récent au plus ancien, avec le pseudo de l'auteur.
      *

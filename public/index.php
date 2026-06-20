@@ -39,6 +39,9 @@ if (!empty($config['app']['debug'])) {
 // Connexion paresseuse : configurée ici, établie au premier accès réel.
 App\Core\Database::configure($config['db']);
 
+// --- CAPTCHA anti-bot (Cloudflare Turnstile) ---
+App\Core\Turnstile::configure($config['turnstile'] ?? []);
+
 // --- Session ---
 App\Core\Auth::demarrer();
 
@@ -56,6 +59,8 @@ $router = new Router();
 // Site web (pages HTML)
 $router->get('/', 'App\Controllers\CarteController@index');
 $router->get('/lieu/(\d+)', 'App\Controllers\LieuController@detail');
+$router->post('/lieu/(\d+)/commentaire', 'App\Controllers\LieuController@ajouterCommentaire');
+$router->post('/lieu/(\d+)/note', 'App\Controllers\LieuController@enregistrerNote');
 
 // Données de la carte (JSON public)
 $router->get('/api/lieux', 'App\Controllers\CarteController@lieux');

@@ -46,6 +46,16 @@ return [
     'place.comments_heading' => 'Comments',
     'place.no_comments'      => 'No comments yet.',
     'place.deleted_user'     => 'Deleted user',
+    // Contribution (logged in): rate + comment
+    'place.your_review'        => 'Your review',
+    'place.rating_hint'        => 'Overall rating and landing difficulty (1 to 5 stars).',
+    'place.save_rating'        => 'Save my rating',
+    'place.add_comment'        => 'Add a comment',
+    'place.comment_placeholder' => 'Share your experience about this spot…',
+    'place.comment_submit'     => 'Post',
+    'place.login_to_contribute' => 'Log in to rate this spot and leave a comment.',
+    'place.comment_added'      => 'Comment posted.',
+    'place.rating_saved'       => 'Rating saved.',
 
     // Survey fields
     'survey.surface'        => 'Surface',
@@ -119,4 +129,8 @@ return [
     'error.password_mismatch' => 'The two passwords do not match.',
     'error.duplicate'        => 'This username or email is already in use.',
     'error.login_failed'     => 'Incorrect email or password.',
+    'error.captcha'          => 'Anti-bot check failed, please try again.',
+    'error.comment_empty'    => 'The comment cannot be empty.',
+    'error.rating_invalid'   => 'Invalid rating (1 to 5).',
+    'error.rating_empty'     => 'Choose at least a rating or a difficulty.',
 ];

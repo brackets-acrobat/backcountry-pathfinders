@@ -46,6 +46,16 @@ return [
     'place.comments_heading' => 'Commentaires',
     'place.no_comments'      => 'Aucun commentaire pour le moment.',
     'place.deleted_user'     => 'Utilisateur supprimé',
+    // Contribution (connecté) : noter + commenter
+    'place.your_review'        => 'Votre avis',
+    'place.rating_hint'        => 'Note d\'appréciation et difficulté du poser (1 à 5 étoiles).',
+    'place.save_rating'        => 'Enregistrer ma note',
+    'place.add_comment'        => 'Ajouter un commentaire',
+    'place.comment_placeholder' => 'Partage ton expérience sur ce lieu…',
+    'place.comment_submit'     => 'Publier',
+    'place.login_to_contribute' => 'Connecte-toi pour noter ce lieu et laisser un commentaire.',
+    'place.comment_added'      => 'Commentaire publié.',
+    'place.rating_saved'       => 'Note enregistrée.',
 
     // Champs d'un relevé
     'survey.surface'        => 'Surface',
@@ -119,4 +129,8 @@ return [
     'error.password_mismatch' => 'Les deux mots de passe ne correspondent pas.',
     'error.duplicate'        => 'Ce pseudo ou cet e-mail est déjà utilisé.',
     'error.login_failed'     => 'E-mail ou mot de passe incorrect.',
+    'error.captcha'          => 'Vérification anti-robot échouée, merci de réessayer.',
+    'error.comment_empty'    => 'Le commentaire ne peut pas être vide.',
+    'error.rating_invalid'   => 'Note invalide (1 à 5).',
+    'error.rating_empty'     => 'Choisis au moins une note ou une difficulté.',
 ];

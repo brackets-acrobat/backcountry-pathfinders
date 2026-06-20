@@ -42,6 +42,8 @@ use App\Core\View;
             <input type="password" name="confirmation" required minlength="8" autocomplete="new-password">
         </label>
 
+        <?= turnstile_widget() ?>
+
         <button type="submit" class="btn"><?= t('register.submit') ?></button>
     </form>
 

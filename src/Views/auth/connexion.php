@@ -33,6 +33,8 @@ use App\Core\View;
             <input type="password" name="mot_de_passe" required autocomplete="current-password">
         </label>
 
+        <?= turnstile_widget() ?>
+
         <button type="submit" class="btn"><?= t('login.submit') ?></button>
     </form>
 
