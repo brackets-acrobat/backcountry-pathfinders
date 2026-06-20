@@ -77,15 +77,28 @@
         });
     }
 
-    function etoiles(note) {
-        var pleines = Math.round(note);
-        var html = '';
-        for (var i = 1; i <= 5; i++) {
-            html += i <= pleines
-                ? '<i class="ph-fill ph-star"></i>'
-                : '<i class="ph-light ph-star star-empty"></i>';
-        }
-        return html;
+    // Cinq étoiles pleines (réutilisées pour le fond gris et le remplissage coloré).
+    var CINQ_ETOILES = '';
+    for (var _i = 0; _i < 5; _i++) { CINQ_ETOILES += '<i class="ph-fill ph-star"></i>'; }
+
+    // Moyenne en étoiles fractionnaires (façon Amazon), comme la fiche détail :
+    // fond gris + remplissage coloré clippé à la largeur = moyenne/5.
+    // `variante` = '' (vert), 'is-orange' ou 'is-red'.
+    function etoiles(valeur, variante) {
+        var v = Math.max(0, Math.min(5, valeur));
+        var pct = (v / 5 * 100).toFixed(1);
+        var cls = 'stars-avg' + (variante ? ' ' + variante : '');
+        return '<span class="' + cls + '" role="img" aria-label="' + v.toFixed(1) + '/5">' +
+            '<span class="stars-base">' + CINQ_ETOILES + '</span>' +
+            '<span class="stars-fill" style="width:' + pct + '%" aria-hidden="true">' + CINQ_ETOILES + '</span>' +
+            '</span>';
+    }
+
+    // Palier de couleur de la difficulté : vert ≤2,33 / orange ≤3,67 / rouge au-delà.
+    function couleurDifficulte(d) {
+        if (d <= 2.33) { return ''; }
+        if (d <= 3.67) { return 'is-orange'; }
+        return 'is-red';
     }
 
     function popupHtml(lieu) {
@@ -94,8 +107,7 @@
 
         var lignes = [];
         if (lieu.surface) {
-            lignes.push('<span class="bcp-dot" style="background:' + couleurSurface(lieu.surface) +
-                '"></span>' + escapeHtml(libelleSurface(lieu.surface)));
+            lignes.push((t.surface || 'Surface') + ' : ' + escapeHtml(libelleSurface(lieu.surface)));
         }
         if (lieu.altitude_m !== null && lieu.altitude_m !== undefined) {
             // Stockage en mètres, affichage en pieds (aéronautique).
@@ -104,11 +116,13 @@
         }
         lignes.push((t.surveys || 'Relevés') + ' : ' + lieu.nb_releves);
         if (lieu.note_moyenne !== null && lieu.note_moyenne !== undefined) {
-            lignes.push((t.rating || 'Note') + ' : ' + etoiles(lieu.note_moyenne) +
+            lignes.push((t.rating || 'Note') + ' : ' + etoiles(lieu.note_moyenne, '') +
                 ' (' + lieu.note_moyenne.toFixed(1) + ')');
         }
         if (lieu.difficulte_moyenne !== null && lieu.difficulte_moyenne !== undefined) {
-            lignes.push((t.difficulty || 'Difficulté') + ' : ' + lieu.difficulte_moyenne.toFixed(1) + '/5');
+            lignes.push((t.difficulty || 'Difficulté') + ' : ' +
+                etoiles(lieu.difficulte_moyenne, couleurDifficulte(lieu.difficulte_moyenne)) +
+                ' (' + lieu.difficulte_moyenne.toFixed(2) + ')');
         }
 
         html += '<div class="bcp-popup-lines">' + lignes.join('<br>') + '</div>';
@@ -134,7 +148,7 @@
             var bornes = [];
             lieux.forEach(function (lieu) {
                 var marker = L.circleMarker([lieu.lat, lieu.lon], {
-                    radius: 7,
+                    radius: 4,
                     color: '#000',
                     weight: 1,
                     fillColor: couleurSurface(lieu.surface),

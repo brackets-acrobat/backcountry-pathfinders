@@ -202,28 +202,22 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     margin: 0;
 }
 
-/* ---- Popups Leaflet (thème sombre) ---- */
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-    background: var(--panel);
-    color: var(--ink);
+/* ---- Popups Leaflet (fond = couleur du site #121212 à 0.75, texte blanc) ----
+   Préfixe .leaflet-popup pour passer DEVANT leaflet.css (chargé après notre
+   style.css, sinon son fond blanc l'emporte à spécificité égale). */
+.leaflet-popup .leaflet-popup-content-wrapper,
+.leaflet-popup .leaflet-popup-tip {
+    background: rgba(18, 18, 18, 0.75);
+    color: #fff;
     border: 1px solid var(--accent);
 }
-.leaflet-popup-content { margin: .6rem .8rem; line-height: 1.5; }
-.leaflet-popup-content a { color: var(--accent); }
-.leaflet-container a.leaflet-popup-close-button { color: var(--muted); }
-.bcp-popup strong { font-size: 1.02rem; color: var(--title); }
-.bcp-popup-lines { margin: .35rem 0 .5rem; color: var(--muted); font-size: .9rem; font-family: var(--mono); }
+.leaflet-popup .leaflet-popup-content { margin: .6rem .8rem; line-height: 1.5; }
+.leaflet-popup .leaflet-popup-content a { color: var(--accent); }
+.leaflet-container a.leaflet-popup-close-button { color: #fff; }
+.bcp-popup strong { font-size: 1.02rem; color: #fff; }
+.bcp-popup-lines { margin: .35rem 0 .5rem; color: #fff; font-size: .9rem; font-family: var(--mono); }
 .bcp-popup-link { font-weight: 700; text-decoration: none; }
 .bcp-popup-link:hover { text-decoration: underline; }
-.bcp-dot {
-    display: inline-block;
-    width: .7rem; height: .7rem;
-    border-radius: 50%;
-    margin-right: .35rem;
-    vertical-align: middle;
-    border: 1px solid rgba(0, 0, 0, .6);
-}
 
 /* ---- Fiche détail d'un lieu ---- */
 .place-back { margin: 0 0 .5rem; }

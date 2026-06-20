@@ -20,6 +20,7 @@ window.BCP = {
         'surveys'    => t('map.surveys'),
         'rating'     => t('map.rating'),
         'difficulty' => t('map.difficulty'),
+        'surface'    => t('survey.surface'),
         'altitude'   => t('map.altitude'),
         'detail'     => t('map.detail'),
         'untitled'   => t('place.untitled'),
