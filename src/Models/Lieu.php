@@ -119,4 +119,68 @@ class Lieu
 
         return $stmt->fetchAll();
     }
+
+    /**
+     * Lieux actifs enrichis pour l'affichage carte : nombre de relevés,
+     * note/difficulté moyennes et surface dominante (la plus fréquente).
+     * Coordonnées et agrégats typés (float/int) pour une sortie JSON propre.
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public static function tousPourCarte(int $limite = 5000): array
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT l.id, l.nom, l.latitude, l.longitude, l.altitude_m,
+                    (SELECT COUNT(*) FROM releves r WHERE r.id_lieu = l.id) AS nb_releves,
+                    (SELECT AVG(n.note)       FROM notes n WHERE n.id_lieu = l.id) AS note_moyenne,
+                    (SELECT AVG(n.difficulte) FROM notes n WHERE n.id_lieu = l.id) AS difficulte_moyenne,
+                    (SELECT r.type_surface FROM releves r
+                       WHERE r.id_lieu = l.id AND r.type_surface IS NOT NULL AND r.type_surface <> ''
+                       GROUP BY r.type_surface ORDER BY COUNT(*) DESC LIMIT 1) AS surface
+             FROM lieux l
+             WHERE l.statut = 'actif'
+             ORDER BY l.date_creation DESC
+             LIMIT :limite"
+        );
+        $stmt->bindValue('limite', $limite, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return array_map(static function (array $l): array {
+            return [
+                'id'                 => (int) $l['id'],
+                'nom'                => $l['nom'] !== null ? (string) $l['nom'] : null,
+                'lat'                => (float) $l['latitude'],
+                'lon'                => (float) $l['longitude'],
+                'altitude_m'         => $l['altitude_m'] !== null ? (int) $l['altitude_m'] : null,
+                'nb_releves'         => (int) $l['nb_releves'],
+                'note_moyenne'       => $l['note_moyenne'] !== null ? round((float) $l['note_moyenne'], 1) : null,
+                'difficulte_moyenne' => $l['difficulte_moyenne'] !== null ? round((float) $l['difficulte_moyenne'], 1) : null,
+                'surface'            => $l['surface'] !== null ? (string) $l['surface'] : null,
+            ];
+        }, $stmt->fetchAll());
+    }
+
+    /**
+     * Agrégats d'un lieu pour sa fiche détail.
+     *
+     * @return array{nb_releves:int, note_moyenne:?float, difficulte_moyenne:?float, nb_notes:int}
+     */
+    public static function agregats(int $id): array
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT (SELECT COUNT(*) FROM releves r WHERE r.id_lieu = :id1) AS nb_releves,
+                    (SELECT COUNT(*) FROM notes   n WHERE n.id_lieu = :id2) AS nb_notes,
+                    (SELECT AVG(n.note)       FROM notes n WHERE n.id_lieu = :id3) AS note_moyenne,
+                    (SELECT AVG(n.difficulte) FROM notes n WHERE n.id_lieu = :id4) AS difficulte_moyenne"
+        );
+        $stmt->execute(['id1' => $id, 'id2' => $id, 'id3' => $id, 'id4' => $id]);
+        $a = $stmt->fetch() ?: [];
+
+        return [
+            'nb_releves'         => (int) ($a['nb_releves'] ?? 0),
+            'nb_notes'           => (int) ($a['nb_notes'] ?? 0),
+            'note_moyenne'       => isset($a['note_moyenne']) && $a['note_moyenne'] !== null ? round((float) $a['note_moyenne'], 1) : null,
+            'difficulte_moyenne' => isset($a['difficulte_moyenne']) && $a['difficulte_moyenne'] !== null ? round((float) $a['difficulte_moyenne'], 1) : null,
+        ];
+    }
 }

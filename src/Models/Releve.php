@@ -88,4 +88,23 @@ class Releve
 
         return $stmt->fetchAll();
     }
+
+    /**
+     * Relevés d'un lieu enrichis du pseudo du contributeur (pour la fiche détail).
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public static function parLieuAvecAuteur(int $idLieu): array
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT r.*, u.pseudo
+             FROM releves r
+             LEFT JOIN utilisateurs u ON u.id = r.id_utilisateur
+             WHERE r.id_lieu = :id
+             ORDER BY r.date_releve DESC"
+        );
+        $stmt->execute(['id' => $idLieu]);
+
+        return $stmt->fetchAll();
+    }
 }

@@ -1,11 +1,44 @@
 <?php declare(strict_types=1); ?>
 
-<section class="hero">
-    <h1><?= t('map.heading') ?></h1>
-    <p><?= t('map.intro') ?></p>
+<!-- Leaflet (carte interactive) -->
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin="">
+
+<section class="map-page">
+    <div id="map" class="map"></div>
 </section>
 
-<!-- Emplacement de la future carte Leaflet -->
-<div id="map" class="map-placeholder">
-    <span>🗺️ <?= t('map.placeholder') ?></span>
-</div>
+<script>
+window.BCP = {
+    base: <?= json_encode(BASE_URL, JSON_UNESCAPED_SLASHES) ?>,
+    i18n: <?= json_encode([
+        'loading'    => t('map.loading'),
+        'empty'      => t('map.empty'),
+        'error'      => t('map.error'),
+        'surveys'    => t('map.surveys'),
+        'rating'     => t('map.rating'),
+        'difficulty' => t('map.difficulty'),
+        'altitude'   => t('map.altitude'),
+        'detail'     => t('map.detail'),
+        'untitled'   => t('place.untitled'),
+        'layers'     => ['dark' => t('map.layer_dark')],
+        'surfaces'   => [
+            'grass'    => t('surface.grass'),
+            'dirt'     => t('surface.dirt'),
+            'sand'     => t('surface.sand'),
+            'snow'     => t('surface.snow'),
+            'ice'      => t('surface.ice'),
+            'water'    => t('surface.water'),
+            'concrete' => t('surface.concrete'),
+            'asphalt'  => t('surface.asphalt'),
+            'unknown'  => t('surface.unknown'),
+        ],
+    ], JSON_UNESCAPED_UNICODE) ?>,
+};
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script src="<?= asset('js/carte.js') ?>"></script>

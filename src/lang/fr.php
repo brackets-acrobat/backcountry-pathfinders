@@ -28,12 +28,51 @@ return [
     'map.heading'     => 'Carte des lieux de poser',
     'map.intro'       => 'Bienvenue sur le squelette du site communautaire. La carte interactive (Leaflet) et les fiches de lieux seront ajoutées dans les prochaines étapes.',
     'map.placeholder' => 'La carte s\'affichera ici',
+    'map.loading'     => 'Chargement des lieux…',
+    'map.empty'       => 'Aucun lieu pour le moment.',
+    'map.error'       => 'Impossible de charger les lieux.',
+    'map.surveys'     => 'Relevés',
+    'map.rating'      => 'Note',
+    'map.difficulty'  => 'Difficulté',
+    'map.altitude'    => 'Altitude',
+    'map.detail'      => 'Voir le détail',
+    'map.layer_dark'  => 'Sombre',
+
+    // Fiche détail d'un lieu
+    'place.untitled'         => 'Lieu sans nom',
+    'place.back_to_map'      => 'Retour à la carte',
+    'place.surveys_heading'  => 'Relevés',
+    'place.no_surveys'       => 'Aucun relevé pour ce lieu.',
+    'place.comments_heading' => 'Commentaires',
+    'place.no_comments'      => 'Aucun commentaire pour le moment.',
+    'place.deleted_user'     => 'Utilisateur supprimé',
+
+    // Champs d'un relevé
+    'survey.surface'        => 'Surface',
+    'survey.condition'      => 'État du sol',
+    'survey.friction'       => 'Friction',
+    'survey.usable_length'  => 'Longueur utile',
+    'survey.max_slope'      => 'Pente max',
+    'survey.elevation_gain' => 'Dénivelé',
+    'survey.aircraft'       => 'Aéronef',
+    'survey.relief_profile' => 'Profil de relief',
+
+    // Types de surface (MSFS)
+    'surface.grass'    => 'Herbe',
+    'surface.dirt'     => 'Terre',
+    'surface.sand'     => 'Sable',
+    'surface.snow'     => 'Neige',
+    'surface.ice'      => 'Glace',
+    'surface.water'    => 'Eau',
+    'surface.concrete' => 'Béton',
+    'surface.asphalt'  => 'Asphalte',
+    'surface.unknown'  => 'Inconnu',
 
     // Page 404
     'page.404.title'   => 'Page introuvable',
     'error404.heading' => '404 — Page introuvable',
     'error404.text'    => 'La page demandée n\'existe pas (ou plus).',
-    'error404.back'    => '← Retour à la carte',
+    'error404.back'    => 'Retour à la carte',
 
     // Inscription
     'page.register.title'   => 'Inscription',

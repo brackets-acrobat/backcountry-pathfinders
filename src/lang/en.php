@@ -28,12 +28,51 @@ return [
     'map.heading'     => 'Landing spots map',
     'map.intro'       => 'Welcome to the community site skeleton. The interactive map (Leaflet) and the spot pages will be added in the next steps.',
     'map.placeholder' => 'The map will appear here',
+    'map.loading'     => 'Loading spots…',
+    'map.empty'       => 'No spots yet.',
+    'map.error'       => 'Could not load spots.',
+    'map.surveys'     => 'Surveys',
+    'map.rating'      => 'Rating',
+    'map.difficulty'  => 'Difficulty',
+    'map.altitude'    => 'Altitude',
+    'map.detail'      => 'View details',
+    'map.layer_dark'  => 'Dark',
+
+    // Spot detail page
+    'place.untitled'         => 'Unnamed spot',
+    'place.back_to_map'      => 'Back to the map',
+    'place.surveys_heading'  => 'Surveys',
+    'place.no_surveys'       => 'No survey for this spot yet.',
+    'place.comments_heading' => 'Comments',
+    'place.no_comments'      => 'No comments yet.',
+    'place.deleted_user'     => 'Deleted user',
+
+    // Survey fields
+    'survey.surface'        => 'Surface',
+    'survey.condition'      => 'Ground condition',
+    'survey.friction'       => 'Friction',
+    'survey.usable_length'  => 'Usable length',
+    'survey.max_slope'      => 'Max slope',
+    'survey.elevation_gain' => 'Elevation change',
+    'survey.aircraft'       => 'Aircraft',
+    'survey.relief_profile' => 'Relief profile',
+
+    // Surface types (MSFS)
+    'surface.grass'    => 'Grass',
+    'surface.dirt'     => 'Dirt',
+    'surface.sand'     => 'Sand',
+    'surface.snow'     => 'Snow',
+    'surface.ice'      => 'Ice',
+    'surface.water'    => 'Water',
+    'surface.concrete' => 'Concrete',
+    'surface.asphalt'  => 'Asphalt',
+    'surface.unknown'  => 'Unknown',
 
     // 404 page
     'page.404.title'   => 'Page not found',
     'error404.heading' => '404 — Page not found',
     'error404.text'    => 'The requested page does not exist (anymore).',
-    'error404.back'    => '← Back to the map',
+    'error404.back'    => 'Back to the map',
 
     // Sign up
     'page.register.title'   => 'Sign up',

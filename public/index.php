@@ -55,6 +55,10 @@ $router = new Router();
 
 // Site web (pages HTML)
 $router->get('/', 'App\Controllers\CarteController@index');
+$router->get('/lieu/(\d+)', 'App\Controllers\LieuController@detail');
+
+// Données de la carte (JSON public)
+$router->get('/api/lieux', 'App\Controllers\CarteController@lieux');
 
 // Changement de langue
 $router->get('/langue/(\w+)', 'App\Controllers\LangController@changer');
