@@ -21,6 +21,24 @@ if (!function_exists('t')) {
     }
 }
 
+if (!function_exists('pieds')) {
+    /**
+     * Convertit une distance stockée en mètres vers des pieds (ft), arrondie.
+     * Les données restent en mètres en base (colonnes *_m, source SimConnect) ;
+     * l'aéronautique s'exprimant en pieds, on ne convertit qu'à l'affichage.
+     *
+     * @param int|float|string|null $metres
+     */
+    function pieds($metres): ?int
+    {
+        if ($metres === null || $metres === '') {
+            return null;
+        }
+
+        return (int) round((float) $metres * 3.280839895);
+    }
+}
+
 if (!function_exists('asset')) {
     /**
      * URL d'un fichier de public/assets/, versionnée par sa date de modification

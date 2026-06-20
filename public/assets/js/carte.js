@@ -98,7 +98,9 @@
                 '"></span>' + escapeHtml(libelleSurface(lieu.surface)));
         }
         if (lieu.altitude_m !== null && lieu.altitude_m !== undefined) {
-            lignes.push((t.altitude || 'Alt.') + ' : ' + lieu.altitude_m + ' m');
+            // Stockage en mètres, affichage en pieds (aéronautique).
+            var altFt = Math.round(lieu.altitude_m * 3.280839895);
+            lignes.push((t.altitude || 'Alt.') + ' : ' + altFt + ' ft');
         }
         lignes.push((t.surveys || 'Relevés') + ' : ' + lieu.nb_releves);
         if (lieu.note_moyenne !== null && lieu.note_moyenne !== undefined) {

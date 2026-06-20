@@ -44,7 +44,7 @@ $etoiles = static function (?float $note): string {
         <p class="place-coords muted">
             <?= number_format($lat, 5) ?>, <?= number_format($lon, 5) ?>
             <?php if (($lieu['altitude_m'] ?? null) !== null): ?>
-                · <?= (int) $lieu['altitude_m'] ?> m
+                · <?= pieds($lieu['altitude_m']) ?> ft
             <?php endif; ?>
         </p>
     </header>
@@ -95,13 +95,20 @@ $etoiles = static function (?float $note): string {
                             'denivele_m'       => t('survey.elevation_gain'),
                             'aeronef'          => t('survey.aircraft'),
                         ];
-                        $unites = ['longueur_utile_m' => ' m', 'pente_max_pct' => ' %', 'denivele_m' => ' m'];
+                        // Distances en mètres (colonnes *_m) affichées en pieds ; pente en %.
+                        $enPieds = ['longueur_utile_m', 'denivele_m'];
+                        $unites  = ['pente_max_pct' => ' %'];
                         foreach ($champs as $cle => $label):
                             $val = $r[$cle] ?? null;
                             if ($val === null || $val === '') { continue; }
+                            if (in_array($cle, $enPieds, true)) {
+                                $affichage = pieds($val) . ' ft';
+                            } else {
+                                $affichage = (string) $val . ($unites[$cle] ?? '');
+                            }
                         ?>
                             <dt><?= View::e($label) ?></dt>
-                            <dd><?= View::e((string) $val) . ($unites[$cle] ?? '') ?></dd>
+                            <dd><?= View::e($affichage) ?></dd>
                         <?php endforeach; ?>
                     </dl>
                     <?php if (!empty($r['profil_relief'])): ?>
