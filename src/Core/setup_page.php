@@ -16,6 +16,7 @@ http_response_code(503);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Backcountry Pathfinders — Installation</title>
+    <script src="https://unpkg.com/@phosphor-icons/web@2"></script>
     <style>
         body { font-family: system-ui, sans-serif; background: #1b2a23; color: #e8efe9;
                margin: 0; min-height: 100vh; display: grid; place-items: center; }
@@ -26,12 +27,14 @@ http_response_code(503);
         ol { line-height: 1.8; }
         code { background: #16241d; padding: .15em .45em; border-radius: 5px; color: #aef0c4; }
         .ok { color: #6ee7a0; }
+        i[class^="ph-"] { color: #3af24b; vertical-align: middle; }
+        h1 i { color: #3af24b; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h1>🏔️ Backcountry Pathfinders</h1>
-        <p class="sub">Le squelette du site est en place. <span class="ok">✓</span></p>
+        <h1><i class="ph-light ph-mountains"></i> Backcountry Pathfinders</h1>
+        <p class="sub">Le squelette du site est en place. <i class="ph-bold ph-check ok"></i></p>
         <p>Il reste à installer les dépendances PHP pour activer le routeur :</p>
         <ol>
             <li>Installer <strong>Composer</strong> (une fois) : <code>getcomposer.org</code></li>

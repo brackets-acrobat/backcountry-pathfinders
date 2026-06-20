@@ -17,10 +17,12 @@ $title = $title ?? 'Backcountry Pathfinders';
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= View::e($title) ?> — Backcountry Pathfinders</title>
     <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
+    <!-- Icônes Phosphor (https://phosphoricons.com/) — tous les poids -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2"></script>
 </head>
 <body>
     <header class="site-header">
-        <a class="brand" href="<?= BASE_URL ?>/">🏔️ Backcountry Pathfinders</a>
+        <a class="brand" href="<?= BASE_URL ?>/"><i class="ph-light ph-mountains"></i> Backcountry Pathfinders</a>
         <nav class="site-nav">
             <a href="<?= BASE_URL ?>/"><?= t('nav.map') ?></a>
             <?php if (Auth::estConnecte()): ?>
