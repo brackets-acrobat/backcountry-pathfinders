@@ -1,24 +1,31 @@
 /* ============================================================
    Charte graphique Backcountry Pathfinders
-   - Fond de page : noir
-   - Accent (bandeau, bordures de boutons) : #AD4F09
-   - Textes : blancs
+   Style « cockpit » repris de NavXpressVFR :
+   - Fond sombre en couches (#121212 base)
+   - Accent VERT #3AF24B (survol/actif #57D53B)
+   - Texte clair #e0e0e0, titres blancs
+   - Données chiffrées en monospace (effet instrument)
    ============================================================ */
 
 :root {
-    --bg: #000000;          /* fond de page */
-    --accent: #ad4f09;      /* bandeau + contours boutons */
-    --accent-hover: #c75c0c;/* survol */
-    --ink: #ffffff;         /* texte */
-    --muted: #c9c9c9;       /* texte secondaire */
+    --bg: #121212;          /* fond de page (base) */
+    --panel: #1a1a1a;       /* panneaux / cartes */
+    --panel-2: #1f1f1f;     /* champs, reliefs */
+    --accent: #3af24b;      /* accent vert (ex-cyan #00bcd4) */
+    --accent-hover: #57d53b;/* survol / actif (ex-#00e5ff) */
+    --ink: #e0e0e0;         /* texte principal */
+    --title: #ffffff;       /* titres */
+    --muted: #888888;       /* texte secondaire */
     --line: #2a2a2a;        /* séparateurs discrets */
+    --danger: #ff5252;      /* erreurs / alertes */
+    --mono: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 * { box-sizing: border-box; }
 
 body {
     margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--ink);
     background: var(--bg);
     display: flex;
@@ -26,7 +33,23 @@ body {
     min-height: 100vh;
 }
 
-a { color: var(--ink); }
+h1, h2, h3 { color: var(--title); }
+a { color: var(--accent); }
+
+/* ---- Icônes Phosphor (vertes par défaut, alignées au texte) ---- */
+i[class^="ph-"], i[class*=" ph-"] {
+    color: var(--accent);
+    vertical-align: middle;
+    line-height: 1;
+}
+.brand i { font-size: 1.15em; }
+i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
+
+/* Scrollbars sombres à pouce vert (façon NavXpress) */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: #141414; border-left: 1px solid var(--line); }
+*::-webkit-scrollbar-thumb { background: #333; border-radius: 6px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 /* ---- Bandeau (en-tête) ---- */
 .site-header {
@@ -36,27 +59,46 @@ a { color: var(--ink); }
     flex-wrap: wrap;            /* l'en-tête passe à la ligne sur fenêtre étroite */
     gap: .5rem 1rem;
     padding: .75rem 1.25rem;
-    background: var(--accent);
+    background: var(--panel);
     color: var(--ink);
+    border-bottom: 1px solid var(--accent);
 }
 .site-nav {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    gap: .55rem;
 }
-.site-nav a:first-child { margin-left: 0; }
 .brand {
-    color: var(--ink);
+    color: var(--accent);
     text-decoration: none;
     font-weight: 700;
     font-size: 1.1rem;
 }
-.site-nav a {
+/* Liens de nav stylés en boutons (sauf le toggle de langue) :
+   repos = contour vert #3AF24B sur fond #121212 ; survol = contour + fond #57D53B. */
+.site-nav a:not(.lang-toggle) {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: .34rem .72rem;
+    background-color: var(--bg);        /* #121212 */
+    border: 1px solid var(--accent);    /* #3AF24B */
+    border-radius: 4px;
+    font-size: .85rem;
+    font-weight: 700;
     color: var(--ink);
     text-decoration: none;
-    margin-left: 1rem;
+    white-space: nowrap;
+    transition: border-color .2s ease, background-color .2s ease, color .2s ease;
 }
-.site-nav a:hover { text-decoration: underline; }
+.site-nav a:not(.lang-toggle):hover,
+.site-nav a:not(.lang-toggle):focus-visible {
+    border-color: var(--accent-hover);  /* #57D53B */
+    background-color: var(--accent-hover);
+    color: #0c1a0c;                      /* texte sombre lisible sur le vert */
+    outline: none;
+}
 
 /* ---- Contenu ---- */
 .site-main {
@@ -65,7 +107,7 @@ a { color: var(--ink); }
     margin: 0 auto;
     padding: 1.5rem 1.25rem;
 }
-.hero h1 { color: var(--ink); margin-top: 0; }
+.hero h1 { margin-top: 0; }
 .hero p { color: var(--muted); max-width: 60ch; line-height: 1.6; }
 
 /* ---- Boutons (style réutilisable) ---- */
@@ -73,70 +115,214 @@ a { color: var(--ink); }
     display: inline-block;
     padding: .5rem 1.1rem;
     font: inherit;
-    color: var(--ink);
+    color: var(--accent);
     background: transparent;
-    border: 2px solid var(--accent);   /* contour orange */
-    border-radius: 8px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
     cursor: pointer;
     text-decoration: none;
-    transition: background-color .15s ease, border-color .15s ease;
+    transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
 .btn:hover,
 .btn:focus-visible {
     background: var(--accent);
     border-color: var(--accent-hover);
+    color: #0c1a0c;            /* texte sombre lisible sur le vert vif */
     outline: none;
 }
 
-/* ---- Emplacement de la future carte ---- */
-.map-placeholder {
-    margin-top: 1.5rem;
-    height: 420px;
-    display: grid;
-    place-items: center;
+/* ---- Carte Leaflet (page d'accueil) ---- */
+.map-page { margin-top: 1.25rem; }
+.map {
+    height: min(72vh, 640px);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
     background: #0d0d0d;
-    border: 2px dashed var(--accent);
-    border-radius: 12px;
-    color: var(--muted);
-    font-size: 1.1rem;
+    overflow: hidden;          /* coins arrondis respectés par les tuiles */
 }
 
+/* Bandeau d'info par-dessus la carte (vide / erreur) */
+.bcp-map-msg {
+    background: var(--panel);
+    border: 1px solid var(--accent);
+    color: var(--ink);
+    padding: .45rem .7rem;
+    border-radius: 6px;
+    font-size: .9rem;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .5);
+}
+
+/* ---- Sélecteur de fonds de carte (thème sombre) ----
+   Double classe (.leaflet-control-layers.leaflet-control) pour passer DEVANT
+   le CSS de Leaflet, chargé après style.css → sinon fond blanc par défaut. */
+.leaflet-control-layers.leaflet-control {
+    background: var(--panel);
+    color: var(--ink);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .55);
+}
+/* Icône repliée : l'icône de Leaflet est sombre (faite pour fond clair) →
+   on la rend claire pour qu'elle ressorte sur le fond sombre. */
+.leaflet-control-layers.leaflet-control .leaflet-control-layers-toggle {
+    background-color: transparent;
+    filter: invert(1) brightness(1.7);
+}
+.leaflet-control-layers.leaflet-control.leaflet-control-layers-expanded {
+    padding: .35rem;
+}
+/* La liste ne passe en grille QUE dépliée — sinon on écrase le display:none
+   de Leaflet à l'état replié et le menu reste ouvert en permanence. */
+.leaflet-control-layers.leaflet-control.leaflet-control-layers-expanded .leaflet-control-layers-list {
+    display: grid;
+    gap: .1rem;
+}
+.leaflet-control-layers.leaflet-control label {
+    margin: 0;
+    padding: .4rem .65rem;
+    border-radius: 6px;
+    color: var(--ink);
+    font-size: .92rem;
+    line-height: 1.2;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color .12s ease;
+}
+.leaflet-control-layers.leaflet-control label:hover {
+    background: rgba(58, 242, 75, .22);
+}
+.leaflet-control-layers.leaflet-control label > div {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+.leaflet-control-layers.leaflet-control input[type="radio"] {
+    accent-color: var(--accent);
+    margin: 0;
+}
+
+/* ---- Popups Leaflet (thème sombre) ---- */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background: var(--panel);
+    color: var(--ink);
+    border: 1px solid var(--accent);
+}
+.leaflet-popup-content { margin: .6rem .8rem; line-height: 1.5; }
+.leaflet-popup-content a { color: var(--accent); }
+.leaflet-container a.leaflet-popup-close-button { color: var(--muted); }
+.bcp-popup strong { font-size: 1.02rem; color: var(--title); }
+.bcp-popup-lines { margin: .35rem 0 .5rem; color: var(--muted); font-size: .9rem; font-family: var(--mono); }
+.bcp-popup-link { font-weight: 700; text-decoration: none; }
+.bcp-popup-link:hover { text-decoration: underline; }
+.bcp-dot {
+    display: inline-block;
+    width: .7rem; height: .7rem;
+    border-radius: 50%;
+    margin-right: .35rem;
+    vertical-align: middle;
+    border: 1px solid rgba(0, 0, 0, .6);
+}
+
+/* ---- Fiche détail d'un lieu ---- */
+.place-back { margin: 0 0 .5rem; }
+.place-back a { color: var(--accent); text-decoration: none; }
+.place-back a:hover { text-decoration: underline; }
+.place-head h1 { margin: 0; }
+.place-coords { margin: .25rem 0 1rem; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.stars { color: var(--accent); letter-spacing: .08em; }
+
+.place-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+.stat {
+    flex: 1 1 140px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .7rem .9rem;
+}
+.stat-label { display: block; color: var(--muted); font-size: .85rem; }
+.stat-value { display: block; font-family: var(--mono); font-size: 1.15rem; font-weight: 700; color: var(--title); margin-top: .2rem; }
+
+.place-map {
+    height: 320px;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    background: #0d0d0d;
+}
+.place h2 { font-size: 1.2rem; border-bottom: 1px solid var(--line); padding-bottom: .35rem; }
+
+.releve-list, .commentaire-list { list-style: none; padding: 0; margin: 0; }
+.releve {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .9rem 1rem;
+    margin-bottom: 1rem;
+}
+.releve-head { margin-bottom: .5rem; font-weight: 700; color: var(--title); }
+.releve-date { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.releve-auteur { font-weight: 400; }
+.releve-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: .25rem 1rem;
+    margin: 0;
+}
+.releve-grid dt { color: var(--muted); }
+.releve-grid dd { margin: 0; font-family: var(--mono); }
+.releve-profil { margin-top: .7rem; background: #0c0c0c; border: 1px solid var(--line); border-radius: 6px; }
+.releve-note { margin: .6rem 0 0; color: var(--muted); font-style: italic; }
+
+.commentaire {
+    border-bottom: 1px solid var(--line);
+    padding: .7rem 0;
+}
+.commentaire-head { font-size: .9rem; }
+.commentaire-texte { margin: .3rem 0 0; }
+
 /* ---- Navigation : utilisateur connecté ---- */
-.nav-user { color: var(--ink); opacity: .85; font-weight: 700; margin-left: 1rem; text-decoration: none; }
-.nav-user:hover { text-decoration: underline; opacity: 1; }
+/* Suit le même style de bouton que les autres liens de nav (voir .site-nav a). */
 
 /* ---- Espace compte / clés API ---- */
-.compte h1 { color: var(--ink); margin-top: 0; }
-.compte h2 { color: var(--ink); font-size: 1.2rem; margin-top: 1.5rem; }
+.compte h1 { margin-top: 0; }
+.compte h2 { font-size: 1.2rem; margin-top: 1.5rem; }
 .compte-intro { color: var(--muted); max-width: 60ch; line-height: 1.6; }
 .compte-vide { color: var(--muted); }
 
 .cle-nouvelle {
-    background: #11210f;
+    background: var(--panel);
     border: 1px solid var(--accent);
     border-radius: 8px;
     padding: .9rem 1rem;
     margin: 1rem 0;
 }
-.cle-avert { color: #ffd9c2; margin: 0 0 .6rem; }
+.cle-avert { color: var(--accent-hover); margin: 0 0 .6rem; }
 .cle-affichee { display: flex; gap: .5rem; flex-wrap: wrap; }
 .cle-affichee input {
     flex: 1;
     min-width: 280px;
     padding: .5rem .7rem;
-    background: #000;
-    color: #aef0c4;
-    border: 1px solid #333;
+    background: #0c0c0c;
+    color: var(--accent);
+    border: 1px solid var(--line);
     border-radius: 6px;
-    font-family: monospace;
+    font-family: var(--mono);
 }
 
 .form-inline { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0 1.5rem; }
 .form-inline input {
     padding: .5rem .7rem;
-    background: #111;
+    background: var(--panel-2);
     color: var(--ink);
-    border: 1px solid #333;
+    border: 1px solid var(--line);
     border-radius: 6px;
     font: inherit;
     min-width: 240px;
@@ -150,7 +336,8 @@ a { color: var(--ink); }
     border-bottom: 1px solid var(--line);
 }
 .table-cles th { color: var(--muted); font-weight: 700; font-size: .9rem; }
-.table-cles em { color: var(--muted); }
+.table-cles td { font-family: var(--mono); }
+.table-cles em { color: var(--muted); font-family: 'Segoe UI', sans-serif; }
 
 .btn-lien {
     background: none;
@@ -166,8 +353,8 @@ a { color: var(--ink); }
 /* ---- Sélecteur de langue (toggle FR|EN) ---- */
 .lang-toggle {
     display: inline-flex;
-    margin-left: 1rem;
-    border: 1px solid rgba(0, 0, 0, .35);
+    margin-left: .3rem;
+    border: 1px solid var(--line);
     border-radius: 999px;
     overflow: hidden;
     font-size: .75rem;
@@ -179,23 +366,23 @@ a { color: var(--ink); }
 }
 .lang-opt {
     padding: .28rem .6rem;
-    color: rgba(255, 255, 255, .8);
+    color: var(--muted);
     transition: background-color .15s ease, color .15s ease;
 }
-.lang-opt.is-active { background: #000; color: #fff; }
-.lang-toggle:hover .lang-opt:not(.is-active) { color: #fff; }
+.lang-opt.is-active { background: var(--accent); color: #0c1a0c; }
+.lang-toggle:hover .lang-opt:not(.is-active) { color: var(--ink); }
 
 /* ---- Formulaires (inscription / connexion) ---- */
 .form-section { max-width: 420px; }
-.form-section h1 { color: var(--ink); margin-top: 0; }
+.form-section h1 { margin-top: 0; }
 .form { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.25rem; }
 .form label { display: flex; flex-direction: column; gap: .35rem; font-size: .95rem; color: var(--ink); }
 .form .hint { color: var(--muted); font-weight: 400; font-size: .85rem; }
 .form input {
     padding: .55rem .7rem;
-    background: #111;
+    background: var(--panel-2);
     color: var(--ink);
-    border: 1px solid #333;
+    border: 1px solid var(--line);
     border-radius: 6px;
     font: inherit;
 }
@@ -205,11 +392,11 @@ a { color: var(--ink); }
 
 /* ---- Boîte d'alerte / erreurs ---- */
 .alert {
-    background: #2a1410;
-    border: 1px solid var(--accent);
-    color: #ffd9c2;
+    background: #2a1414;
+    border: 1px solid var(--danger);
+    color: #ffb3b3;
     padding: .6rem .9rem;
-    border-radius: 8px;
+    border-radius: 6px;
     margin-top: 1rem;
 }
 .alert ul { margin: 0; padding-left: 1.2rem; }
