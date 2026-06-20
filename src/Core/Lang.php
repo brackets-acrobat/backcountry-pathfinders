@@ -15,6 +15,8 @@ class Lang
 {
     private const DISPONIBLES = ['fr', 'en'];
     private const DEFAUT = 'fr';
+    private const COOKIE = 'langue';
+    private const COOKIE_DUREE = 31536000;   // 1 an, en secondes
 
     private static string $langue = self::DEFAUT;
     /** @var array<string,string> */
@@ -24,20 +26,35 @@ class Lang
     public static function initialiser(): void
     {
         $langue = $_SESSION['langue']
+            ?? ($_COOKIE[self::COOKIE] ?? null)
             ?? self::detecterNavigateur()
             ?? self::DEFAUT;
 
-        self::definir($langue);
+        // Au démarrage, on ne ré-écrit pas le cookie (déjà posé lors du choix).
+        self::definir($langue, false);
     }
 
-    /** Fixe la langue active, la mémorise en session et charge ses traductions. */
-    public static function definir(string $langue): void
+    /**
+     * Fixe la langue active, la charge, et — si demandé — mémorise le choix.
+     * Le cookie (1 an) survit à la déconnexion (qui détruit la session) et à
+     * la fermeture du navigateur.
+     */
+    public static function definir(string $langue, bool $memoriser = true): void
     {
         if (!in_array($langue, self::DISPONIBLES, true)) {
             $langue = self::DEFAUT;
         }
         self::$langue = $langue;
         $_SESSION['langue'] = $langue;
+
+        if ($memoriser && !headers_sent()) {
+            setcookie(self::COOKIE, $langue, [
+                'expires'  => time() + self::COOKIE_DUREE,
+                'path'     => '/',
+                'samesite' => 'Lax',
+            ]);
+        }
+
         self::$traductions = require dirname(__DIR__) . "/lang/{$langue}.php";
     }
 

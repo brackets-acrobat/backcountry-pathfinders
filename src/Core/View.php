@@ -24,6 +24,14 @@ class View
      */
     public function render(string $template, array $data = [], ?string $layout = 'layout'): void
     {
+        // La clé API à usage unique reste affichée tant qu'on est sur « Mon compte »
+        // (rechargements et changements de langue inclus). Elle n'est oubliée que
+        // lorsqu'une AUTRE page de contenu est rendue. On exclut la 404 pour ne pas
+        // l'effacer via la requête « favicon » du navigateur (qui tombe en 404).
+        if ($template !== 'compte/index' && $template !== 'errors/404') {
+            unset($_SESSION['nouvelle_cle']);
+        }
+
         extract($data, EXTR_SKIP);
 
         // Rendu de la vue dans un tampon → $content
