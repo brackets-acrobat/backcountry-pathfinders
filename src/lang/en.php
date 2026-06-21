@@ -67,6 +67,7 @@ return [
     'survey.heading'        => 'Landing heading',
     'survey.aircraft'       => 'Aircraft',
     'survey.relief_profile' => 'Relief profile',
+    'survey.photo'          => 'Spot photo',
 
     // Surface types (MSFS)
     'surface.grass'    => 'Grass',

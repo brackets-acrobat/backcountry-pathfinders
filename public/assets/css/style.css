@@ -317,6 +317,14 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
 .releve-grid dt { color: var(--muted); }
 .releve-grid dd { margin: 0; font-family: var(--mono); }
 .releve-profil { margin-top: .7rem; background: #0c0c0c; border: 1px solid var(--line); border-radius: 6px; }
+.releve-photo { margin-top: .7rem; }
+.releve-photo img {
+    display: block;
+    max-width: 100%;
+    max-height: 360px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+}
 .releve-note { margin: .6rem 0 0; color: var(--muted); font-style: italic; }
 
 .commentaire {

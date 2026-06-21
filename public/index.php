@@ -65,6 +65,9 @@ $router->post('/lieu/(\d+)/note', 'App\Controllers\LieuController@enregistrerNot
 // Données de la carte (JSON public)
 $router->get('/api/lieux', 'App\Controllers\CarteController@lieux');
 
+// Images de spots (servies depuis storage/uploads, hors docroot)
+$router->get('/uploads/([\w.\-]+)', 'App\Controllers\UploadController@serve');
+
 // Changement de langue
 $router->get('/langue/(\w+)', 'App\Controllers\LangController@changer');
 

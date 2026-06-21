@@ -180,6 +180,14 @@ $couleurDifficulte = static function (float $d): string {
                         <div class="releve-profil" data-profil='<?= View::e((string) $r['profil_relief']) ?>'
                              aria-label="<?= t('survey.relief_profile') ?>"></div>
                     <?php endif; ?>
+                    <?php if (($r['capture'] ?? '') !== ''): ?>
+                        <div class="releve-photo">
+                            <a href="<?= BASE_URL ?>/uploads/<?= View::e((string) $r['capture']) ?>" target="_blank" rel="noopener">
+                                <img src="<?= BASE_URL ?>/uploads/<?= View::e((string) $r['capture']) ?>"
+                                     alt="<?= t('survey.photo') ?>" loading="lazy">
+                            </a>
+                        </div>
+                    <?php endif; ?>
                     <?php if (($r['commentaire'] ?? '') !== ''): ?>
                         <p class="releve-note"><?= View::e((string) $r['commentaire']) ?></p>
                     <?php endif; ?>

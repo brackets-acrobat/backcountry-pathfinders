@@ -67,6 +67,7 @@ return [
     'survey.heading'        => 'Cap au poser',
     'survey.aircraft'       => 'Aéronef',
     'survey.relief_profile' => 'Profil de relief',
+    'survey.photo'          => 'Photo du spot',
 
     // Types de surface (MSFS)
     'surface.grass'    => 'Herbe',
