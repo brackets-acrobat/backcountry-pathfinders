@@ -25,10 +25,7 @@ $title = $title ?? 'Backcountry Pathfinders';
         <a class="brand" href="<?= BASE_URL ?>/"><i class="ph-light ph-mountains"></i> Backcountry Pathfinders</a>
         <nav class="site-nav">
             <a href="<?= BASE_URL ?>/"><?= t('nav.map') ?></a>
-            <?php if (Auth::estConnecte()): ?>
-                <a class="nav-user" href="<?= BASE_URL ?>/compte" title="<?= t('nav.account') ?>"><?= View::e(Auth::utilisateur()['pseudo']) ?></a>
-                <a href="<?= BASE_URL ?>/deconnexion"><?= t('nav.logout') ?></a>
-            <?php else: ?>
+            <?php if (!Auth::estConnecte()): ?>
                 <a href="<?= BASE_URL ?>/connexion"><?= t('nav.login') ?></a>
                 <a href="<?= BASE_URL ?>/inscription"><?= t('nav.register') ?></a>
             <?php endif; ?>
@@ -38,6 +35,25 @@ $title = $title ?? 'Backcountry Pathfinders';
                 <span class="lang-opt<?= Lang::actuelle() === 'fr' ? ' is-active' : '' ?>">FR</span>
                 <span class="lang-opt<?= Lang::actuelle() === 'en' ? ' is-active' : '' ?>">EN</span>
             </a>
+            <?php if (Auth::estConnecte()): ?>
+                <?php $u = Auth::utilisateur(); $monAvatar = $u['avatar'] ?? null; ?>
+                <div class="user-menu">
+                    <button type="button" class="user-avatar" id="user-menu-btn"
+                            aria-haspopup="true" aria-expanded="false" aria-label="<?= t('nav.account') ?>">
+                        <?php if ($monAvatar !== null && $monAvatar !== ''): ?>
+                            <img src="<?= BASE_URL ?>/uploads/<?= View::e((string) $monAvatar) ?>" alt="">
+                        <?php else: ?>
+                            <i class="ph-light ph-user"></i>
+                        <?php endif; ?>
+                    </button>
+                    <ul class="user-dropdown" id="user-dropdown" hidden>
+                        <li class="user-dropdown-head"><?= View::e((string) $u['pseudo']) ?></li>
+                        <li><a href="<?= BASE_URL ?>/compte"><?= t('nav.account') ?></a></li>
+                        <li><a href="<?= BASE_URL ?>/mes-lieux"><?= t('nav.my_places') ?></a></li>
+                        <li><a href="<?= BASE_URL ?>/deconnexion"><?= t('nav.logout') ?></a></li>
+                    </ul>
+                </div>
+            <?php endif; ?>
         </nav>
     </header>
 

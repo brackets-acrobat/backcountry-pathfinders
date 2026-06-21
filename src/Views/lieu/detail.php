@@ -216,6 +216,9 @@ $couleurDifficulte = static function (float $d): string {
             <?php foreach ($commentaires as $c): ?>
                 <li class="commentaire">
                     <div class="commentaire-head muted">
+                        <?php if (($c['avatar'] ?? '') !== ''): ?>
+                            <img class="avatar-mini" src="<?= BASE_URL ?>/uploads/<?= View::e((string) $c['avatar']) ?>" alt="">
+                        <?php endif; ?>
                         <strong><?= View::e((string) ($c['pseudo'] ?? t('place.deleted_user'))) ?></strong>
                         · <?= View::e((string) $c['date_creation']) ?>
                     </div>

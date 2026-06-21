@@ -30,12 +30,31 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
     pseudo           VARCHAR(40)  NOT NULL,
     email            VARCHAR(190) NOT NULL,
+    avatar           VARCHAR(120) NULL,                     -- nom de fichier dans storage/uploads (avatar_{id}.webp)
     mot_de_passe     VARCHAR(255) NOT NULL,                 -- hash bcrypt (password_hash)
     role             ENUM('membre','moderateur','admin') NOT NULL DEFAULT 'membre',
     date_inscription DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uq_utilisateurs_pseudo (pseudo),
     UNIQUE KEY uq_utilisateurs_email  (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+--  Connexions persistantes (« se souvenir de moi ») :
+--  jeton sélecteur/validateur, le validateur n'est stocké que haché.
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS connexions_persistantes (
+    id              INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    id_utilisateur  INT UNSIGNED NOT NULL,
+    selecteur       CHAR(24) NOT NULL,                     -- identifiant public (cookie), indexé
+    validateur_hash CHAR(64) NOT NULL,                     -- sha256 du validateur (jamais en clair)
+    expire_le       DATETIME NOT NULL,
+    date_creation   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_cp_selecteur (selecteur),
+    KEY idx_cp_user (id_utilisateur),
+    CONSTRAINT fk_cp_user FOREIGN KEY (id_utilisateur)
+        REFERENCES utilisateurs(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------

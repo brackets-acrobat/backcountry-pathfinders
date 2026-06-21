@@ -26,7 +26,16 @@ class Auth
             'id'     => (int) $utilisateur['id'],
             'pseudo' => $utilisateur['pseudo'],
             'role'   => $utilisateur['role'],
+            'avatar' => $utilisateur['avatar'] ?? null,
         ];
+    }
+
+    /** Met à jour les infos de l'utilisateur en session (après édition du profil). */
+    public static function rafraichir(array $champs): void
+    {
+        if (isset($_SESSION['utilisateur'])) {
+            $_SESSION['utilisateur'] = array_merge($_SESSION['utilisateur'], $champs);
+        }
     }
 
     /** Ferme la session et efface le cookie. */

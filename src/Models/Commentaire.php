@@ -35,7 +35,7 @@ class Commentaire
     public static function parLieu(int $idLieu): array
     {
         $stmt = Database::pdo()->prepare(
-            "SELECT c.id, c.texte, c.date_creation, u.pseudo
+            "SELECT c.id, c.texte, c.date_creation, u.pseudo, u.avatar
              FROM commentaires c
              LEFT JOIN utilisateurs u ON u.id = c.id_utilisateur
              WHERE c.id_lieu = :id

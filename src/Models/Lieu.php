@@ -161,6 +161,29 @@ class Lieu
     }
 
     /**
+     * Lieux où l'utilisateur a posé un relevé (« Mes lieux visités »),
+     * avec le nombre de SES relevés et la date de sa dernière visite.
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public static function visitesParUtilisateur(int $idUtilisateur): array
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT l.id, l.nom, l.latitude, l.longitude, l.altitude_m,
+                    COUNT(r.id) AS nb_releves,
+                    MAX(r.date_releve) AS derniere_visite
+             FROM lieux l
+             JOIN releves r ON r.id_lieu = l.id AND r.id_utilisateur = :u
+             WHERE l.statut = 'actif'
+             GROUP BY l.id, l.nom, l.latitude, l.longitude, l.altitude_m
+             ORDER BY derniere_visite DESC"
+        );
+        $stmt->execute(['u' => $idUtilisateur]);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Agrégats d'un lieu pour sa fiche détail.
      *
      * @return array{nb_releves:int, note_moyenne:?float, difficulte_moyenne:?float, nb_notes:int}

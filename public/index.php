@@ -45,6 +45,11 @@ App\Core\Turnstile::configure($config['turnstile'] ?? []);
 // --- Session ---
 App\Core\Auth::demarrer();
 
+// « Se souvenir de moi » : reconnexion auto depuis le cookie si pas de session.
+if (!App\Core\Auth::estConnecte()) {
+    App\Models\ConnexionPersistante::tenterReconnexion();
+}
+
 // Auto-déconnexion propre si le compte en session n'existe plus (ex. supprimé).
 if (App\Core\Auth::estConnecte() && App\Models\Utilisateur::parId(App\Core\Auth::id()) === null) {
     App\Core\Auth::deconnecter();
@@ -78,8 +83,12 @@ $router->get('/connexion',    'App\Controllers\AuthController@formulaireConnexio
 $router->post('/connexion',   'App\Controllers\AuthController@connexion');
 $router->get('/deconnexion',  'App\Controllers\AuthController@deconnexion');
 
-// Espace compte (clés API) — réservé aux connectés
+// Espace « Mon compte » — réservé aux connectés
 $router->get('/compte',                 'App\Controllers\CompteController@index');
+$router->get('/mes-lieux',              'App\Controllers\CompteController@mesLieux');
+$router->post('/compte/profil',         'App\Controllers\CompteController@majProfil');
+$router->post('/compte/motdepasse',     'App\Controllers\CompteController@majMotDePasse');
+$router->post('/compte/avatar',         'App\Controllers\CompteController@majAvatar');
 $router->post('/compte/cles',           'App\Controllers\CompteController@creerCle');
 $router->post('/compte/cles/supprimer', 'App\Controllers\CompteController@supprimerCle');
 

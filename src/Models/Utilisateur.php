@@ -67,4 +67,67 @@ class Utilisateur
 
         return null;
     }
+
+    /**
+     * Règle de robustesse du mot de passe (inscription ET changement) :
+     * 8 caractères minimum, au moins une minuscule, une majuscule, un chiffre
+     * et un caractère spécial.
+     */
+    public static function motDePasseValide(string $mdp): bool
+    {
+        return mb_strlen($mdp) >= 8
+            && preg_match('/[a-z]/', $mdp) === 1
+            && preg_match('/[A-Z]/', $mdp) === 1
+            && preg_match('/[0-9]/', $mdp) === 1
+            && preg_match('/[^A-Za-z0-9]/', $mdp) === 1;
+    }
+
+    /** Vrai si ce pseudo est déjà pris par un AUTRE utilisateur. */
+    public static function pseudoPris(string $pseudo, int $exceptId): bool
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT 1 FROM utilisateurs WHERE pseudo = :p AND id <> :id LIMIT 1"
+        );
+        $stmt->execute(['p' => $pseudo, 'id' => $exceptId]);
+
+        return $stmt->fetchColumn() !== false;
+    }
+
+    /** Vrai si cet e-mail est déjà pris par un AUTRE utilisateur. */
+    public static function emailPris(string $email, int $exceptId): bool
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT 1 FROM utilisateurs WHERE email = :e AND id <> :id LIMIT 1"
+        );
+        $stmt->execute(['e' => $email, 'id' => $exceptId]);
+
+        return $stmt->fetchColumn() !== false;
+    }
+
+    /** Met à jour le pseudo + l'e-mail. Le pseudo se répercute partout (jointures). */
+    public static function majProfil(int $id, string $pseudo, string $email): void
+    {
+        $stmt = Database::pdo()->prepare(
+            "UPDATE utilisateurs SET pseudo = :p, email = :e WHERE id = :id"
+        );
+        $stmt->execute(['p' => $pseudo, 'e' => $email, 'id' => $id]);
+    }
+
+    /** Met à jour le mot de passe (haché). */
+    public static function majMotDePasse(int $id, string $motDePasse): void
+    {
+        $stmt = Database::pdo()->prepare(
+            "UPDATE utilisateurs SET mot_de_passe = :h WHERE id = :id"
+        );
+        $stmt->execute(['h' => password_hash($motDePasse, PASSWORD_DEFAULT), 'id' => $id]);
+    }
+
+    /** Met à jour le nom de fichier de l'avatar (ou null pour aucun). */
+    public static function majAvatar(int $id, ?string $fichier): void
+    {
+        $stmt = Database::pdo()->prepare(
+            "UPDATE utilisateurs SET avatar = :a WHERE id = :id"
+        );
+        $stmt->execute(['a' => $fichier, 'id' => $id]);
+    }
 }

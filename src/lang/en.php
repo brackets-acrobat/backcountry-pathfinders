@@ -89,7 +89,7 @@ return [
     // Sign up
     'page.register.title'   => 'Sign up',
     'register.heading'      => 'Create an account',
-    'register.password_hint' => '(8 characters minimum)',
+    'register.password_hint' => '(8 chars min.: 1 uppercase, 1 lowercase, 1 digit, 1 special character)',
     'register.confirm'      => 'Confirm password',
     'register.submit'       => 'Create my account',
     'register.have_account' => 'Already registered?',
@@ -99,11 +99,20 @@ return [
     'page.login.title'    => 'Log in',
     'login.heading'       => 'Log in',
     'login.submit'        => 'Log in',
+    'login.remember'      => 'Remember me (1 month)',
     'login.no_account'    => 'No account yet?',
     'login.register_link' => 'Create an account',
 
     // Navigation (continued)
     'nav.account' => 'My account',
+    'nav.my_places' => 'My visited places',
+
+    // My visited places
+    'page.my_places.title' => 'My visited places',
+    'myplaces.heading'     => 'My visited places',
+    'myplaces.empty'       => 'You haven\'t visited any place yet. Land somewhere and send a survey from the app!',
+    'myplaces.surveys'     => 'survey(s)',
+    'myplaces.last_visit'  => 'last visit:',
 
     // Account area / API keys
     'page.account.title'        => 'My account',
@@ -123,13 +132,38 @@ return [
     'account.delete_key'        => 'Delete',
     'account.delete_confirm'    => 'Delete this key? The application using it will no longer be able to send surveys.',
 
+    // My account — profile / password / avatar
+    'account.profile_section'   => 'Profile',
+    'account.profile_intro'     => 'Your username is shown on every place and comment you post.',
+    'account.save_profile'      => 'Save profile',
+    'account.profile_saved'     => 'Profile updated.',
+    'account.password_section'  => 'Password',
+    'account.new_password'      => 'New password',
+    'account.confirm_password'  => 'Confirm password',
+    'account.save_password'     => 'Change password',
+    'account.password_saved'    => 'Password updated.',
+    'account.avatar_section'    => 'Avatar',
+    'account.avatar_intro'      => 'PNG or JPG image, 500 × 500 px max, 500 KB max.',
+    'account.avatar_choose'     => 'Choose an image',
+    'account.save_avatar'       => 'Update avatar',
+    'account.avatar_saved'      => 'Avatar updated.',
+    'account.no_avatar'         => 'No avatar yet.',
+
     // Error messages (validation)
     'error.csrf'             => 'Your session has expired, please try again.',
     'error.pseudo_length'    => 'The username must be between 3 and 40 characters.',
     'error.email_invalid'    => 'Invalid email address.',
     'error.password_short'   => 'The password must be at least 8 characters.',
+    'error.password_weak'    => 'The password must be at least 8 characters, with at least one uppercase, one lowercase, one digit and one special character.',
     'error.password_mismatch' => 'The two passwords do not match.',
     'error.duplicate'        => 'This username or email is already in use.',
+    'error.pseudo_taken'     => 'This username is already taken.',
+    'error.email_taken'      => 'This email is already in use.',
+    'error.avatar_required'  => 'No image selected.',
+    'error.avatar_failed'    => 'Image upload failed.',
+    'error.avatar_size'      => 'Image too large (500 KB max).',
+    'error.avatar_type'      => 'Format not allowed (PNG or JPG only).',
+    'error.avatar_dims'      => 'Image too large (500 × 500 px max).',
     'error.login_failed'     => 'Incorrect email or password.',
     'error.captcha'          => 'Anti-bot check failed, please try again.',
     'error.comment_empty'    => 'The comment cannot be empty.',

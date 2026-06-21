@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Core\Auth;
 use App\Core\Turnstile;
 use App\Core\View;
+use App\Models\ConnexionPersistante;
 use App\Models\Utilisateur;
 use PDOException;
 
@@ -55,8 +56,8 @@ class AuthController
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $erreurs[] = 'error.email_invalid';
         }
-        if (strlen($mdp) < 8) {
-            $erreurs[] = 'error.password_short';
+        if (!Utilisateur::motDePasseValide($mdp)) {
+            $erreurs[] = 'error.password_weak';
         }
         if ($mdp !== $mdp2) {
             $erreurs[] = 'error.password_mismatch';
@@ -119,6 +120,9 @@ class AuthController
             $utilisateur = Utilisateur::verifierConnexion($email, $mdp);
             if ($utilisateur !== null) {
                 Auth::connecter($utilisateur);
+                if (($_POST['souvenir'] ?? '') !== '') {
+                    ConnexionPersistante::emettre((int) $utilisateur['id']);
+                }
                 $this->rediriger('/');
                 return;
             }
@@ -134,6 +138,7 @@ class AuthController
 
     public function deconnexion(): void
     {
+        ConnexionPersistante::revoquer();
         Auth::deconnecter();
         $this->rediriger('/');
     }

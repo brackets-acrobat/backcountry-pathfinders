@@ -33,6 +33,11 @@ use App\Core\View;
             <input type="password" name="mot_de_passe" required autocomplete="current-password">
         </label>
 
+        <label class="form-check">
+            <input type="checkbox" name="souvenir" value="1">
+            <span><?= t('login.remember') ?></span>
+        </label>
+
         <?= turnstile_widget() ?>
 
         <button type="submit" class="btn"><?= t('login.submit') ?></button>
