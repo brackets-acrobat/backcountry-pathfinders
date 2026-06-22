@@ -241,6 +241,7 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
 .place-back a { color: var(--accent); text-decoration: none; }
 .place-back a:hover { text-decoration: underline; }
 .place-head h1 { margin: 0; }
+.place-location { margin: .35rem 0 0; display: inline-flex; align-items: center; gap: .3rem; }
 .place-coords { margin: .25rem 0 1rem; font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .muted { color: var(--muted); }
 /* ---- Moyenne en étoiles fractionnaires (façon Amazon) ----

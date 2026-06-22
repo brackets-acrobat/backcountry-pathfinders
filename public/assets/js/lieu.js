@@ -13,11 +13,11 @@
                 zoomControl: true,
             }).setView([lat, lon], 13);
 
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                maxZoom: 19,
+            L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                maxZoom: 17,
                 attribution:
-                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
-                    '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | ' +
+                    '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)',
             }).addTo(map);
 
             L.circleMarker([lat, lon], {

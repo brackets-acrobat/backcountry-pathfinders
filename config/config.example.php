@@ -25,4 +25,9 @@ return [
         'site_key'   => '',   // clé de site (publique), commence par 0x...
         'secret_key' => '',   // clé secrète (serveur) — NE PAS versionner
     ],
+    // Géocodage inverse (BigDataCloud, gratuit, sans clé) : à la création d'un
+    // lieu, renseigne pays + région (FR & EN, codes ISO). Échec silencieux.
+    'geocodage' => [
+        'actif' => true,      // false pour désactiver (aucun appel réseau)
+    ],
 ];

@@ -6,6 +6,8 @@ namespace App\Models;
 
 use App\Core\Database;
 use App\Core\Geo;
+use App\Core\Geocodage;
+use App\Core\Lang;
 
 /*
  * Lieu de poser, dédupliqué par coordonnées.
@@ -50,7 +52,11 @@ class Lieu
         return $meilleur;
     }
 
-    /** Crée un lieu et renvoie son id. */
+    /**
+     * Crée un lieu et renvoie son id.
+     * Le pays et la région (géocodage inverse) sont résolus en ligne ; un
+     * échec reste silencieux (champs laissés à null).
+     */
     public static function creer(
         float $lat,
         float $lon,
@@ -58,16 +64,28 @@ class Lieu
         ?int $altitudeM = null,
         ?string $nom = null
     ): int {
+        $geo = Geocodage::inverse($lat, $lon);
+
         $stmt = Database::pdo()->prepare(
-            "INSERT INTO lieux (nom, latitude, longitude, altitude_m, id_createur)
-             VALUES (:nom, :lat, :lon, :alt, :createur)"
+            "INSERT INTO lieux
+                (nom, latitude, longitude, altitude_m,
+                 pays, region_code, pays_fr, pays_en, region_fr, region_en, id_createur)
+             VALUES
+                (:nom, :lat, :lon, :alt,
+                 :pays, :region_code, :pays_fr, :pays_en, :region_fr, :region_en, :createur)"
         );
         $stmt->execute([
-            'nom'      => $nom,
-            'lat'      => $lat,
-            'lon'      => $lon,
-            'alt'      => $altitudeM,
-            'createur' => $idCreateur,
+            'nom'         => $nom,
+            'lat'         => $lat,
+            'lon'         => $lon,
+            'alt'         => $altitudeM,
+            'pays'        => $geo['pays'],
+            'region_code' => $geo['region_code'],
+            'pays_fr'     => $geo['pays_fr'],
+            'pays_en'     => $geo['pays_en'],
+            'region_fr'   => $geo['region_fr'],
+            'region_en'   => $geo['region_en'],
+            'createur'    => $idCreateur,
         ]);
 
         return (int) Database::pdo()->lastInsertId();
@@ -131,6 +149,7 @@ class Lieu
     {
         $stmt = Database::pdo()->prepare(
             "SELECT l.id, l.nom, l.latitude, l.longitude, l.altitude_m,
+                    l.pays, l.pays_fr, l.pays_en,
                     (SELECT COUNT(*) FROM releves r WHERE r.id_lieu = l.id) AS nb_releves,
                     (SELECT AVG(n.note)       FROM notes n WHERE n.id_lieu = l.id) AS note_moyenne,
                     (SELECT AVG(n.difficulte) FROM notes n WHERE n.id_lieu = l.id) AS difficulte_moyenne,
@@ -145,19 +164,39 @@ class Lieu
         $stmt->bindValue('limite', $limite, \PDO::PARAM_INT);
         $stmt->execute();
 
-        return array_map(static function (array $l): array {
+        $langue = Lang::actuelle();
+
+        return array_map(static function (array $l) use ($langue): array {
             return [
                 'id'                 => (int) $l['id'],
                 'nom'                => $l['nom'] !== null ? (string) $l['nom'] : null,
                 'lat'                => (float) $l['latitude'],
                 'lon'                => (float) $l['longitude'],
                 'altitude_m'         => $l['altitude_m'] !== null ? (int) $l['altitude_m'] : null,
+                'pays'               => self::nomPays($l, $langue),
                 'nb_releves'         => (int) $l['nb_releves'],
                 'note_moyenne'       => $l['note_moyenne'] !== null ? round((float) $l['note_moyenne'], 1) : null,
                 'difficulte_moyenne' => $l['difficulte_moyenne'] !== null ? round((float) $l['difficulte_moyenne'], 1) : null,
                 'surface'            => $l['surface'] !== null ? (string) $l['surface'] : null,
             ];
         }, $stmt->fetchAll());
+    }
+
+    /**
+     * Nom du pays d'un lieu dans la langue donnée, avec repli sur l'autre
+     * langue puis sur le code ISO. Null si rien n'est connu.
+     *
+     * @param array<string,mixed> $l  ligne contenant pays/pays_fr/pays_en
+     */
+    private static function nomPays(array $l, string $langue): ?string
+    {
+        $autre = $langue === 'fr' ? 'en' : 'fr';
+        foreach (['pays_' . $langue, 'pays_' . $autre, 'pays'] as $col) {
+            if (($l[$col] ?? '') !== '') {
+                return (string) $l[$col];
+            }
+        }
+        return null;
     }
 
     /**

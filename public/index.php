@@ -42,6 +42,9 @@ App\Core\Database::configure($config['db']);
 // --- CAPTCHA anti-bot (Cloudflare Turnstile) ---
 App\Core\Turnstile::configure($config['turnstile'] ?? []);
 
+// --- Géocodage inverse (pays + région à la création d'un lieu) ---
+App\Core\Geocodage::configure($config['geocodage'] ?? []);
+
 // --- Session ---
 App\Core\Auth::demarrer();
 

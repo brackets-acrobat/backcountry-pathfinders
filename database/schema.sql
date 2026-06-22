@@ -87,7 +87,12 @@ CREATE TABLE IF NOT EXISTS lieux (
     latitude      DECIMAL(9,6) NOT NULL,                    -- ±90,  6 décimales ≈ 0,11 m
     longitude     DECIMAL(9,6) NOT NULL,                    -- ±180
     altitude_m    SMALLINT NULL,                            -- altitude sol approximative (m)
-    pays          CHAR(2) NULL,                             -- code ISO éventuel (géocodage inverse plus tard)
+    pays          CHAR(2) NULL,                             -- code pays ISO 3166-1 alpha-2 (géocodage inverse)
+    region_code   VARCHAR(10) NULL,                         -- subdivision ISO 3166-2 (ex. FR-NAQ, US-TX, AU-QLD)
+    pays_fr       VARCHAR(80) NULL,                         -- nom du pays en français
+    pays_en       VARCHAR(80) NULL,                         -- nom du pays en anglais
+    region_fr     VARCHAR(120) NULL,                        -- nom de la région en français
+    region_en     VARCHAR(120) NULL,                        -- nom de la région en anglais
     id_createur   INT UNSIGNED NULL,                        -- premier contributeur
     statut        ENUM('actif','masque') NOT NULL DEFAULT 'actif',
     date_creation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

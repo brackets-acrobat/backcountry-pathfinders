@@ -35,6 +35,7 @@ return [
     'map.rating'      => 'Note',
     'map.difficulty'  => 'Difficulté',
     'map.altitude'    => 'Altitude',
+    'map.country'     => 'Pays',
     'map.detail'      => 'Voir le détail',
     'map.layer_dark'  => 'Sombre',
 

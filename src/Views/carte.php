@@ -27,6 +27,7 @@ window.BCP = {
         'difficulty' => t('map.difficulty'),
         'surface'    => t('survey.surface'),
         'altitude'   => t('map.altitude'),
+        'country'    => t('map.country'),
         'detail'     => t('map.detail'),
         'untitled'   => t('place.untitled'),
         'layers'     => ['dark' => t('map.layer_dark')],

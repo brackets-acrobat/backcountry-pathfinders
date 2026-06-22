@@ -106,6 +106,9 @@
         var html = '<div class="bcp-popup"><strong>' + nom + '</strong>';
 
         var lignes = [];
+        if (lieu.pays) {
+            lignes.push((t.country || 'Pays') + ' : ' + escapeHtml(lieu.pays));
+        }
         if (lieu.surface) {
             lignes.push((t.surface || 'Surface') + ' : ' + escapeHtml(libelleSurface(lieu.surface)));
         }

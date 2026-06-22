@@ -20,6 +20,23 @@ $lon = (float) $lieu['longitude'];
 $idLieu = (int) $lieu['id'];
 $connecte = Auth::estConnecte();
 
+// Localisation (géocodage inverse) : « Région, Pays » dans la langue courante,
+// avec repli sur l'autre langue puis sur le code si un libellé manque.
+$lng = \App\Core\Lang::actuelle();   // 'fr' ou 'en'
+$choisir = static function (array $lieu, string $prefixe, string $lng, ?string $repliCode): ?string {
+    $autre = $lng === 'fr' ? 'en' : 'fr';
+    foreach ([$prefixe . '_' . $lng, $prefixe . '_' . $autre] as $col) {
+        if (($lieu[$col] ?? '') !== '') {
+            return (string) $lieu[$col];
+        }
+    }
+    return ($repliCode ?? '') !== '' ? $repliCode : null;
+};
+$localisation = implode(', ', array_filter([
+    $choisir($lieu, 'region', $lng, null),
+    $choisir($lieu, 'pays', $lng, ($lieu['pays'] ?? '') !== '' ? (string) $lieu['pays'] : null),
+]));
+
 /**
  * Widget d'étoiles cliquables (radios 1..5, CSS pur — pas de JS) ; valeur
  * courante pré-cochée. Radios listés de 5 à 1 pour que le remplissage CSS
@@ -83,6 +100,11 @@ $couleurDifficulte = static function (float $d): string {
 
     <header class="place-head">
         <h1><?= View::e($nom) ?></h1>
+        <?php if ($localisation !== ''): ?>
+            <p class="place-location muted">
+                <i class="ph-bold ph-map-pin"></i> <?= View::e($localisation) ?>
+            </p>
+        <?php endif; ?>
         <p class="place-coords muted">
             <?= number_format($lat, 5) ?>, <?= number_format($lon, 5) ?>
             <?php if (($lieu['altitude_m'] ?? null) !== null): ?>
