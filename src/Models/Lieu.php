@@ -223,6 +223,37 @@ class Lieu
     }
 
     /**
+     * Renomme un lieu, à condition que l'utilisateur y ait posé un relevé
+     * (l'un de « ses lieux visités »). Un nom vide repasse le lieu en
+     * « sans nom » (NULL). Renvoie false si l'utilisateur n'est pas autorisé.
+     */
+    public static function renommer(int $id, ?string $nom, int $idUtilisateur): bool
+    {
+        if (!self::visitePar($id, $idUtilisateur)) {
+            return false;
+        }
+
+        $nom = $nom !== null ? trim($nom) : '';
+        $valeur = $nom !== '' ? mb_substr($nom, 0, 120) : null;
+
+        $stmt = Database::pdo()->prepare("UPDATE lieux SET nom = :nom WHERE id = :id");
+        $stmt->execute(['nom' => $valeur, 'id' => $id]);
+
+        return true;
+    }
+
+    /** Vrai si l'utilisateur a posé au moins un relevé sur ce lieu. */
+    private static function visitePar(int $id, int $idUtilisateur): bool
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT 1 FROM releves WHERE id_lieu = :id AND id_utilisateur = :u LIMIT 1"
+        );
+        $stmt->execute(['id' => $id, 'u' => $idUtilisateur]);
+
+        return $stmt->fetchColumn() !== false;
+    }
+
+    /**
      * Agrégats d'un lieu pour sa fiche détail.
      *
      * @return array{nb_releves:int, note_moyenne:?float, difficulte_moyenne:?float, nb_notes:int}

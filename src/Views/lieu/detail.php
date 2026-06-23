@@ -173,25 +173,28 @@ $couleurDifficulte = static function (float $d): string {
                     <dl class="releve-grid">
                         <?php
                         $champs = [
-                            'type_surface'     => t('survey.surface'),
-                            'etat_surface'     => t('survey.condition'),
-                            'friction'         => t('survey.friction'),
-                            'longueur_utile_m' => t('survey.usable_length'),
-                            'pente_max_pct'    => t('survey.max_slope'),
-                            'denivele_m'       => t('survey.elevation_gain'),
-                            'cap_moyen_deg'    => t('survey.heading'),
-                            'aeronef'          => t('survey.aircraft'),
+                            'type_surface'       => t('survey.surface'),
+                            'etat_surface'       => t('survey.condition'),
+                            'vitesse_toucher_kt' => t('survey.touchdown_speed'),
+                            'distance_roulage_m' => t('survey.roll_distance'),
+                            'denivele_m'         => t('survey.elevation_gain'),
+                            'cap_moyen_deg'      => t('survey.heading'),
+                            'aeronef'            => t('survey.aircraft'),
                         ];
-                        // Distances en mètres (colonnes *_m) affichées en pieds ; pente en % ; cap en °.
-                        $enPieds = ['longueur_utile_m', 'denivele_m'];
-                        $unites  = ['pente_max_pct' => ' %', 'cap_moyen_deg' => ' °'];
+                        // Distances en mètres (colonnes *_m) affichées en pieds ; cap arrondi au degré.
+                        $enPieds = ['distance_roulage_m', 'denivele_m'];
                         foreach ($champs as $cle => $label):
                             $val = $r[$cle] ?? null;
                             if ($val === null || $val === '') { continue; }
                             if (in_array($cle, $enPieds, true)) {
                                 $affichage = pieds($val) . ' ft';
+                            } elseif ($cle === 'cap_moyen_deg') {
+                                // Fraction ≤ 0,5 → entier inférieur ; > 0,5 → entier supérieur.
+                                $affichage = (string) (int) ceil((float) $val - 0.5) . ' °';
+                            } elseif ($cle === 'vitesse_toucher_kt') {
+                                $affichage = (string) (float) $val . ' kt';
                             } else {
-                                $affichage = (string) $val . ($unites[$cle] ?? '');
+                                $affichage = (string) $val;
                             }
                         ?>
                             <dt><?= View::e($label) ?></dt>
@@ -200,6 +203,7 @@ $couleurDifficulte = static function (float $d): string {
                     </dl>
                     <?php if (!empty($r['profil_relief'])): ?>
                         <div class="releve-profil" data-profil='<?= View::e((string) $r['profil_relief']) ?>'
+                             data-roll="<?= $r['distance_roulage_m'] !== null ? (int) $r['distance_roulage_m'] : '' ?>"
                              aria-label="<?= t('survey.relief_profile') ?>"></div>
                     <?php endif; ?>
                     <?php if (($r['capture'] ?? '') !== ''): ?>

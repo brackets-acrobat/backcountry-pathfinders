@@ -41,10 +41,34 @@ class CompteController
     public function mesLieux(): void
     {
         $this->exigeConnexion();
+
+        $flash = $_SESSION['compte_flash'] ?? null;
+        unset($_SESSION['compte_flash']);
+
         (new View())->render('compte/mes-lieux', [
             'title' => t('page.my_places.title'),
             'lieux' => Lieu::visitesParUtilisateur(Auth::id()),
+            'flash' => $flash,
         ]);
+    }
+
+    /** Renommer un lieu visité par l'utilisateur (page « Mes lieux visités »). */
+    public function renommerLieu(): void
+    {
+        $this->exigeConnexion();
+        $id  = (int) ($_POST['id'] ?? 0);
+        $nom = trim($_POST['nom'] ?? '');
+
+        if (!Auth::verifierCsrf($_POST['csrf'] ?? null)) {
+            $this->flash('err', ['error.csrf']);
+        } elseif (mb_strlen($nom) > 120) {
+            $this->flash('err', ['error.place_name_length']);
+        } elseif (Lieu::renommer($id, $nom, Auth::id())) {
+            $this->flash('ok', ['myplaces.renamed']);
+        } else {
+            $this->flash('err', ['error.place_not_yours']);
+        }
+        $this->rediriger('/mes-lieux');
     }
 
     /** Mise à jour du pseudo + e-mail. */

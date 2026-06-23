@@ -89,6 +89,7 @@ $router->get('/deconnexion',  'App\Controllers\AuthController@deconnexion');
 // Espace « Mon compte » — réservé aux connectés
 $router->get('/compte',                 'App\Controllers\CompteController@index');
 $router->get('/mes-lieux',              'App\Controllers\CompteController@mesLieux');
+$router->post('/mes-lieux/renommer',    'App\Controllers\CompteController@renommerLieu');
 $router->post('/compte/profil',         'App\Controllers\CompteController@majProfil');
 $router->post('/compte/motdepasse',     'App\Controllers\CompteController@majMotDePasse');
 $router->post('/compte/avatar',         'App\Controllers\CompteController@majAvatar');

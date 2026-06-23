@@ -118,8 +118,9 @@ CREATE TABLE IF NOT EXISTS releves (
     altitude_m       SMALLINT NULL,
     type_surface     VARCHAR(32) NULL,                      -- MSFS SURFACE TYPE : Grass/Dirt/Sand/Snow/Ice...
     etat_surface     VARCHAR(16) NULL,                      -- SURFACE CONDITION : Normal/Wet/Icy/Snow
+    vitesse_toucher_kt DECIMAL(4,1) NULL,                   -- vitesse sol à l'instant du toucher des roues (kt)
+    distance_roulage_m SMALLINT UNSIGNED NULL,              -- distance de roulage à l'atterrissage jusqu'à < 5 kt (m)
     friction         DECIMAL(4,3) NULL,                     -- coefficient empirique (décélération au freinage)
-    longueur_utile_m SMALLINT UNSIGNED NULL,                -- longueur exploitable estimée (m)
     pente_max_pct    DECIMAL(4,1) NULL,                     -- pente max le long de l'axe (%)
     denivele_m       SMALLINT NULL,                         -- dénivelé sur la zone (m)
     cap_moyen_deg    DECIMAL(4,1) NULL,                     -- cap moyen au poser (°, moyenne circulaire jusqu'à < 20 kt)

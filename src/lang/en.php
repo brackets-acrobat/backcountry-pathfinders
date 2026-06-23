@@ -61,8 +61,9 @@ return [
     // Survey fields
     'survey.surface'        => 'Surface',
     'survey.condition'      => 'Ground condition',
+    'survey.touchdown_speed' => 'Touchdown speed',
+    'survey.roll_distance'  => 'Roll-out distance',
     'survey.friction'       => 'Friction',
-    'survey.usable_length'  => 'Usable length',
     'survey.max_slope'      => 'Max slope',
     'survey.elevation_gain' => 'Elevation change',
     'survey.heading'        => 'Landing heading',
@@ -114,6 +115,10 @@ return [
     'myplaces.empty'       => 'You haven\'t visited any place yet. Land somewhere and send a survey from the app!',
     'myplaces.surveys'     => 'survey(s)',
     'myplaces.last_visit'  => 'last visit:',
+    'myplaces.rename'      => 'Rename this place',
+    'myplaces.rename_placeholder' => 'Place name',
+    'myplaces.rename_save' => 'Save',
+    'myplaces.renamed'     => 'The place name has been updated.',
 
     // Account area / API keys
     'page.account.title'        => 'My account',
@@ -165,6 +170,8 @@ return [
     'error.avatar_size'      => 'Image too large (500 KB max).',
     'error.avatar_type'      => 'Format not allowed (PNG or JPG only).',
     'error.avatar_dims'      => 'Image too large (500 × 500 px max).',
+    'error.place_name_length' => 'The place name cannot exceed 120 characters.',
+    'error.place_not_yours'  => 'You can only rename a place you have visited.',
     'error.login_failed'     => 'Incorrect email or password.',
     'error.captcha'          => 'Anti-bot check failed, please try again.',
     'error.comment_empty'    => 'The comment cannot be empty.',

@@ -15,7 +15,7 @@ class Releve
     /** Colonnes acceptées en plus de id_lieu (id_lieu est calculé par dédup). */
     private const CHAMPS = [
         'id_utilisateur', 'date_releve', 'latitude', 'longitude', 'altitude_m',
-        'type_surface', 'etat_surface', 'friction', 'longueur_utile_m',
+        'type_surface', 'etat_surface', 'vitesse_toucher_kt', 'distance_roulage_m', 'friction',
         'pente_max_pct', 'denivele_m', 'cap_moyen_deg', 'profil_relief', 'aeronef', 'capture', 'commentaire',
     ];
 

@@ -2,12 +2,26 @@
 
 declare(strict_types=1);
 
+use App\Core\Auth;
 use App\Core\View;
 
 /** @var array<int,array<string,mixed>> $lieux */
+/** @var array{type:string,msgs:array<int,string>}|null $flash */
+
+$csrf = View::e(Auth::jetonCsrf());
 ?>
 <section class="mes-lieux">
     <h1><?= t('myplaces.heading') ?></h1>
+
+    <?php if (($flash ?? null) !== null): ?>
+        <div class="alert<?= $flash['type'] === 'ok' ? ' alert-success' : '' ?>">
+            <ul>
+                <?php foreach ($flash['msgs'] as $m): ?>
+                    <li><?= View::e(t($m)) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 
     <?php if ($lieux === []): ?>
         <p class="muted"><?= t('myplaces.empty') ?></p>
@@ -34,6 +48,20 @@ use App\Core\View;
                         <?= (int) $l['nb_releves'] ?> <?= t('myplaces.surveys') ?>
                         · <?= t('myplaces.last_visit') ?> <?= View::e(substr((string) $l['derniere_visite'], 0, 10)) ?>
                     </span>
+                    <details class="lieu-rename">
+                        <summary class="lieu-rename-toggle" title="<?= View::e(t('myplaces.rename')) ?>"
+                                 aria-label="<?= View::e(t('myplaces.rename')) ?>">
+                            <i class="ph-light ph-pencil-simple"></i>
+                        </summary>
+                        <form method="post" action="<?= BASE_URL ?>/mes-lieux/renommer" class="lieu-rename-form">
+                            <input type="hidden" name="csrf" value="<?= $csrf ?>">
+                            <input type="hidden" name="id" value="<?= (int) $l['id'] ?>">
+                            <input type="text" name="nom" maxlength="120"
+                                   value="<?= View::e((string) ($l['nom'] ?? '')) ?>"
+                                   placeholder="<?= View::e(t('myplaces.rename_placeholder')) ?>">
+                            <button type="submit" class="btn"><?= t('myplaces.rename_save') ?></button>
+                        </form>
+                    </details>
                 </li>
             <?php endforeach; ?>
         </ul>

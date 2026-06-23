@@ -61,8 +61,9 @@ return [
     // Champs d'un relevé
     'survey.surface'        => 'Surface',
     'survey.condition'      => 'État du sol',
+    'survey.touchdown_speed' => 'Vitesse au toucher',
+    'survey.roll_distance'  => 'Distance de roulage',
     'survey.friction'       => 'Friction',
-    'survey.usable_length'  => 'Longueur utile',
     'survey.max_slope'      => 'Pente max',
     'survey.elevation_gain' => 'Dénivelé',
     'survey.heading'        => 'Cap au poser',
@@ -114,6 +115,10 @@ return [
     'myplaces.empty'       => 'Tu n\'as encore visité aucun lieu. Pose-toi quelque part et envoie un relevé depuis l\'application !',
     'myplaces.surveys'     => 'relevé(s)',
     'myplaces.last_visit'  => 'dernière visite :',
+    'myplaces.rename'      => 'Renommer ce lieu',
+    'myplaces.rename_placeholder' => 'Nom du lieu',
+    'myplaces.rename_save' => 'Enregistrer',
+    'myplaces.renamed'     => 'Le nom du lieu a été mis à jour.',
 
     // Espace compte / clés API
     'page.account.title'        => 'Mon compte',
@@ -165,6 +170,8 @@ return [
     'error.avatar_size'      => 'Image trop lourde (500 Ko maximum).',
     'error.avatar_type'      => 'Format non autorisé (PNG ou JPG uniquement).',
     'error.avatar_dims'      => 'Image trop grande (500 × 500 px maximum).',
+    'error.place_name_length' => 'Le nom du lieu ne peut pas dépasser 120 caractères.',
+    'error.place_not_yours'  => 'Tu ne peux renommer qu\'un lieu que tu as visité.',
     'error.login_failed'     => 'E-mail ou mot de passe incorrect.',
     'error.captcha'          => 'Vérification anti-robot échouée, merci de réessayer.',
     'error.comment_empty'    => 'Le commentaire ne peut pas être vide.',

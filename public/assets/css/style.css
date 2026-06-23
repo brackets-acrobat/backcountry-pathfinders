@@ -425,8 +425,39 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
 }
 .lieu-item-main { text-decoration: none; display: flex; flex-direction: column; gap: .2rem; }
 .lieu-item-nom { color: var(--title); font-weight: 700; }
+.lieu-item-main { flex: 1 1 auto; }
 .lieu-item-coords { font-family: var(--mono); color: var(--accent); font-size: .85rem; }
 .lieu-item-meta { font-size: .85rem; }
+
+/* Renommer un lieu (toggle natif <details> + formulaire en ligne) */
+.lieu-rename-toggle {
+    list-style: none;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 1.15rem;
+    line-height: 1;
+    padding: .15rem .3rem;
+}
+.lieu-rename-toggle::-webkit-details-marker { display: none; }
+.lieu-rename-toggle:hover { color: var(--accent); }
+.lieu-rename[open] { flex-basis: 100%; }
+.lieu-rename-form {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-top: .6rem;
+}
+.lieu-rename-form input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: .5rem .7rem;
+    background: var(--panel-2);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font: inherit;
+}
+.lieu-rename-form input[type="text"]:focus { outline: none; border-color: var(--accent); }
 
 /* ---- Navigation : utilisateur connecté ---- */
 /* Suit le même style de bouton que les autres liens de nav (voir .site-nav a). */

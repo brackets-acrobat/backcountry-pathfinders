@@ -19,8 +19,9 @@ use Throwable;
  *    sert à nommer le fichier). profil_relief est alors une chaîne JSON.
  *
  * Champs : latitude, longitude, date_releve, altitude_m, type_surface,
- *   etat_surface, friction, longueur_utile_m, pente_max_pct, denivele_m,
- *   cap_moyen_deg, profil_relief, aeronef, capture, commentaire.
+ *   etat_surface, vitesse_toucher_kt, distance_roulage_m, friction,
+ *   pente_max_pct, denivele_m, cap_moyen_deg, profil_relief, aeronef,
+ *   capture, commentaire.
  */
 class ReleveController
 {
