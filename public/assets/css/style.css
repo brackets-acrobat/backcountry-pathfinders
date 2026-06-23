@@ -335,6 +335,13 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
 .commentaire-head { font-size: .9rem; display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
 .commentaire-texte { margin: .3rem 0 0; }
 
+/* Commentaires des pilotes (« Commentaire de {pseudo} » + note/difficulté) */
+.avis-list { list-style: none; padding: 0; margin: 0; }
+.avis-pilote { border-bottom: 1px solid var(--line); padding: .7rem 0; }
+.avis-head { font-size: .9rem; display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.avis-head .stars-avg { font-size: .9rem; }
+.avis-texte { margin: .3rem 0 0; }
+
 /* Avatar miniature (en-tête + commentaires) */
 .avatar-mini {
     width: 22px; height: 22px;
@@ -458,6 +465,17 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     font: inherit;
 }
 .lieu-rename-form input[type="text"]:focus { outline: none; border-color: var(--accent); }
+.lieu-rename-form textarea {
+    flex-basis: 100%;
+    padding: .5rem .7rem;
+    background: var(--panel-2);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font: inherit;
+    resize: vertical;
+}
+.lieu-rename-form textarea:focus { outline: none; border-color: var(--accent); }
 
 /* ---- Navigation : utilisateur connecté ---- */
 /* Suit le même style de bouton que les autres liens de nav (voir .site-nav a). */

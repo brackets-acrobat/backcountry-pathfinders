@@ -47,6 +47,8 @@ return [
     'place.comments_heading' => 'Commentaires',
     'place.no_comments'      => 'Aucun commentaire pour le moment.',
     'place.deleted_user'     => 'Utilisateur supprimé',
+    'place.pilot_comments_heading' => 'Commentaires des pilotes',
+    'place.comment_by'       => 'Commentaire de',
     // Contribution (connecté) : noter + commenter
     'place.your_review'        => 'Votre avis',
     'place.rating_hint'        => 'Note d\'appréciation et difficulté du poser (1 à 5 étoiles).',
@@ -115,10 +117,12 @@ return [
     'myplaces.empty'       => 'Tu n\'as encore visité aucun lieu. Pose-toi quelque part et envoie un relevé depuis l\'application !',
     'myplaces.surveys'     => 'relevé(s)',
     'myplaces.last_visit'  => 'dernière visite :',
-    'myplaces.rename'      => 'Renommer ce lieu',
+    'myplaces.rename'      => 'Éditer ce lieu',
     'myplaces.rename_placeholder' => 'Nom du lieu',
+    'myplaces.comment_label' => 'Ton commentaire sur ce lieu',
+    'myplaces.comment_placeholder' => 'Ton commentaire sur ce lieu (conseils, dangers, météo…)',
     'myplaces.rename_save' => 'Enregistrer',
-    'myplaces.renamed'     => 'Le nom du lieu a été mis à jour.',
+    'myplaces.saved'       => 'Tes modifications ont été enregistrées.',
 
     // Espace compte / clés API
     'page.account.title'        => 'Mon compte',

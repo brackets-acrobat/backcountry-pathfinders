@@ -53,12 +53,15 @@ $csrf = View::e(Auth::jetonCsrf());
                                  aria-label="<?= View::e(t('myplaces.rename')) ?>">
                             <i class="ph-light ph-pencil-simple"></i>
                         </summary>
-                        <form method="post" action="<?= BASE_URL ?>/mes-lieux/renommer" class="lieu-rename-form">
+                        <form method="post" action="<?= BASE_URL ?>/mes-lieux/editer" class="lieu-rename-form">
                             <input type="hidden" name="csrf" value="<?= $csrf ?>">
                             <input type="hidden" name="id" value="<?= (int) $l['id'] ?>">
                             <input type="text" name="nom" maxlength="120"
                                    value="<?= View::e((string) ($l['nom'] ?? '')) ?>"
                                    placeholder="<?= View::e(t('myplaces.rename_placeholder')) ?>">
+                            <label class="sr-only" for="cmt-<?= (int) $l['id'] ?>"><?= t('myplaces.comment_label') ?></label>
+                            <textarea id="cmt-<?= (int) $l['id'] ?>" name="commentaire" rows="3" maxlength="2000"
+                                      placeholder="<?= View::e(t('myplaces.comment_placeholder')) ?>"><?= View::e((string) ($l['mon_commentaire'] ?? '')) ?></textarea>
                             <button type="submit" class="btn"><?= t('myplaces.rename_save') ?></button>
                         </form>
                     </details>

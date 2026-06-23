@@ -8,6 +8,7 @@ use App\Core\Auth;
 use App\Core\View;
 use App\Models\CleApi;
 use App\Models\Lieu;
+use App\Models\Note;
 use App\Models\Utilisateur;
 
 /*
@@ -52,19 +53,26 @@ class CompteController
         ]);
     }
 
-    /** Renommer un lieu visité par l'utilisateur (page « Mes lieux visités »). */
-    public function renommerLieu(): void
+    /**
+     * Éditer un lieu visité (page « Mes lieux visités ») : le nom (partagé) et
+     * le commentaire du pilote (personnel, dans notes). Réservé à un lieu où
+     * l'utilisateur a posé un relevé.
+     */
+    public function editerLieu(): void
     {
         $this->exigeConnexion();
         $id  = (int) ($_POST['id'] ?? 0);
         $nom = trim($_POST['nom'] ?? '');
+        $commentaire = trim($_POST['commentaire'] ?? '');
 
         if (!Auth::verifierCsrf($_POST['csrf'] ?? null)) {
             $this->flash('err', ['error.csrf']);
         } elseif (mb_strlen($nom) > 120) {
             $this->flash('err', ['error.place_name_length']);
         } elseif (Lieu::renommer($id, $nom, Auth::id())) {
-            $this->flash('ok', ['myplaces.renamed']);
+            // Autorisé (relevé posé sur ce lieu) : on enregistre aussi son commentaire.
+            Note::enregistrerCommentaire($id, Auth::id(), mb_substr($commentaire, 0, 2000));
+            $this->flash('ok', ['myplaces.saved']);
         } else {
             $this->flash('err', ['error.place_not_yours']);
         }

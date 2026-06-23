@@ -210,14 +210,16 @@ class Lieu
         $stmt = Database::pdo()->prepare(
             "SELECT l.id, l.nom, l.latitude, l.longitude, l.altitude_m,
                     COUNT(r.id) AS nb_releves,
-                    MAX(r.date_releve) AS derniere_visite
+                    MAX(r.date_releve) AS derniere_visite,
+                    n.commentaire AS mon_commentaire
              FROM lieux l
              JOIN releves r ON r.id_lieu = l.id AND r.id_utilisateur = :u
+             LEFT JOIN notes n ON n.id_lieu = l.id AND n.id_utilisateur = :u2
              WHERE l.statut = 'actif'
-             GROUP BY l.id, l.nom, l.latitude, l.longitude, l.altitude_m
+             GROUP BY l.id, l.nom, l.latitude, l.longitude, l.altitude_m, n.commentaire
              ORDER BY derniere_visite DESC"
         );
-        $stmt->execute(['u' => $idUtilisateur]);
+        $stmt->execute(['u' => $idUtilisateur, 'u2' => $idUtilisateur]);
 
         return $stmt->fetchAll();
     }

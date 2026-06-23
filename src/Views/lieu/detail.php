@@ -9,6 +9,7 @@ use App\Core\View;
  * @var array<string,mixed>             $lieu
  * @var array<string,mixed>             $agregats
  * @var array<int,array<string,mixed>>  $releves
+ * @var array<int,array<string,mixed>>  $avisPilotes
  * @var array<int,array<string,mixed>>  $commentaires
  * @var array{note:?int,difficulte:?int}|null $maNote
  * @var array{type:string,cle:string}|null    $flash
@@ -217,6 +218,29 @@ $couleurDifficulte = static function (float $d): string {
                     <?php if (($r['commentaire'] ?? '') !== ''): ?>
                         <p class="releve-note"><?= View::e((string) $r['commentaire']) ?></p>
                     <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <?php if ($avisPilotes !== []): ?>
+        <h2><?= t('place.pilot_comments_heading') ?></h2>
+        <ul class="avis-list">
+            <?php foreach ($avisPilotes as $a): ?>
+                <li class="avis-pilote">
+                    <div class="avis-head muted">
+                        <?php if (($a['avatar'] ?? '') !== ''): ?>
+                            <img class="avatar-mini" src="<?= BASE_URL ?>/uploads/<?= View::e((string) $a['avatar']) ?>" alt="">
+                        <?php endif; ?>
+                        <strong><?= t('place.comment_by') ?> <?= View::e((string) ($a['pseudo'] ?? t('place.deleted_user'))) ?></strong>
+                        <?php if ($a['note'] !== null): ?>
+                            · <span class="avis-note"><?= $etoiles((float) $a['note'], '', 0) ?></span>
+                        <?php endif; ?>
+                        <?php if ($a['difficulte'] !== null): ?>
+                            · <span class="avis-diff"><?= t('map.difficulty') ?> <?= $etoiles((float) $a['difficulte'], $couleurDifficulte((float) $a['difficulte']), 0) ?></span>
+                        <?php endif; ?>
+                    </div>
+                    <p class="avis-texte"><?= nl2br(View::e((string) $a['commentaire'])) ?></p>
                 </li>
             <?php endforeach; ?>
         </ul>

@@ -33,6 +33,46 @@ class Note
     }
 
     /**
+     * Enregistre (ou met à jour) le seul commentaire libre du pilote sur un lieu.
+     * Une chaîne vide efface le commentaire (NULL). N'affecte ni la note ni la
+     * difficulté ; crée la ligne notes si elle n'existe pas encore.
+     */
+    public static function enregistrerCommentaire(int $idLieu, int $idUtilisateur, ?string $commentaire): void
+    {
+        $commentaire = $commentaire !== null ? trim($commentaire) : '';
+        $valeur = $commentaire !== '' ? $commentaire : null;
+
+        $stmt = Database::pdo()->prepare(
+            "INSERT INTO notes (id_lieu, id_utilisateur, commentaire)
+             VALUES (:lieu, :user, :commentaire)
+             ON DUPLICATE KEY UPDATE commentaire = VALUES(commentaire)"
+        );
+        $stmt->execute(['lieu' => $idLieu, 'user' => $idUtilisateur, 'commentaire' => $valeur]);
+    }
+
+    /**
+     * Commentaires des pilotes sur un lieu (« Commentaire de {pseudo} »), avec
+     * leur note et difficulté éventuelles + pseudo/avatar de l'auteur.
+     * Seules les lignes portant un commentaire non vide sont renvoyées.
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public static function commentairesPourLieu(int $idLieu): array
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT n.note, n.difficulte, n.commentaire, n.date_creation,
+                    u.pseudo, u.avatar
+             FROM notes n
+             JOIN utilisateurs u ON u.id = n.id_utilisateur
+             WHERE n.id_lieu = :lieu AND n.commentaire IS NOT NULL AND n.commentaire <> ''
+             ORDER BY n.date_creation DESC"
+        );
+        $stmt->execute(['lieu' => $idLieu]);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Note existante d'un utilisateur sur un lieu (pour pré-remplir le formulaire), ou null.
      *
      * @return array{note:?int, difficulte:?int}|null

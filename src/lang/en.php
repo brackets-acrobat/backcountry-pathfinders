@@ -47,6 +47,8 @@ return [
     'place.comments_heading' => 'Comments',
     'place.no_comments'      => 'No comments yet.',
     'place.deleted_user'     => 'Deleted user',
+    'place.pilot_comments_heading' => 'Pilot comments',
+    'place.comment_by'       => 'Comment by',
     // Contribution (logged in): rate + comment
     'place.your_review'        => 'Your review',
     'place.rating_hint'        => 'Overall rating and landing difficulty (1 to 5 stars).',
@@ -115,10 +117,12 @@ return [
     'myplaces.empty'       => 'You haven\'t visited any place yet. Land somewhere and send a survey from the app!',
     'myplaces.surveys'     => 'survey(s)',
     'myplaces.last_visit'  => 'last visit:',
-    'myplaces.rename'      => 'Rename this place',
+    'myplaces.rename'      => 'Edit this place',
     'myplaces.rename_placeholder' => 'Place name',
+    'myplaces.comment_label' => 'Your comment about this place',
+    'myplaces.comment_placeholder' => 'Your comment about this place (tips, hazards, weather…)',
     'myplaces.rename_save' => 'Save',
-    'myplaces.renamed'     => 'The place name has been updated.',
+    'myplaces.saved'       => 'Your changes have been saved.',
 
     // Account area / API keys
     'page.account.title'        => 'My account',

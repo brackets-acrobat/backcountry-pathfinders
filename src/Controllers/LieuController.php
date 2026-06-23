@@ -41,6 +41,7 @@ class LieuController
             'lieu'         => $lieu,
             'agregats'     => Lieu::agregats($idLieu),
             'releves'      => Releve::parLieuAvecAuteur($idLieu),
+            'avisPilotes'  => Note::commentairesPourLieu($idLieu),
             'commentaires' => Commentaire::parLieu($idLieu),
             'maNote'       => Auth::estConnecte() ? Note::pourUtilisateur($idLieu, Auth::id()) : null,
             'flash'        => $flash,

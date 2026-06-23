@@ -166,6 +166,7 @@ CREATE TABLE IF NOT EXISTS notes (
     id_utilisateur INT UNSIGNED NOT NULL,
     note           TINYINT UNSIGNED NULL,                   -- 1..5 (appréciation générale)
     difficulte     TINYINT UNSIGNED NULL,                   -- 1..5 (difficulté du poser)
+    commentaire    TEXT NULL,                               -- commentaire libre du pilote sur le lieu (1 par pilote/lieu)
     date_creation  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uq_notes_lieu_user (id_lieu, id_utilisateur),
