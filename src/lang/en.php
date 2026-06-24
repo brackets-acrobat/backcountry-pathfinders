@@ -111,6 +111,7 @@ return [
     // Navigation (continued)
     'nav.account' => 'My account',
     'nav.my_places' => 'My visited places',
+    'nav.my_flights' => 'My flights',
 
     // My visited places
     'page.my_places.title' => 'My visited places',
@@ -131,7 +132,35 @@ return [
     'pilots.empty'      => 'No pilots yet.',
     'pilots.places'     => 'place(s)',
     'pilots.surveys'    => 'survey(s)',
+    'pilots.flights'    => 'flight(s)',
     'pilots.since'      => 'member since',
+    'pilots.back'       => 'Back to the pilots list',
+
+    // Public pilot profile
+    'profil.flights_heading' => 'Their flights',
+    'profil.no_flights'      => 'This pilot hasn\'t sent any flight yet.',
+
+    // My flights
+    'page.my_flights.title'   => 'My flights',
+    'myflights.heading'       => 'My flights',
+    'myflights.empty'         => 'You haven\'t sent any flight yet. Land somewhere and send your flight from the app!',
+    'myflights.delete'        => 'Delete this flight',
+    'myflights.delete_warn'   => 'The flight and its landings will be deleted. Shared places still visited by other pilots are kept; those left without any survey are removed. This cannot be undone.',
+    'myflights.delete_confirm' => 'Confirm deletion',
+    'myflights.deleted'       => 'The flight has been deleted.',
+
+    // Flight detail
+    'flight.detail_title' => 'Flight details',
+    'flight.back'         => 'Back to my flights',
+    'flight.no_route'     => 'Flight',
+    'flight.time'         => 'Flight time',
+    'flight.landings'     => 'landing(s)',
+    'flight.no_landings'  => 'No landing in this flight.',
+    'flight.landing_n'    => 'Landing {n}',
+    'flight.photo_alt'    => 'Landing screenshot',
+    'flight.touch_speed'  => 'Touchdown speed',
+    'flight.roll_dist'    => 'Roll',
+    'flight.see_place'    => 'View place',
 
     // Account area / API keys
     'page.account.title'        => 'My account',
@@ -185,6 +214,7 @@ return [
     'error.avatar_dims'      => 'Image too large (500 × 500 px max).',
     'error.place_name_length' => 'The place name cannot exceed 120 characters.',
     'error.place_not_yours'  => 'You can only rename a place you have visited.',
+    'error.flight_not_yours' => 'You can only delete one of your own flights.',
     'error.login_failed'     => 'Incorrect email or password.',
     'error.captcha'          => 'Anti-bot check failed, please try again.',
     'error.comment_empty'    => 'The comment cannot be empty.',

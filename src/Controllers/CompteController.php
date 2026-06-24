@@ -10,6 +10,7 @@ use App\Models\CleApi;
 use App\Models\Lieu;
 use App\Models\Note;
 use App\Models\Utilisateur;
+use App\Models\Vol;
 
 /*
  * Espace « Mon compte » : profil (pseudo, e-mail), mot de passe, avatar,
@@ -77,6 +78,37 @@ class CompteController
             $this->flash('err', ['error.place_not_yours']);
         }
         $this->rediriger('/mes-lieux');
+    }
+
+    /** Page « Mes vols » : les vols du pilote connecté. */
+    public function mesVols(): void
+    {
+        $this->exigeConnexion();
+
+        $flash = $_SESSION['compte_flash'] ?? null;
+        unset($_SESSION['compte_flash']);
+
+        (new View())->render('compte/mes-vols', [
+            'title' => t('page.my_flights.title'),
+            'vols'  => Vol::parUtilisateur(Auth::id()),
+            'flash' => $flash,
+        ]);
+    }
+
+    /** Suppression d'un de ses vols (efface aussi les lieux devenus vides). */
+    public function supprimerVol(): void
+    {
+        $this->exigeConnexion();
+        if (Auth::verifierCsrf($_POST['csrf'] ?? null)) {
+            if (Vol::supprimer((int) ($_POST['id'] ?? 0), Auth::id())) {
+                $this->flash('ok', ['myflights.deleted']);
+            } else {
+                $this->flash('err', ['error.flight_not_yours']);
+            }
+        } else {
+            $this->flash('err', ['error.csrf']);
+        }
+        $this->rediriger('/mes-vols');
     }
 
     /** Mise à jour du pseudo + e-mail. */

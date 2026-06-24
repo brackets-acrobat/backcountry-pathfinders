@@ -17,7 +17,7 @@ return [
     'lang.switch'  => 'Changer de langue',
 
     // Pied de page
-    'footer.tagline' => 'Backcountry Pathfinders community — relevés de lieux de poser MSFS 2024',
+    'footer.tagline' => 'Backcountry Pathfinders community — relevés de lieux d\'atterrissage MSFS 2024',
 
     // Libellés communs
     'common.email'    => 'E-mail',
@@ -26,7 +26,7 @@ return [
 
     // Page « Carte »
     'page.map.title'  => 'Carte des lieux',
-    'map.heading'     => 'Carte des lieux de poser',
+    'map.heading'     => 'Carte des lieux d\'atterrissage',
     'map.intro'       => 'Bienvenue sur le squelette du site communautaire. La carte interactive (Leaflet) et les fiches de lieux seront ajoutées dans les prochaines étapes.',
     'map.placeholder' => 'La carte s\'affichera ici',
     'map.loading'     => 'Chargement des lieux…',
@@ -52,7 +52,7 @@ return [
     'place.comment_by'       => 'Commentaire de',
     // Contribution (connecté) : noter + commenter
     'place.your_review'        => 'Votre avis',
-    'place.rating_hint'        => 'Note d\'appréciation et difficulté du poser (1 à 5 étoiles).',
+    'place.rating_hint'        => 'Note d\'appréciation et difficulté de l\'atterrissage (1 à 5 étoiles).',
     'place.save_rating'        => 'Enregistrer ma note',
     'place.add_comment'        => 'Ajouter un commentaire',
     'place.comment_placeholder' => 'Partage ton expérience sur ce lieu…',
@@ -69,7 +69,7 @@ return [
     'survey.friction'       => 'Friction',
     'survey.max_slope'      => 'Pente max',
     'survey.elevation_gain' => 'Dénivelé',
-    'survey.heading'        => 'Cap au poser',
+    'survey.heading'        => 'Cap à l\'atterrissage',
     'survey.aircraft'       => 'Aéronef',
     'survey.relief_profile' => 'Profil de relief',
     'survey.photo'          => 'Photo du spot',
@@ -111,6 +111,7 @@ return [
     // Navigation (suite)
     'nav.account' => 'Mon compte',
     'nav.my_places' => 'Mes lieux visités',
+    'nav.my_flights' => 'Mes vols',
 
     // Mes lieux visités
     'page.my_places.title' => 'Mes lieux visités',
@@ -131,7 +132,35 @@ return [
     'pilots.empty'      => 'Aucun pilote pour le moment.',
     'pilots.places'     => 'lieu(x)',
     'pilots.surveys'    => 'relevé(s)',
+    'pilots.flights'    => 'vol(s)',
     'pilots.since'      => 'membre depuis',
+    'pilots.back'       => 'Retour à la liste des pilotes',
+
+    // Profil public d'un pilote
+    'profil.flights_heading' => 'Ses vols',
+    'profil.no_flights'      => 'Ce pilote n\'a pas encore envoyé de vol.',
+
+    // Mes vols
+    'page.my_flights.title'   => 'Mes vols',
+    'myflights.heading'       => 'Mes vols',
+    'myflights.empty'         => 'Tu n\'as encore envoyé aucun vol. Pose-toi quelque part et envoie ton vol depuis l\'application !',
+    'myflights.delete'        => 'Supprimer ce vol',
+    'myflights.delete_warn'   => 'Le vol et ses atterrissages seront supprimés. Les lieux partagés encore visités par d\'autres pilotes sont conservés ; ceux qui n\'auraient plus aucun relevé sont effacés. Action irréversible.',
+    'myflights.delete_confirm' => 'Confirmer la suppression',
+    'myflights.deleted'       => 'Le vol a été supprimé.',
+
+    // Détail d'un vol
+    'flight.detail_title' => 'Détail du vol',
+    'flight.back'         => 'Retour à mes vols',
+    'flight.no_route'     => 'Vol',
+    'flight.time'         => 'Temps de vol',
+    'flight.landings'     => 'atterrissage(s)',
+    'flight.no_landings'  => 'Aucun atterrissage dans ce vol.',
+    'flight.landing_n'    => 'Atterrissage {n}',
+    'flight.photo_alt'    => 'Capture de l\'atterrissage',
+    'flight.touch_speed'  => 'Vitesse au toucher',
+    'flight.roll_dist'    => 'Roulage',
+    'flight.see_place'    => 'Voir le lieu',
 
     // Espace compte / clés API
     'page.account.title'        => 'Mon compte',
@@ -185,6 +214,7 @@ return [
     'error.avatar_dims'      => 'Image trop grande (500 × 500 px maximum).',
     'error.place_name_length' => 'Le nom du lieu ne peut pas dépasser 120 caractères.',
     'error.place_not_yours'  => 'Tu ne peux renommer qu\'un lieu que tu as visité.',
+    'error.flight_not_yours' => 'Tu ne peux supprimer qu\'un de tes propres vols.',
     'error.login_failed'     => 'E-mail ou mot de passe incorrect.',
     'error.captcha'          => 'Vérification anti-robot échouée, merci de réessayer.',
     'error.comment_empty'    => 'Le commentaire ne peut pas être vide.',

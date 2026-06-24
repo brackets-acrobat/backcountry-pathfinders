@@ -51,4 +51,5 @@ window.BCP = {
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"
         integrity="sha256-Hk4dIpcqOSb0hZjgyvFOP+cEmDXUKKNE/tT542ZbNQg="
         crossorigin=""></script>
+<script src="<?= asset('js/basemaps.js') ?>"></script>
 <script src="<?= asset('js/carte.js') ?>"></script>

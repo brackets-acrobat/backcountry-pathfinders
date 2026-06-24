@@ -13,12 +13,18 @@
                 zoomControl: true,
             }).setView([lat, lon], 13);
 
-            L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-                maxZoom: 17,
-                attribution:
-                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | ' +
-                    '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)',
-            }).addTo(map);
+            // Fonds de carte mutualisés (satellite Esri compris) + sélecteur ;
+            // reprend le choix mémorisé durablement, défaut OpenTopoMap.
+            if (window.BCPBasemaps) {
+                window.BCPBasemaps.attacher(map, { defaut: 'topo' });
+            } else {
+                L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 17,
+                    attribution:
+                        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | ' +
+                        '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)',
+                }).addTo(map);
+            }
 
             L.circleMarker([lat, lon], {
                 radius: 8, color: '#000', weight: 1,

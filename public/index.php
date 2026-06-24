@@ -67,9 +67,13 @@ $router = new Router();
 // Site web (pages HTML)
 $router->get('/', 'App\Controllers\CarteController@index');
 $router->get('/pilotes', 'App\Controllers\PiloteController@index');
+$router->get('/pilote/(\d+)', 'App\Controllers\PiloteController@profil');
 $router->get('/lieu/(\d+)', 'App\Controllers\LieuController@detail');
 $router->post('/lieu/(\d+)/commentaire', 'App\Controllers\LieuController@ajouterCommentaire');
 $router->post('/lieu/(\d+)/note', 'App\Controllers\LieuController@enregistrerNote');
+
+// Vols (consultation, réservée aux connectés)
+$router->get('/vol/(\d+)', 'App\Controllers\VolController@detail');
 
 // Données de la carte (JSON public)
 $router->get('/api/lieux', 'App\Controllers\CarteController@lieux');
@@ -91,14 +95,16 @@ $router->get('/deconnexion',  'App\Controllers\AuthController@deconnexion');
 $router->get('/compte',                 'App\Controllers\CompteController@index');
 $router->get('/mes-lieux',              'App\Controllers\CompteController@mesLieux');
 $router->post('/mes-lieux/editer',      'App\Controllers\CompteController@editerLieu');
+$router->get('/mes-vols',               'App\Controllers\CompteController@mesVols');
+$router->post('/mes-vols/supprimer',    'App\Controllers\CompteController@supprimerVol');
 $router->post('/compte/profil',         'App\Controllers\CompteController@majProfil');
 $router->post('/compte/motdepasse',     'App\Controllers\CompteController@majMotDePasse');
 $router->post('/compte/avatar',         'App\Controllers\CompteController@majAvatar');
 $router->post('/compte/cles',           'App\Controllers\CompteController@creerCle');
 $router->post('/compte/cles/supprimer', 'App\Controllers\CompteController@supprimerCle');
 
-// API desktop (JSON) — reçoit les relevés de l'appli, auth par clé API
-$router->post('/api/releve', 'App\Api\ReleveController@store');
+// API desktop (JSON) — reçoit un vol entier (posers groupés), auth par clé API
+$router->post('/api/vol', 'App\Api\VolController@store');
 
 // Page 404
 $router->set404(function () {

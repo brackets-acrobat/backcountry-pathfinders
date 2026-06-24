@@ -9,43 +9,16 @@
     var mapEl = document.getElementById('map');
     if (!mapEl || typeof L === 'undefined') { return; }
 
-    // --- Fonds de carte sélectionnables (menu déroulant en haut à droite) ---
-    var attrOsm = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
-    var attrCarto = ' &copy; <a href="https://carto.com/attributions">CARTO</a>';
-
-    var fonds = {
-        // Dark Matter : défaut, cohérent avec la charte noir/orange.
-        'Sombre': L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            maxZoom: 19, attribution: attrOsm + attrCarto,
-        }),
-        'Positron': L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            maxZoom: 19, attribution: attrOsm + attrCarto,
-        }),
-        'OpenStreetMap': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19, attribution: attrOsm,
-        }),
-        'OpenTopoMap': L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-            maxZoom: 17,
-            attribution: attrOsm + ' | &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)',
-        }),
-    };
-
-    var labels = (t.layers) || {};
-    var fondDefaut = fonds['Sombre'];
-
-    // Libellés affichés (traduits) → on garde les objets calques, on renomme les clés.
-    var fondsAffiches = {};
-    fondsAffiches[labels.dark || 'Sombre'] = fonds['Sombre'];
-    fondsAffiches[labels.positron || 'Positron'] = fonds['Positron'];
-    fondsAffiches[labels.osm || 'OpenStreetMap'] = fonds['OpenStreetMap'];
-    fondsAffiches[labels.topo || 'OpenTopoMap'] = fonds['OpenTopoMap'];
-
     var map = L.map(mapEl, {
         worldCopyJump: true,
-        layers: [fondDefaut],
     }).setView([46.6, 2.4], 5);
 
-    L.control.layers(fondsAffiches, null, { position: 'topright' }).addTo(map);
+    // Fonds de carte (satellite Esri compris) + sélecteur, mutualisés via
+    // basemaps.js. Choix mémorisé durablement, partagé avec les autres cartes.
+    var labels = (t.layers) || {};
+    if (window.BCPBasemaps) {
+        window.BCPBasemaps.attacher(map, { defaut: 'dark', labels: labels });
+    }
 
     // --- Couleur des marqueurs selon la surface dominante (codes MSFS) ---
     function couleurSurface(surface) {

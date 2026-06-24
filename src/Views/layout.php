@@ -55,6 +55,7 @@ $title = $title ?? 'Backcountry Pathfinders';
                         <li class="user-dropdown-head"><?= View::e((string) $u['pseudo']) ?></li>
                         <li><a href="<?= BASE_URL ?>/compte"><?= t('nav.account') ?></a></li>
                         <li><a href="<?= BASE_URL ?>/mes-lieux"><?= t('nav.my_places') ?></a></li>
+                        <li><a href="<?= BASE_URL ?>/mes-vols"><?= t('nav.my_flights') ?></a></li>
                         <li><a href="<?= BASE_URL ?>/deconnexion"><?= t('nav.logout') ?></a></li>
                     </ul>
                 </div>

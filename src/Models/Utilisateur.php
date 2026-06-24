@@ -116,7 +116,8 @@ class Utilisateur
         $stmt = Database::pdo()->query(
             "SELECT u.id, u.pseudo, u.avatar, u.date_inscription,
                     COUNT(r.id) AS nb_releves,
-                    COUNT(DISTINCT r.id_lieu) AS nb_lieux
+                    COUNT(DISTINCT r.id_lieu) AS nb_lieux,
+                    (SELECT COUNT(*) FROM vols v WHERE v.id_utilisateur = u.id) AS nb_vols
              FROM utilisateurs u
              LEFT JOIN releves r ON r.id_utilisateur = u.id
              GROUP BY u.id, u.pseudo, u.avatar, u.date_inscription

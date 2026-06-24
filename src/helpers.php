@@ -58,6 +58,27 @@ if (!function_exists('turnstile_widget')) {
     }
 }
 
+if (!function_exists('duree_vol')) {
+    /**
+     * Formate un temps de vol (secondes) en « 1 h 05 » / « 45 min », ou « — »
+     * si la durée est inconnue (null).
+     *
+     * @param int|float|string|null $secondes
+     */
+    function duree_vol($secondes): string
+    {
+        if ($secondes === null || $secondes === '') {
+            return '—';
+        }
+        $min = (int) round((float) $secondes / 60);
+        if ($min < 60) {
+            return $min . ' min';
+        }
+
+        return intdiv($min, 60) . ' h ' . str_pad((string) ($min % 60), 2, '0', STR_PAD_LEFT);
+    }
+}
+
 if (!function_exists('asset')) {
     /**
      * URL d'un fichier de public/assets/, versionnée par sa date de modification

@@ -720,3 +720,113 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     color: var(--muted);
     border-top: 1px solid var(--line);
 }
+
+/* ---- Vols : listes (« Mes vols », profil pilote) ---- */
+.vol-list { list-style: none; padding: 0; margin: 1rem 0 0; }
+.vol-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .3rem 1rem;
+    padding: .7rem .9rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin-bottom: .6rem;
+}
+.vol-item-main { text-decoration: none; display: flex; flex-direction: column; gap: .2rem; flex: 1 1 auto; }
+.vol-item-route { color: var(--title); font-weight: 700; }
+.vol-item-date { font-family: var(--mono); font-size: .85rem; }
+.vol-item-meta { font-size: .85rem; }
+
+/* Vol sur une seule ligne (profil pilote) : nom « DEP - ARR » + date · durée · posers */
+.vol-item-line {
+    text-decoration: none;
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .35rem 1rem;
+}
+.vol-item-name { color: var(--title); font-weight: 700; font-family: var(--mono); }
+.vol-item-infos {
+    margin-left: auto;            /* pousse date · durée · posers à droite */
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: .25rem 1rem;
+    font-size: .85rem;
+}
+.vol-item-infos > span { display: inline-flex; align-items: center; gap: .3rem; }
+
+/* ---- Vol : détail ---- */
+.vol-back { margin: 0 0 1rem; }
+.vol-head { margin-bottom: 1.25rem; }
+.vol-head h1 { margin: 0 0 .5rem; }
+.vol-head-meta {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-wrap: wrap; gap: .35rem 1.25rem;
+    color: var(--muted); font-size: .9rem;
+}
+.vol-head-meta li { display: inline-flex; align-items: center; gap: .35rem; }
+
+.atterrissage-list { list-style: none; padding: 0; margin: 0; counter-reset: none; }
+.atterrissage-item {
+    display: flex; flex-direction: column; gap: .6rem;
+    padding: .9rem; margin-bottom: 1rem;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+}
+/* Capture du poser : réduite à 854 × 480 px (16:9), responsive en deçà. */
+.att-photo { display: block; line-height: 0; }
+.att-photo img {
+    width: 854px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 854 / 480;
+    object-fit: contain;
+    background: #000;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+}
+.att-nophoto {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 854px; max-width: 100%; aspect-ratio: 854 / 480;
+    background: var(--panel-2); color: var(--muted); border-radius: 6px;
+    font-size: 2rem;
+}
+.att-info { display: flex; flex-direction: column; gap: .25rem; }
+.att-title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .25rem 1rem;
+}
+.att-title { color: var(--title); font-weight: 700; }
+/* Coordonnées GPS + type de terrain, alignés à droite du titre « Poser N » */
+.att-head-right {
+    margin-left: auto;
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: .25rem 1rem;
+    font-size: .88rem;
+}
+.att-head-right > span { display: inline-flex; align-items: center; gap: .3rem; }
+.att-row { font-size: .88rem; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+.att-actions { margin-top: .35rem; }
+
+/* ---- Profil pilote ---- */
+.profil-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
+.profil-head h1 { margin: 0; }
+.profil-stats { margin: .25rem 0 0; font-size: .9rem; display: flex; flex-wrap: wrap; gap: .35rem .75rem; }
+.avatar-profil { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+
+/* Suppression d'un vol (toggle <details>) */
+.vol-delete { margin-top: .3rem; }
+.vol-delete-detail { margin-top: 1.5rem; }
+.vol-delete-toggle { list-style: none; cursor: pointer; color: var(--danger); }
+.vol-delete-toggle::-webkit-details-marker { display: none; }
+.vol-delete-form { margin-top: .6rem; }
+.vol-delete-form .muted { max-width: 60ch; line-height: 1.5; }
