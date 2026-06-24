@@ -66,6 +66,7 @@ $router = new Router();
 
 // Site web (pages HTML)
 $router->get('/', 'App\Controllers\CarteController@index');
+$router->get('/pilotes', 'App\Controllers\PiloteController@index');
 $router->get('/lieu/(\d+)', 'App\Controllers\LieuController@detail');
 $router->post('/lieu/(\d+)/commentaire', 'App\Controllers\LieuController@ajouterCommentaire');
 $router->post('/lieu/(\d+)/note', 'App\Controllers\LieuController@enregistrerNote');

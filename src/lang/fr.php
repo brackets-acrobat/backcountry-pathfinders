@@ -10,6 +10,7 @@ declare(strict_types=1);
 return [
     // Navigation
     'nav.map'      => 'Carte',
+    'nav.pilots'   => 'Liste des pilotes',
     'nav.login'    => 'Connexion',
     'nav.register' => 'Inscription',
     'nav.logout'   => 'Déconnexion',
@@ -123,6 +124,14 @@ return [
     'myplaces.comment_placeholder' => 'Ton commentaire sur ce lieu (conseils, dangers, météo…)',
     'myplaces.rename_save' => 'Enregistrer',
     'myplaces.saved'       => 'Tes modifications ont été enregistrées.',
+
+    // Liste des pilotes
+    'page.pilots.title' => 'Pilotes',
+    'pilots.heading'    => 'Liste des pilotes',
+    'pilots.empty'      => 'Aucun pilote pour le moment.',
+    'pilots.places'     => 'lieu(x)',
+    'pilots.surveys'    => 'relevé(s)',
+    'pilots.since'      => 'membre depuis',
 
     // Espace compte / clés API
     'page.account.title'        => 'Mon compte',

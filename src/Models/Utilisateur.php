@@ -104,6 +104,28 @@ class Utilisateur
         return $stmt->fetchColumn() !== false;
     }
 
+    /**
+     * Liste des pilotes (membres) avec leurs statistiques de contribution :
+     * nombre de relevés et nombre de lieux distincts visités. Les plus actifs
+     * d'abord, puis par pseudo.
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public static function tousAvecStats(): array
+    {
+        $stmt = Database::pdo()->query(
+            "SELECT u.id, u.pseudo, u.avatar, u.date_inscription,
+                    COUNT(r.id) AS nb_releves,
+                    COUNT(DISTINCT r.id_lieu) AS nb_lieux
+             FROM utilisateurs u
+             LEFT JOIN releves r ON r.id_utilisateur = u.id
+             GROUP BY u.id, u.pseudo, u.avatar, u.date_inscription
+             ORDER BY nb_releves DESC, u.pseudo ASC"
+        );
+
+        return $stmt->fetchAll();
+    }
+
     /** Met à jour le pseudo + l'e-mail. Le pseudo se répercute partout (jointures). */
     public static function majProfil(int $id, string $pseudo, string $email): void
     {

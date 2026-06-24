@@ -10,6 +10,7 @@ declare(strict_types=1);
 return [
     // Navigation
     'nav.map'      => 'Map',
+    'nav.pilots'   => 'Pilots list',
     'nav.login'    => 'Log in',
     'nav.register' => 'Sign up',
     'nav.logout'   => 'Log out',
@@ -123,6 +124,14 @@ return [
     'myplaces.comment_placeholder' => 'Your comment about this place (tips, hazards, weather…)',
     'myplaces.rename_save' => 'Save',
     'myplaces.saved'       => 'Your changes have been saved.',
+
+    // Pilots list
+    'page.pilots.title' => 'Pilots',
+    'pilots.heading'    => 'Pilots',
+    'pilots.empty'      => 'No pilots yet.',
+    'pilots.places'     => 'place(s)',
+    'pilots.surveys'    => 'survey(s)',
+    'pilots.since'      => 'member since',
 
     // Account area / API keys
     'page.account.title'        => 'My account',

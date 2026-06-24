@@ -70,15 +70,25 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     flex-wrap: wrap;
     gap: .55rem;
 }
+/* Groupe de gauche : bouton « Carte » à gauche du logo, sur la même ligne. */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 .brand {
     color: var(--accent);
     text-decoration: none;
     font-weight: 700;
     font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
 }
+.brand img { display: block; }
 /* Liens de nav stylés en boutons (sauf le toggle de langue) :
    repos = contour vert #3AF24B sur fond #121212 ; survol = contour + fond #57D53B. */
-.site-nav a:not(.lang-toggle) {
+.site-nav a:not(.lang-toggle),
+.header-left a:not(.brand) {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -94,7 +104,9 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     transition: border-color .2s ease, background-color .2s ease, color .2s ease;
 }
 .site-nav a:not(.lang-toggle):hover,
-.site-nav a:not(.lang-toggle):focus-visible {
+.site-nav a:not(.lang-toggle):focus-visible,
+.header-left a:not(.brand):hover,
+.header-left a:not(.brand):focus-visible {
     border-color: var(--accent-hover);  /* #57D53B */
     background-color: var(--accent-hover);
     color: #0c1a0c;                      /* texte sombre lisible sur le vert */
@@ -432,6 +444,28 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
 }
 .lieu-item-main { text-decoration: none; display: flex; flex-direction: column; gap: .2rem; }
 .lieu-item-nom { color: var(--title); font-weight: 700; }
+/* --- Liste des pilotes --- */
+.pilote-list { list-style: none; padding: 0; margin: 1rem 0 0; }
+.pilote-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .3rem 1rem;
+    padding: .7rem .9rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin-bottom: .6rem;
+}
+.pilote-ident { display: inline-flex; align-items: center; gap: .5rem; }
+.pilote-ident strong { color: var(--title); }
+.pilote-meta { font-size: .85rem; }
+.avatar-mini.avatar-none {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--panel-2); color: var(--muted);
+}
+
 .lieu-item-main { flex: 1 1 auto; }
 .lieu-item-coords { font-family: var(--mono); color: var(--accent); font-size: .85rem; }
 .lieu-item-meta { font-size: .85rem; }

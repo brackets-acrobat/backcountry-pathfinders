@@ -22,9 +22,14 @@ $title = $title ?? 'Backcountry Pathfinders';
 </head>
 <body>
     <header class="site-header">
-        <a class="brand" href="<?= BASE_URL ?>/"><i class="ph-light ph-mountains"></i> Backcountry Pathfinders</a>
-        <nav class="site-nav">
+        <div class="header-left">
+            <a class="brand" href="<?= BASE_URL ?>/">
+                <img src="<?= asset('img/bpcom.png') ?>" alt="Backcountry Pathfinders">
+            </a>
+            <a href="<?= BASE_URL ?>/pilotes"><?= t('nav.pilots') ?></a>
             <a href="<?= BASE_URL ?>/"><?= t('nav.map') ?></a>
+        </div>
+        <nav class="site-nav">
             <?php if (!Auth::estConnecte()): ?>
                 <a href="<?= BASE_URL ?>/connexion"><?= t('nav.login') ?></a>
                 <a href="<?= BASE_URL ?>/inscription"><?= t('nav.register') ?></a>
