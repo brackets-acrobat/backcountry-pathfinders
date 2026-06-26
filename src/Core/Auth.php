@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use App\Core\Database;
+
 /*
  * Gestion de la session et de l'utilisateur connecté + protection CSRF.
  * On ne stocke en session que l'essentiel (id, pseudo, rôle), jamais le hash.
@@ -28,6 +30,18 @@ class Auth
             'role'   => $utilisateur['role'],
             'avatar' => $utilisateur['avatar'] ?? null,
         ];
+
+        // Enregistre l'IP de connexion (utilisée pour le bannissement par IP depuis /admin).
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+        if ($ip !== '') {
+            try {
+                Database::pdo()
+                    ->prepare('UPDATE utilisateurs SET ip_derniere_connexion = ? WHERE id = ?')
+                    ->execute([$ip, (int) $utilisateur['id']]);
+            } catch (\Throwable) {
+                // Colonne absente si migration pas encore appliquée : on ignore silencieusement.
+            }
+        }
     }
 
     /** Met à jour les infos de l'utilisateur en session (après édition du profil). */

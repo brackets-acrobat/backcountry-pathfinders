@@ -1160,6 +1160,85 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     .activite-date { width: 100%; padding-left: 2.1rem; }
 }
 
+/* ---- Actions admin sur les items d'activité ---- */
+.activite-actions { flex: 0 0 auto; display: flex; gap: .3rem; }
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    padding: .25rem .35rem;
+    font-size: 1rem;
+    line-height: 1;
+    transition: color .15s, border-color .15s;
+}
+.btn-icon:hover { color: var(--danger); border-color: var(--danger); }
+
+/* Variante danger pour les boutons de suppression/bannissement */
+.btn-danger {
+    color: #fff;
+    background: var(--danger);
+    border-color: var(--danger);
+}
+.btn-danger:hover,
+.btn-danger:focus-visible {
+    background: #ff1744;
+    border-color: #ff1744;
+    box-shadow: 0 3px 10px rgba(255, 82, 82, .4);
+}
+
+/* ---- Modale de confirmation admin ---- */
+.admin-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .65);
+    z-index: 900;
+    align-items: center;
+    justify-content: center;
+}
+.admin-modal-overlay.is-open { display: flex; }
+
+.admin-modal {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    max-width: 440px;
+    width: 92%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .6);
+}
+.admin-modal h3 { margin: 0 0 .6rem; color: var(--title); font-size: 1.1rem; }
+.admin-modal p  { margin: 0 0 .75rem; font-size: .93rem; color: var(--ink); }
+
+.admin-modal-warning {
+    color: #ffb74d;
+    font-size: .87rem;
+    padding: .4rem .7rem;
+    background: rgba(255, 183, 77, .08);
+    border-left: 3px solid #ffb74d;
+    border-radius: 4px;
+}
+.admin-modal-cascade {
+    color: var(--muted);
+    font-size: .87rem;
+    font-style: italic;
+}
+
+.admin-modal-actions {
+    display: flex;
+    gap: .6rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 1.1rem;
+}
+.admin-modal-actions form { display: contents; }
+
 /* ---- Accordéon « Utilisateur » (dans le hamburger) ---- */
 .nav-acc-summary {
     list-style: none;
@@ -1241,3 +1320,81 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     .nav-panel .user-menu { display: none; }
     .nav-panel .nav-acc { display: block; }
 }
+
+/* ============================================================
+   Page « Présentation » (À propos)
+   ============================================================ */
+.presentation {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 3rem;
+}
+.presentation-title {
+    color: var(--title);
+    font-size: 2rem;
+    letter-spacing: -.02em;
+    margin: 0 0 1.5rem;
+}
+.presentation-body h2 {
+    color: var(--title);
+    font-size: 1.25rem;
+    letter-spacing: -.01em;
+    margin: 2rem 0 .6rem;
+}
+.presentation-body p {
+    color: var(--ink);
+    line-height: 1.65;
+    margin: 0 0 .9rem;
+}
+.presentation-list {
+    list-style: none;
+    padding: 0;
+    margin: .5rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .65rem;
+}
+.presentation-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    color: var(--ink);
+    line-height: 1.55;
+    padding: .7rem .9rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+.presentation-list li > i {
+    flex: 0 0 auto;
+    font-size: 1.3rem;
+    margin-top: .1rem;
+}
+.presentation-quote {
+    margin: .5rem 0 1rem;
+    padding: .9rem 1.1rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+.presentation-quote p {
+    margin: 0 0 .4rem;
+    color: var(--title);
+    font-weight: 600;
+}
+.presentation-quote p:last-child { margin-bottom: 0; }
+.presentation-punch {
+    font-size: 1.1rem;
+    color: var(--title);
+    font-weight: 600;
+}
+.presentation-cta { margin-top: 1.5rem; }
+
+/* Lien « En savoir plus » sous la signature de la lettre d'accueil */
+.home-letter-cta { margin-top: 1rem; }
+.home-letter-cta a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+.home-letter-cta a:hover { color: var(--accent-hover); text-decoration: underline; }

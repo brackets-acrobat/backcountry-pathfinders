@@ -11,6 +11,9 @@
         <p><?= t('home.letter_p2') ?></p>
         <p class="home-letter-bye"><?= t('home.letter_bye') ?></p>
         <p class="home-letter-sign">— Jim « Ridge » Vance</p>
+        <p class="home-letter-cta">
+            <a href="<?= BASE_URL ?>/presentation"><?= t('home.presentation_link') ?></a>
+        </p>
     </div>
 
     <img class="home-polaroid"

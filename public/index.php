@@ -22,6 +22,7 @@ require $autoload;
 require dirname(__DIR__) . '/src/helpers.php';   // fonctions globales (t(), …)
 
 use App\Core\View;
+use App\Models\IpBannie;
 use Bramus\Router\Router;
 
 // --- Configuration ---
@@ -58,6 +59,23 @@ if (App\Core\Auth::estConnecte() && App\Models\Utilisateur::parId(App\Core\Auth:
     App\Core\Auth::deconnecter();
 }
 
+// Vérification des IP bannies (bloquées avant le routage, sauf admins connectés).
+if (!App\Core\Auth::estAdmin()) {
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    if ($ip !== '') {
+        try {
+            if (IpBannie::estBannie($ip)) {
+                http_response_code(403);
+                App\Core\Lang::initialiser();
+                (new View())->render('errors/403', ['title' => t('error403.heading')]);
+                exit;
+            }
+        } catch (\Throwable) {
+            // Table ip_bannies absente si migration pas encore jouée : on laisse passer.
+        }
+    }
+}
+
 // --- Langue (FR/EN) ---
 App\Core\Lang::initialiser();
 
@@ -67,6 +85,7 @@ $router = new Router();
 // Site web (pages HTML)
 $router->get('/', 'App\Controllers\AccueilController@index');
 $router->get('/carte', 'App\Controllers\CarteController@index');
+$router->get('/presentation', 'App\Controllers\PresentationController@index');
 $router->get('/pilotes', 'App\Controllers\PiloteController@index');
 $router->get('/pilote/(\d+)', 'App\Controllers\PiloteController@profil');
 $router->get('/lieu/(\d+)', 'App\Controllers\LieuController@detail');
@@ -79,6 +98,12 @@ $router->get('/vol/(\d+)', 'App\Controllers\VolController@detail');
 
 // Administration (réservée au rôle admin)
 $router->get('/admin', 'App\Controllers\AdminController@index');
+$router->post('/admin/vol/(\d+)/supprimer',         'App\Controllers\AdminController@supprimerVol');
+$router->post('/admin/lieu/(\d+)/supprimer',        'App\Controllers\AdminController@supprimerLieu');
+$router->post('/admin/commentaire/(\d+)/supprimer', 'App\Controllers\AdminController@supprimerCommentaire');
+$router->post('/admin/note/(\d+)/supprimer',        'App\Controllers\AdminController@supprimerNote');
+$router->post('/admin/pilote/(\d+)/supprimer',      'App\Controllers\AdminController@supprimerPilote');
+$router->post('/admin/pilote/(\d+)/bannir',         'App\Controllers\AdminController@bannirPilote');
 
 // Données de la carte (JSON public)
 $router->get('/api/lieux', 'App\Controllers\CarteController@lieux');

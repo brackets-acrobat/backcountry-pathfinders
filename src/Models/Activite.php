@@ -17,7 +17,9 @@ class Activite
      * Derniers événements, tous types confondus.
      *
      * Chaque ligne : type, quand (datetime), acteur (pseudo), acteur_id (id du
-     * pilote ou null), libelle (cible), ref (id pour le lien selon le type).
+     * pilote ou null), libelle (cible), ref (id pour le lien selon le type),
+     * id_entite (id réel de la ligne pour les opérations admin : = ref pour
+     * membre/vol/lieu, = id propre pour commentaire/note).
      *
      * @param string|null $type Filtre par type d'événement (membre|vol|lieu|
      *                          commentaire|note) ; null = tous.
@@ -27,27 +29,34 @@ class Activite
     {
         $limite = max(1, min(200, $limite));
 
-        // Chaque branche produit les mêmes colonnes ; on filtre en n'incluant
-        // que la branche demandée, sinon on fusionne tout (UNION ALL).
         $branches = [
             'membre' =>
                 "(SELECT 'membre' AS type, u.date_inscription AS quand,
-                         u.pseudo AS acteur, u.id AS acteur_id, NULL AS libelle, u.id AS ref
+                         u.pseudo AS acteur, u.id AS acteur_id, NULL AS libelle,
+                         u.id AS ref, u.id AS id_entite
                   FROM utilisateurs u)",
             'vol' =>
-                "(SELECT 'vol' AS type, v.date_creation AS quand, us.pseudo AS acteur, us.id AS acteur_id,
-                         CONCAT(COALESCE(v.depart_icao, '????'), ' \xe2\x86\x92 ', COALESCE(v.arrivee_icao, '????')) AS libelle, v.id AS ref
+                "(SELECT 'vol' AS type, v.date_creation AS quand,
+                         us.pseudo AS acteur, us.id AS acteur_id,
+                         CONCAT(COALESCE(v.depart_icao, '????'), ' \xe2\x86\x92 ', COALESCE(v.arrivee_icao, '????')) AS libelle,
+                         v.id AS ref, v.id AS id_entite
                   FROM vols v JOIN utilisateurs us ON us.id = v.id_utilisateur)",
             'lieu' =>
-                "(SELECT 'lieu' AS type, l.date_creation AS quand, cr.pseudo AS acteur, cr.id AS acteur_id, l.nom AS libelle, l.id AS ref
+                "(SELECT 'lieu' AS type, l.date_creation AS quand,
+                         cr.pseudo AS acteur, cr.id AS acteur_id, l.nom AS libelle,
+                         l.id AS ref, l.id AS id_entite
                   FROM lieux l LEFT JOIN utilisateurs cr ON cr.id = l.id_createur)",
             'commentaire' =>
-                "(SELECT 'commentaire' AS type, c.date_creation AS quand, uc.pseudo AS acteur, uc.id AS acteur_id, lc.nom AS libelle, c.id_lieu AS ref
+                "(SELECT 'commentaire' AS type, c.date_creation AS quand,
+                         uc.pseudo AS acteur, uc.id AS acteur_id, lc.nom AS libelle,
+                         c.id_lieu AS ref, c.id AS id_entite
                   FROM commentaires c
                   LEFT JOIN utilisateurs uc ON uc.id = c.id_utilisateur
                   JOIN lieux lc ON lc.id = c.id_lieu)",
             'note' =>
-                "(SELECT 'note' AS type, n.date_creation AS quand, un.pseudo AS acteur, un.id AS acteur_id, ln.nom AS libelle, n.id_lieu AS ref
+                "(SELECT 'note' AS type, n.date_creation AS quand,
+                         un.pseudo AS acteur, un.id AS acteur_id, ln.nom AS libelle,
+                         n.id_lieu AS ref, n.id AS id_entite
                   FROM notes n
                   JOIN utilisateurs un ON un.id = n.id_utilisateur
                   JOIN lieux ln ON ln.id = n.id_lieu)",

@@ -31,6 +31,7 @@ $title = $title ?? 'Backcountry Pathfinders';
             <div class="header-left">
                 <a href="<?= BASE_URL ?>/pilotes"><?= t('nav.pilots') ?></a>
                 <a href="<?= BASE_URL ?>/carte"><?= t('nav.map') ?></a>
+                <a href="<?= BASE_URL ?>/presentation"><?= t('nav.presentation') ?></a>
             </div>
             <nav class="site-nav">
                 <?php if (!Auth::estConnecte()): ?>
