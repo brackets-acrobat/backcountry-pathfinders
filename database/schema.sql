@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     avatar           VARCHAR(120) NULL,                     -- nom de fichier dans storage/uploads (avatar_{id}.webp)
     mot_de_passe     VARCHAR(255) NOT NULL,                 -- hash bcrypt (password_hash)
     role             ENUM('membre','moderateur','admin') NOT NULL DEFAULT 'membre',
+    totp_secret      VARCHAR(64) NULL,                      -- secret Base32 de double authentification (TOTP)
+    totp_actif       TINYINT(1) NOT NULL DEFAULT 0,         -- 2FA activée (réservée aux admins)
     date_inscription DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uq_utilisateurs_pseudo (pseudo),

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Auth;
+use App\Core\Moderation;
 use App\Core\View;
 
 /** @var array<int,array<string,mixed>> $lieux */
@@ -61,7 +62,7 @@ $csrf = View::e(Auth::jetonCsrf());
                                    placeholder="<?= View::e(t('myplaces.rename_placeholder')) ?>">
                             <label class="sr-only" for="cmt-<?= (int) $l['id'] ?>"><?= t('myplaces.comment_label') ?></label>
                             <textarea id="cmt-<?= (int) $l['id'] ?>" name="commentaire" rows="3" maxlength="2000"
-                                      placeholder="<?= View::e(t('myplaces.comment_placeholder')) ?>"><?= View::e((string) ($l['mon_commentaire'] ?? '')) ?></textarea>
+                                      placeholder="<?= View::e(t('myplaces.comment_placeholder')) ?>"><?= View::e(Moderation::afficher($l['mon_commentaire'] ?? null)) ?></textarea>
                             <button type="submit" class="btn"><?= t('myplaces.rename_save') ?></button>
                         </form>
                     </details>

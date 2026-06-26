@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Core\Database;
+use App\Core\Moderation;
 
 /*
  * Note d'un lieu : appréciation + difficulté, une seule par utilisateur et
@@ -40,7 +41,7 @@ class Note
     public static function enregistrerCommentaire(int $idLieu, int $idUtilisateur, ?string $commentaire): void
     {
         $commentaire = $commentaire !== null ? trim($commentaire) : '';
-        $valeur = $commentaire !== '' ? $commentaire : null;
+        $valeur = $commentaire !== '' ? Moderation::filtreCommentaire($commentaire) : null;
 
         $stmt = Database::pdo()->prepare(
             "INSERT INTO notes (id_lieu, id_utilisateur, commentaire)
@@ -93,5 +94,17 @@ class Note
             'note'       => $n['note'] !== null ? (int) $n['note'] : null,
             'difficulte' => $n['difficulte'] !== null ? (int) $n['difficulte'] : null,
         ];
+    }
+
+    /** Commentaire libre existant d'un utilisateur sur un lieu (pré-remplissage), ou null. */
+    public static function commentairePourUtilisateur(int $idLieu, int $idUtilisateur): ?string
+    {
+        $stmt = Database::pdo()->prepare(
+            "SELECT commentaire FROM notes WHERE id_lieu = :lieu AND id_utilisateur = :user"
+        );
+        $stmt->execute(['lieu' => $idLieu, 'user' => $idUtilisateur]);
+        $c = $stmt->fetchColumn();
+
+        return ($c === false || $c === null || $c === '') ? null : (string) $c;
     }
 }

@@ -8,6 +8,7 @@ use App\Core\Database;
 use App\Core\Geo;
 use App\Core\Geocodage;
 use App\Core\Lang;
+use App\Core\Moderation;
 
 /*
  * Lieu de poser, dédupliqué par coordonnées.
@@ -64,6 +65,7 @@ class Lieu
         ?int $altitudeM = null,
         ?string $nom = null
     ): int {
+        $nom = Moderation::filtreNomLieu($nom);   // nom injurieux → NULL (« Lieu sans nom »)
         $geo = Geocodage::inverse($lat, $lon);
 
         $stmt = Database::pdo()->prepare(
@@ -237,11 +239,21 @@ class Lieu
 
         $nom = $nom !== null ? trim($nom) : '';
         $valeur = $nom !== '' ? mb_substr($nom, 0, 120) : null;
+        $valeur = Moderation::filtreNomLieu($valeur);   // nom injurieux → NULL (« Lieu sans nom »)
 
         $stmt = Database::pdo()->prepare("UPDATE lieux SET nom = :nom WHERE id = :id");
         $stmt->execute(['nom' => $valeur, 'id' => $id]);
 
         return true;
+    }
+
+    /**
+     * Vrai si l'utilisateur peut éditer ce lieu (nom + commentaire), c.-à-d.
+     * s'il y a posé au moins un relevé. Variante publique de visitePar().
+     */
+    public static function peutEditer(int $id, int $idUtilisateur): bool
+    {
+        return self::visitePar($id, $idUtilisateur);
     }
 
     /** Vrai si l'utilisateur a posé au moins un relevé sur ce lieu. */

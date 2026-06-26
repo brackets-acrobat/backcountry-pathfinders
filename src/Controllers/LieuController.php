@@ -44,8 +44,35 @@ class LieuController
             'avisPilotes'  => Note::commentairesPourLieu($idLieu),
             'commentaires' => Commentaire::parLieu($idLieu),
             'maNote'       => Auth::estConnecte() ? Note::pourUtilisateur($idLieu, Auth::id()) : null,
+            'peutEditer'   => Auth::estConnecte() && Lieu::peutEditer($idLieu, Auth::id()),
+            'monCommentaire' => Auth::estConnecte() ? Note::commentairePourUtilisateur($idLieu, Auth::id()) : null,
             'flash'        => $flash,
         ]);
+    }
+
+    /** POST : édite le nom et le commentaire du lieu (connecté + CSRF + relevé posé). */
+    public function editer(string $id): void
+    {
+        $idLieu = $this->lieuActifOuRedirige($id);
+
+        if (!Auth::verifierCsrf($_POST['csrf'] ?? null)) {
+            $this->flashEtRetour($idLieu, 'error', 'error.csrf');
+        }
+
+        $nom = trim((string) ($_POST['nom'] ?? ''));
+        if (mb_strlen($nom) > 120) {
+            $this->flashEtRetour($idLieu, 'error', 'error.place_name_length');
+        }
+
+        // renommer() vérifie aussi la propriété (relevé posé sur ce lieu).
+        if (!Lieu::renommer($idLieu, $nom, Auth::id())) {
+            $this->flashEtRetour($idLieu, 'error', 'error.place_not_yours');
+        }
+
+        $commentaire = trim((string) ($_POST['commentaire'] ?? ''));
+        Note::enregistrerCommentaire($idLieu, Auth::id(), mb_substr($commentaire, 0, self::COMMENTAIRE_MAX));
+
+        $this->flashEtRetour($idLieu, 'success', 'myplaces.saved');
     }
 
     /** POST : ajoute un commentaire au fil du lieu (connecté + CSRF). */

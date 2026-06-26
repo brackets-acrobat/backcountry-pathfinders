@@ -76,6 +76,11 @@ class ConnexionPersistante
 
         $u = Utilisateur::parId((int) $ligne['id_utilisateur']);
         if ($u !== null) {
+            // Les administrateurs ne sont jamais reconnectés automatiquement :
+            // ils doivent repasser par la connexion complète + double authentification.
+            if (($u['role'] ?? '') === 'admin') {
+                return;
+            }
             Auth::connecter($u);   // recrée la session
         } else {
             self::supprimerParSelecteur($selecteur);

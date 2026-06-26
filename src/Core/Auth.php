@@ -54,6 +54,13 @@ class Auth
         return isset($_SESSION['utilisateur']);
     }
 
+    /** Vrai si l'utilisateur connecté a le rôle administrateur. */
+    public static function estAdmin(): bool
+    {
+        return isset($_SESSION['utilisateur'])
+            && ($_SESSION['utilisateur']['role'] ?? '') === 'admin';
+    }
+
     /** @return array<string,mixed>|null */
     public static function utilisateur(): ?array
     {

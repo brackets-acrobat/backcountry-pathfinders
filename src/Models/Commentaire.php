@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Core\Database;
+use App\Core\Moderation;
 
 /*
  * Commentaire : fil de discussion communautaire attaché à un lieu.
@@ -14,6 +15,8 @@ class Commentaire
     /** Ajoute un commentaire à un lieu et renvoie son id. */
     public static function ajouter(int $idLieu, int $idUtilisateur, string $texte): int
     {
+        $texte = Moderation::filtreCommentaire($texte);   // commentaire injurieux → « Commentaire modéré »
+
         $stmt = Database::pdo()->prepare(
             "INSERT INTO commentaires (id_lieu, id_utilisateur, texte)
              VALUES (:lieu, :user, :texte)"

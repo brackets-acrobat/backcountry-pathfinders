@@ -25,6 +25,11 @@ use App\Core\View;
                 · <?= t('pilots.since') ?> <?= View::e(substr((string) $pilote['date_inscription'], 0, 10)) ?>
             </p>
         </div>
+
+        <aside class="profil-awards">
+            <h2 class="profil-awards-title"><i class="ph-light ph-medal"></i> <?= t('profil.awards') ?></h2>
+            <div class="profil-awards-body"></div>
+        </aside>
     </header>
 
     <h2><?= t('profil.flights_heading') ?></h2>

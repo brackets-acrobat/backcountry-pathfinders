@@ -22,45 +22,79 @@ $title = $title ?? 'Backcountry Pathfinders';
 </head>
 <body>
     <header class="site-header">
-        <div class="header-left">
-            <a class="brand" href="<?= BASE_URL ?>/">
-                <img src="<?= asset('img/bpcom.png') ?>" alt="Backcountry Pathfinders">
-            </a>
-            <a href="<?= BASE_URL ?>/pilotes"><?= t('nav.pilots') ?></a>
-            <a href="<?= BASE_URL ?>/"><?= t('nav.map') ?></a>
-        </div>
-        <nav class="site-nav">
-            <?php if (!Auth::estConnecte()): ?>
-                <a href="<?= BASE_URL ?>/connexion"><?= t('nav.login') ?></a>
-                <a href="<?= BASE_URL ?>/inscription"><?= t('nav.register') ?></a>
-            <?php endif; ?>
-            <?php $autre = Lang::actuelle() === 'fr' ? 'en' : 'fr'; ?>
-            <a class="lang-toggle" href="<?= BASE_URL ?>/langue/<?= $autre ?>"
-               title="<?= t('lang.switch') ?>" aria-label="<?= t('lang.switch') ?>">
-                <span class="lang-opt<?= Lang::actuelle() === 'fr' ? ' is-active' : '' ?>">FR</span>
-                <span class="lang-opt<?= Lang::actuelle() === 'en' ? ' is-active' : '' ?>">EN</span>
-            </a>
-            <?php if (Auth::estConnecte()): ?>
-                <?php $u = Auth::utilisateur(); $monAvatar = $u['avatar'] ?? null; ?>
-                <div class="user-menu">
-                    <button type="button" class="user-avatar" id="user-menu-btn"
-                            aria-haspopup="true" aria-expanded="false" aria-label="<?= t('nav.account') ?>">
-                        <?php if ($monAvatar !== null && $monAvatar !== ''): ?>
-                            <img src="<?= BASE_URL ?>/uploads/<?= View::e((string) $monAvatar) ?>" alt="">
-                        <?php else: ?>
+        <a class="brand" href="<?= BASE_URL ?>/">
+            <img src="<?= asset('img/logo.png') ?>" alt="Backcountry Pathfinders">
+        </a>
+
+        <!-- Bloc nav : en ligne sur desktop, popover déroulant (hamburger) sur mobile -->
+        <div class="nav-panel" id="nav-panel">
+            <div class="header-left">
+                <a href="<?= BASE_URL ?>/pilotes"><?= t('nav.pilots') ?></a>
+                <a href="<?= BASE_URL ?>/carte"><?= t('nav.map') ?></a>
+            </div>
+            <nav class="site-nav">
+                <?php if (!Auth::estConnecte()): ?>
+                    <a href="<?= BASE_URL ?>/connexion"><?= t('nav.login') ?></a>
+                    <a href="<?= BASE_URL ?>/inscription"><?= t('nav.register') ?></a>
+                <?php else: ?>
+                    <?php $u = Auth::utilisateur(); $monAvatar = $u['avatar'] ?? null; ?>
+
+                    <!-- Desktop : avatar + menu déroulant -->
+                    <div class="user-menu">
+                        <button type="button" class="user-avatar" id="user-menu-btn"
+                                aria-haspopup="true" aria-expanded="false" aria-label="<?= t('nav.account') ?>">
+                            <?php if ($monAvatar !== null && $monAvatar !== ''): ?>
+                                <img src="<?= BASE_URL ?>/uploads/<?= View::e((string) $monAvatar) ?>" alt="">
+                            <?php else: ?>
+                                <i class="ph-light ph-user"></i>
+                            <?php endif; ?>
+                        </button>
+                        <ul class="user-dropdown" id="user-dropdown" hidden>
+                            <li class="user-dropdown-head"><?= View::e((string) $u['pseudo']) ?></li>
+                            <li><a href="<?= BASE_URL ?>/compte"><?= t('nav.account') ?></a></li>
+                            <li><a href="<?= BASE_URL ?>/mes-lieux"><?= t('nav.my_places') ?></a></li>
+                            <li><a href="<?= BASE_URL ?>/mes-vols"><?= t('nav.my_flights') ?></a></li>
+                            <?php if (Auth::estAdmin()): ?>
+                                <li><a href="<?= BASE_URL ?>/admin"><?= t('nav.admin') ?></a></li>
+                            <?php endif; ?>
+                            <li><a href="<?= BASE_URL ?>/deconnexion"><?= t('nav.logout') ?></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Mobile : rubrique « Utilisateur » repliable (accordéon natif) -->
+                    <details class="nav-acc">
+                        <summary class="nav-acc-summary">
                             <i class="ph-light ph-user"></i>
-                        <?php endif; ?>
-                    </button>
-                    <ul class="user-dropdown" id="user-dropdown" hidden>
-                        <li class="user-dropdown-head"><?= View::e((string) $u['pseudo']) ?></li>
-                        <li><a href="<?= BASE_URL ?>/compte"><?= t('nav.account') ?></a></li>
-                        <li><a href="<?= BASE_URL ?>/mes-lieux"><?= t('nav.my_places') ?></a></li>
-                        <li><a href="<?= BASE_URL ?>/mes-vols"><?= t('nav.my_flights') ?></a></li>
-                        <li><a href="<?= BASE_URL ?>/deconnexion"><?= t('nav.logout') ?></a></li>
-                    </ul>
-                </div>
-            <?php endif; ?>
-        </nav>
+                            <span><?= t('nav.user_section') ?></span>
+                            <i class="ph-light ph-plus nav-acc-plus"></i>
+                        </summary>
+                        <ul class="nav-acc-links">
+                            <li><a href="<?= BASE_URL ?>/compte"><?= t('nav.account') ?></a></li>
+                            <li><a href="<?= BASE_URL ?>/mes-lieux"><?= t('nav.my_places') ?></a></li>
+                            <li><a href="<?= BASE_URL ?>/mes-vols"><?= t('nav.my_flights') ?></a></li>
+                            <?php if (Auth::estAdmin()): ?>
+                                <li><a href="<?= BASE_URL ?>/admin"><?= t('nav.admin') ?></a></li>
+                            <?php endif; ?>
+                            <li><a href="<?= BASE_URL ?>/deconnexion"><?= t('nav.logout') ?></a></li>
+                        </ul>
+                    </details>
+                <?php endif; ?>
+            </nav>
+        </div>
+
+        <!-- Toggle de langue : sur la barre, à gauche du hamburger (hors du menu) -->
+        <?php $autre = Lang::actuelle() === 'fr' ? 'en' : 'fr'; ?>
+        <a class="lang-toggle" href="<?= BASE_URL ?>/langue/<?= $autre ?>"
+           title="<?= t('lang.switch') ?>" aria-label="<?= t('lang.switch') ?>">
+            <span class="lang-opt<?= Lang::actuelle() === 'fr' ? ' is-active' : '' ?>">FR</span>
+            <span class="lang-opt<?= Lang::actuelle() === 'en' ? ' is-active' : '' ?>">EN</span>
+        </a>
+
+        <button type="button" class="nav-toggle" id="nav-toggle"
+                aria-label="<?= t('nav.menu') ?>" aria-expanded="false" aria-controls="nav-panel">
+            <i class="ph-light ph-list nav-toggle-open"></i>
+            <i class="ph-light ph-x nav-toggle-close"></i>
+        </button>
     </header>
 
     <main class="site-main">

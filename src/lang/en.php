@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 return [
     // Navigation
+    'nav.menu'         => 'Menu',
+    'nav.user_section' => 'User',
+    'nav.admin'        => 'Admin',
+    'nav.home'     => 'Home',
     'nav.map'      => 'Map',
     'nav.pilots'   => 'Pilots list',
     'nav.login'    => 'Log in',
@@ -23,6 +27,16 @@ return [
     'common.email'    => 'Email',
     'common.password' => 'Password',
     'common.pseudo'   => 'Username',
+
+    // Home page
+    'page.home.title' => 'Home',
+    'home.title'      => 'Backcountry Pathfinders',
+    'home.subtitle'   => 'The MSFS 2024 backcountry community: landing-spot surveys, flight sharing and an interactive map.',
+    'home.cta_map'    => 'View the map',
+    'home.letter_hi'  => "Hey there,",
+    'home.letter_p1'  => "I’m Jim ‘Ridge’ Vance. They gave me that nickname because I’ve crossed a fair share of those damn ridges! Throughout my life as a bush pilot, I’ve logged every single wild spot I ever landed on in my logbook. And it sure came in handy when I had to make emergency landings to get myself out of tight spots… But since my logbook was just on paper, I couldn’t share it with other pilots.",
+    'home.letter_p2'  => "My young friend Sitka, who knows way more about this stuff than I do, created this website where you can log all your bush flights, take photos, and leave comments on your flights or those of other pilots. Put it to good use.",
+    'home.letter_bye' => "Happy flying and fly safe!",
 
     // "Map" page
     'page.map.title'  => 'Spots map',
@@ -43,6 +57,44 @@ return [
     // Spot detail page
     'place.untitled'         => 'Unnamed spot',
     'place.back_to_map'      => 'Back to the map',
+    'place.back'             => 'Previous page',
+    'place.edit'             => 'Edit place',
+    'moderation.comment'     => 'Moderated comment',
+
+    // Administration
+    'page.admin.title'       => 'Administration',
+    'admin.heading'          => 'Recent activity',
+    'admin.empty'            => 'No activity yet.',
+    'admin.filter_all'          => 'All activity',
+    'admin.filter_membre'       => 'New members',
+    'admin.filter_vol'          => 'Flights',
+    'admin.filter_lieu'         => 'Places',
+    'admin.filter_commentaire'  => 'Comments',
+    'admin.filter_note'         => 'Ratings',
+
+    // Two-factor authentication (TOTP)
+    'page.2fa.title'         => 'Two-factor authentication',
+    'page.2fa_setup.title'   => 'Set up two-factor authentication',
+    '2fa.heading'            => 'Two-factor authentication',
+    '2fa.intro'              => 'Enter the 6-digit code shown by your authenticator app.',
+    '2fa.code_label'         => 'Verification code',
+    '2fa.submit'             => 'Verify',
+    '2fa.back'               => 'Back to login',
+    '2fa.setup_heading'      => 'Secure your administrator account',
+    '2fa.setup_intro'        => 'Your administrator account requires two-factor authentication. Set it up now:',
+    '2fa.step_app'           => 'Install an authenticator app (Google Authenticator, Microsoft Authenticator, FreeOTP…).',
+    '2fa.step_scan'          => 'Scan this QR code (or enter the key manually):',
+    '2fa.secret_label'       => 'Manual key',
+    '2fa.step_confirm'       => 'Enter the generated code to enable two-factor authentication:',
+    '2fa.activate'           => 'Enable',
+    'error.2fa_invalid'      => 'Incorrect code. Please try again.',
+    'admin.by'               => 'by',
+    'admin.on'               => 'on',
+    'admin.ev_membre'        => 'New member',
+    'admin.ev_vol'           => 'New flight',
+    'admin.ev_lieu'          => 'New place',
+    'admin.ev_commentaire'   => 'New comment',
+    'admin.ev_note'          => 'New rating',
     'place.surveys_heading'  => 'Surveys',
     'place.no_surveys'       => 'No survey for this spot yet.',
     'place.comments_heading' => 'Comments',
@@ -139,6 +191,7 @@ return [
     // Public pilot profile
     'profil.flights_heading' => 'Their flights',
     'profil.no_flights'      => 'This pilot hasn\'t sent any flight yet.',
+    'profil.awards'          => 'Awards',
 
     // My flights
     'page.my_flights.title'   => 'My flights',
@@ -151,7 +204,7 @@ return [
 
     // Flight detail
     'flight.detail_title' => 'Flight details',
-    'flight.back'         => 'Back to my flights',
+    'flight.back'         => 'Previous page',
     'flight.no_route'     => 'Flight',
     'flight.time'         => 'Flight time',
     'flight.landings'     => 'landing(s)',

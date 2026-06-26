@@ -9,6 +9,10 @@ declare(strict_types=1);
 
 return [
     // Navigation
+    'nav.menu'         => 'Menu',
+    'nav.user_section' => 'Utilisateur',
+    'nav.admin'        => 'Administration',
+    'nav.home'     => 'Accueil',
     'nav.map'      => 'Carte',
     'nav.pilots'   => 'Liste des pilotes',
     'nav.login'    => 'Connexion',
@@ -23,6 +27,16 @@ return [
     'common.email'    => 'E-mail',
     'common.password' => 'Mot de passe',
     'common.pseudo'   => 'Pseudo',
+
+    // Page d'accueil
+    'page.home.title' => 'Accueil',
+    'home.title'      => 'Backcountry Pathfinders',
+    'home.subtitle'   => 'La communauté du backcountry sous MSFS 2024 : relevés de lieux d\'atterrissage, partage de vols et carte interactive.',
+    'home.cta_map'    => 'Voir la carte',
+    'home.letter_hi'  => "Salut,",
+    'home.letter_p1'  => "Moi c’est Jim « Ridge » Vance. On m’a donné ce surnom parce que j’en ai franchi quelques-unes, de ces satanées crêtes ! Durant toute ma vie de pilote de brousse, j’ai consigné sur mon carnet de vols tous les endroits sauvages où je me suis posé. Et ça m’a bien servi quand il a fallu que j’atterrisse en urgence pour me sortir de situations difficiles… Mais comme mon carnet était sur papier, je n’ai pas pu en faire profiter d’autres pilotes.",
+    'home.letter_p2'  => "Mon jeune ami Sitka, qui s’y connait bien mieux que moi, a créé ce site internet où tu pourras consigner tous tes vols de brousses, prendre des photos, écrire des commentaires sur tes vols ou ceux d’autres pilotes. Fais-en bon usage,",
+    'home.letter_bye' => "Bons vols et fly safe !",
 
     // Page « Carte »
     'page.map.title'  => 'Carte des lieux',
@@ -43,6 +57,44 @@ return [
     // Fiche détail d'un lieu
     'place.untitled'         => 'Lieu sans nom',
     'place.back_to_map'      => 'Retour à la carte',
+    'place.back'             => 'Page précédente',
+    'place.edit'             => 'Modifier le lieu',
+    'moderation.comment'     => 'Commentaire modéré',
+
+    // Administration
+    'page.admin.title'       => 'Administration',
+    'admin.heading'          => 'Activité récente',
+    'admin.empty'            => 'Aucune activité pour le moment.',
+    'admin.filter_all'          => 'Toute l\'activité',
+    'admin.filter_membre'       => 'Nouveaux membres',
+    'admin.filter_vol'          => 'Vols',
+    'admin.filter_lieu'         => 'Lieux',
+    'admin.filter_commentaire'  => 'Commentaires',
+    'admin.filter_note'         => 'Notes',
+
+    // Double authentification (TOTP)
+    'page.2fa.title'         => 'Double authentification',
+    'page.2fa_setup.title'   => 'Configurer la double authentification',
+    '2fa.heading'            => 'Double authentification',
+    '2fa.intro'              => 'Saisissez le code à 6 chiffres affiché par votre application d\'authentification.',
+    '2fa.code_label'         => 'Code de vérification',
+    '2fa.submit'             => 'Vérifier',
+    '2fa.back'               => 'Revenir à la connexion',
+    '2fa.setup_heading'      => 'Sécurisez votre compte administrateur',
+    '2fa.setup_intro'        => 'Votre compte administrateur exige une double authentification. Configurez-la maintenant :',
+    '2fa.step_app'           => 'Installez une application d\'authentification (Google Authenticator, Microsoft Authenticator, FreeOTP…).',
+    '2fa.step_scan'          => 'Scannez ce QR code (ou saisissez la clé manuellement) :',
+    '2fa.secret_label'       => 'Clé manuelle',
+    '2fa.step_confirm'       => 'Saisissez le code généré pour activer la double authentification :',
+    '2fa.activate'           => 'Activer',
+    'error.2fa_invalid'      => 'Code incorrect. Réessayez.',
+    'admin.by'               => 'par',
+    'admin.on'               => 'sur',
+    'admin.ev_membre'        => 'Nouveau membre',
+    'admin.ev_vol'           => 'Nouveau vol',
+    'admin.ev_lieu'          => 'Nouveau lieu',
+    'admin.ev_commentaire'   => 'Nouveau commentaire',
+    'admin.ev_note'          => 'Nouvelle note',
     'place.surveys_heading'  => 'Relevés',
     'place.no_surveys'       => 'Aucun relevé pour ce lieu.',
     'place.comments_heading' => 'Commentaires',
@@ -139,6 +191,7 @@ return [
     // Profil public d'un pilote
     'profil.flights_heading' => 'Ses vols',
     'profil.no_flights'      => 'Ce pilote n\'a pas encore envoyé de vol.',
+    'profil.awards'          => 'Écussons',
 
     // Mes vols
     'page.my_flights.title'   => 'Mes vols',
@@ -151,7 +204,7 @@ return [
 
     // Détail d'un vol
     'flight.detail_title' => 'Détail du vol',
-    'flight.back'         => 'Retour à mes vols',
+    'flight.back'         => 'Page précédente',
     'flight.no_route'     => 'Vol',
     'flight.time'         => 'Temps de vol',
     'flight.landings'     => 'atterrissage(s)',

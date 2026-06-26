@@ -17,7 +17,7 @@ $route = ($dep !== '' || $arr !== '')
 $csrf = View::e(Auth::jetonCsrf());
 ?>
 <section class="vol-detail">
-    <p class="vol-back"><a href="<?= BASE_URL ?>/mes-vols">&larr; <?= t('flight.back') ?></a></p>
+    <p class="vol-back"><a class="js-back" href="<?= BASE_URL ?>/pilote/<?= (int) $vol['id_utilisateur'] ?>">&larr; <?= t('flight.back') ?></a></p>
 
     <header class="vol-head">
         <h1><i class="ph-light ph-airplane-tilt"></i> <?= View::e($route) ?></h1>

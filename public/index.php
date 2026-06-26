@@ -65,15 +65,20 @@ App\Core\Lang::initialiser();
 $router = new Router();
 
 // Site web (pages HTML)
-$router->get('/', 'App\Controllers\CarteController@index');
+$router->get('/', 'App\Controllers\AccueilController@index');
+$router->get('/carte', 'App\Controllers\CarteController@index');
 $router->get('/pilotes', 'App\Controllers\PiloteController@index');
 $router->get('/pilote/(\d+)', 'App\Controllers\PiloteController@profil');
 $router->get('/lieu/(\d+)', 'App\Controllers\LieuController@detail');
 $router->post('/lieu/(\d+)/commentaire', 'App\Controllers\LieuController@ajouterCommentaire');
 $router->post('/lieu/(\d+)/note', 'App\Controllers\LieuController@enregistrerNote');
+$router->post('/lieu/(\d+)/editer', 'App\Controllers\LieuController@editer');
 
 // Vols (consultation, réservée aux connectés)
 $router->get('/vol/(\d+)', 'App\Controllers\VolController@detail');
+
+// Administration (réservée au rôle admin)
+$router->get('/admin', 'App\Controllers\AdminController@index');
 
 // Données de la carte (JSON public)
 $router->get('/api/lieux', 'App\Controllers\CarteController@lieux');
@@ -90,6 +95,12 @@ $router->post('/inscription', 'App\Controllers\AuthController@inscription');
 $router->get('/connexion',    'App\Controllers\AuthController@formulaireConnexion');
 $router->post('/connexion',   'App\Controllers\AuthController@connexion');
 $router->get('/deconnexion',  'App\Controllers\AuthController@deconnexion');
+
+// Double authentification (TOTP) des administrateurs
+$router->get('/connexion/2fa',            'App\Controllers\AuthController@formulaire2fa');
+$router->post('/connexion/2fa',           'App\Controllers\AuthController@verifier2fa');
+$router->get('/connexion/2fa/configurer', 'App\Controllers\AuthController@formulaire2faSetup');
+$router->post('/connexion/2fa/configurer','App\Controllers\AuthController@activer2fa');
 
 // Espace « Mon compte » — réservé aux connectés
 $router->get('/compte',                 'App\Controllers\CompteController@index');

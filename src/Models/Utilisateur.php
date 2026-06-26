@@ -53,6 +53,29 @@ class Utilisateur
         return $u !== false ? $u : null;
     }
 
+    /** Enregistre le secret TOTP (double authentification), 2FA encore inactive. */
+    public static function definirSecretTotp(int $id, string $secret): void
+    {
+        $stmt = Database::pdo()->prepare(
+            "UPDATE utilisateurs SET totp_secret = :s, totp_actif = 0 WHERE id = :id"
+        );
+        $stmt->execute(['s' => $secret, 'id' => $id]);
+    }
+
+    /** Active la 2FA après confirmation d'un premier code valide. */
+    public static function activerTotp(int $id): void
+    {
+        Database::pdo()->prepare("UPDATE utilisateurs SET totp_actif = 1 WHERE id = :id")
+            ->execute(['id' => $id]);
+    }
+
+    /** Désactive la 2FA et efface le secret (réinitialisation). */
+    public static function desactiverTotp(int $id): void
+    {
+        Database::pdo()->prepare("UPDATE utilisateurs SET totp_actif = 0, totp_secret = NULL WHERE id = :id")
+            ->execute(['id' => $id]);
+    }
+
     /**
      * Vérifie l'identifiant + mot de passe. Renvoie l'utilisateur si OK, sinon null.
      *

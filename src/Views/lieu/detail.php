@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Auth;
+use App\Core\Moderation;
 use App\Core\View;
 
 /**
@@ -12,6 +13,8 @@ use App\Core\View;
  * @var array<int,array<string,mixed>>  $avisPilotes
  * @var array<int,array<string,mixed>>  $commentaires
  * @var array{note:?int,difficulte:?int}|null $maNote
+ * @var bool                            $peutEditer
+ * @var string|null                     $monCommentaire
  * @var array{type:string,cle:string}|null    $flash
  */
 
@@ -91,7 +94,7 @@ $couleurDifficulte = static function (float $d): string {
       crossorigin="">
 
 <section class="place">
-    <p class="place-back"><a href="<?= BASE_URL ?>/"><i class="ph-bold ph-arrow-left"></i> <?= t('place.back_to_map') ?></a></p>
+    <p class="place-back"><a class="js-back" href="<?= BASE_URL ?>/carte"><i class="ph-bold ph-arrow-left"></i> <?= t('place.back') ?></a></p>
 
     <?php if ($flash !== null): ?>
         <div class="alert<?= ($flash['type'] ?? '') === 'success' ? ' alert-success' : '' ?>">
@@ -100,7 +103,27 @@ $couleurDifficulte = static function (float $d): string {
     <?php endif; ?>
 
     <header class="place-head">
-        <h1><?= View::e($nom) ?></h1>
+        <div class="place-title-row">
+            <h1><?= View::e($nom) ?></h1>
+            <?php if ($peutEditer): ?>
+                <details class="lieu-rename place-edit">
+                    <summary class="lieu-rename-toggle" title="<?= View::e(t('place.edit')) ?>"
+                             aria-label="<?= View::e(t('place.edit')) ?>">
+                        <i class="ph-light ph-pencil-simple"></i>
+                    </summary>
+                    <form method="post" action="<?= BASE_URL ?>/lieu/<?= $idLieu ?>/editer" class="lieu-rename-form">
+                        <input type="hidden" name="csrf" value="<?= View::e(Auth::jetonCsrf()) ?>">
+                        <input type="text" name="nom" maxlength="120"
+                               value="<?= View::e((string) ($lieu['nom'] ?? '')) ?>"
+                               placeholder="<?= View::e(t('myplaces.rename_placeholder')) ?>">
+                        <label class="sr-only" for="place-edit-cmt"><?= t('myplaces.comment_label') ?></label>
+                        <textarea id="place-edit-cmt" name="commentaire" rows="3" maxlength="2000"
+                                  placeholder="<?= View::e(t('myplaces.comment_placeholder')) ?>"><?= View::e(Moderation::afficher($monCommentaire)) ?></textarea>
+                        <button type="submit" class="btn"><?= t('myplaces.rename_save') ?></button>
+                    </form>
+                </details>
+            <?php endif; ?>
+        </div>
         <?php if ($localisation !== ''): ?>
             <p class="place-location muted">
                 <i class="ph-bold ph-map-pin"></i> <?= View::e($localisation) ?>
@@ -240,7 +263,7 @@ $couleurDifficulte = static function (float $d): string {
                             · <span class="avis-diff"><?= t('map.difficulty') ?> <?= $etoiles((float) $a['difficulte'], $couleurDifficulte((float) $a['difficulte']), 0) ?></span>
                         <?php endif; ?>
                     </div>
-                    <p class="avis-texte"><?= nl2br(View::e((string) $a['commentaire'])) ?></p>
+                    <p class="avis-texte"><?= nl2br(View::e(Moderation::afficher((string) $a['commentaire']))) ?></p>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -272,7 +295,7 @@ $couleurDifficulte = static function (float $d): string {
                         <strong><?= View::e((string) ($c['pseudo'] ?? t('place.deleted_user'))) ?></strong>
                         · <?= View::e((string) $c['date_creation']) ?>
                     </div>
-                    <p class="commentaire-texte"><?= nl2br(View::e((string) $c['texte'])) ?></p>
+                    <p class="commentaire-texte"><?= nl2br(View::e(Moderation::afficher((string) $c['texte']))) ?></p>
                 </li>
             <?php endforeach; ?>
         </ul>
