@@ -1238,6 +1238,9 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     margin-top: 1.1rem;
 }
 .admin-modal-actions form { display: contents; }
+/* L'attribut hidden doit l'emporter sur display:contents (sinon le bouton
+   « Bannir », réservé aux pilotes, resterait visible partout). */
+.admin-modal-actions form[hidden] { display: none; }
 
 /* ---- Accordéon « Utilisateur » (dans le hamburger) ---- */
 .nav-acc-summary {
