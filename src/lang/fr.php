@@ -38,7 +38,7 @@ return [
     'home.letter_p1'  => "Moi c’est Jim « Ridge » Vance. On m’a donné ce surnom parce que j’en ai franchi quelques-unes, de ces satanées crêtes ! Durant toute ma vie de pilote de brousse, j’ai consigné sur mon carnet de vols tous les endroits sauvages où je me suis posé. Et ça m’a bien servi quand il a fallu que j’atterrisse en urgence pour me sortir de situations difficiles… Mais comme mon carnet était sur papier, je n’ai pas pu en faire profiter d’autres pilotes.",
     'home.letter_p2'  => "Mon jeune ami Sitka, qui s’y connait bien mieux que moi, a créé ce site internet où tu pourras consigner tous tes vols de brousses, prendre des photos, écrire des commentaires sur tes vols ou ceux d’autres pilotes. Fais-en bon usage,",
     'home.letter_bye' => "Bons vols et fly safe !",
-    'home.presentation_link' => 'En savoir plus sur le projet',
+    'home.presentation_link' => 'En savoir plus...',
 
     // Page « Présentation »
     'page.presentation.title' => 'Présentation',
@@ -240,7 +240,14 @@ return [
     'pilots.places'     => 'lieu(x)',
     'pilots.surveys'    => 'relevé(s)',
     'pilots.flights'    => 'vol(s)',
+    'pilots.countries'  => 'pays',
     'pilots.since'      => 'membre depuis',
+    'pilots.col_name'      => 'Nom du pilote',
+    'pilots.col_hours'     => 'Heures de vol',
+    'pilots.col_flights'   => 'Nombre de vols',
+    'pilots.col_places'    => 'Nombre de lieux',
+    'pilots.col_countries' => 'Pays visités',
+    'pilots.sort_hint'     => 'Trier',
     'pilots.back'       => 'Retour à la liste des pilotes',
 
     // Profil public d'un pilote

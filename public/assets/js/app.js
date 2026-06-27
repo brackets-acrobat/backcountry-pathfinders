@@ -87,3 +87,57 @@
         // sinon : on suit le href de repli (carte / profil pilote)
     });
 })();
+
+// --- Tri client des tableaux .js-sortable (liste des pilotes…) ---
+// Chaque <th data-sort-type="text|number"> est cliquable : 1er clic = croissant,
+// 2e clic = décroissant. Les cellules portent data-sort-value (valeur de tri).
+(function () {
+    var tables = document.querySelectorAll('table.js-sortable');
+    Array.prototype.forEach.call(tables, function (table) {
+        var tbody = table.tBodies[0];
+        if (!tbody) return;
+        var headers = table.querySelectorAll('thead th[data-sort-type]');
+
+        function cellValue(cell, type) {
+            if (!cell) return type === 'number' ? 0 : '';
+            var raw = cell.getAttribute('data-sort-value');
+            if (raw === null) raw = cell.textContent;
+            if (type === 'number') {
+                var n = parseFloat(raw);
+                return isNaN(n) ? 0 : n;
+            }
+            return raw.trim().toLowerCase();
+        }
+
+        function sortBy(th, dir) {
+            var col = th.cellIndex;
+            var type = th.getAttribute('data-sort-type');
+            var rows = Array.prototype.slice.call(tbody.rows);
+            rows.sort(function (a, b) {
+                var va = cellValue(a.cells[col], type);
+                var vb = cellValue(b.cells[col], type);
+                if (va < vb) return dir === 'asc' ? -1 : 1;
+                if (va > vb) return dir === 'asc' ? 1 : -1;
+                return 0;
+            });
+            rows.forEach(function (r) { tbody.appendChild(r); });
+            Array.prototype.forEach.call(headers, function (h) {
+                h.setAttribute('aria-sort',
+                    h === th ? (dir === 'asc' ? 'ascending' : 'descending') : 'none');
+            });
+        }
+
+        Array.prototype.forEach.call(headers, function (th) {
+            th.addEventListener('click', function () {
+                var dir = th.getAttribute('aria-sort') === 'ascending' ? 'desc' : 'asc';
+                sortBy(th, dir);
+            });
+            th.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    th.click();
+                }
+            });
+        });
+    });
+})();

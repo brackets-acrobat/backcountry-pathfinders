@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Core\View;
 
 /** @var array<string,mixed> $pilote */
-/** @var array{nb_vols:int, total_sec:int} $stats */
+/** @var array{nb_vols:int, total_sec:int, nb_lieux:int, nb_pays:int} $stats */
 /** @var array<int,array<string,mixed>> $vols */
 ?>
 <section class="pilote-profil">
@@ -22,6 +22,8 @@ use App\Core\View;
             <p class="profil-stats muted">
                 <i class="ph-light ph-airplane-tilt"></i> <?= (int) $stats['nb_vols'] ?> <?= t('pilots.flights') ?>
                 · <i class="ph-light ph-timer"></i> <?= View::e(duree_vol($stats['total_sec'])) ?>
+                · <i class="ph-light ph-map-pin"></i> <?= (int) ($stats['nb_lieux'] ?? 0) ?> <?= t('pilots.places') ?>
+                · <i class="ph-light ph-globe-hemisphere-west"></i> <?= (int) ($stats['nb_pays'] ?? 0) ?> <?= t('pilots.countries') ?>
                 · <?= t('pilots.since') ?> <?= View::e(substr((string) $pilote['date_inscription'], 0, 10)) ?>
             </p>
         </div>

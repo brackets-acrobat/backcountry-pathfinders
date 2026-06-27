@@ -130,22 +130,40 @@ class Vol
     }
 
     /**
-     * Statistiques de vol d'un pilote (nombre de vols + temps de vol cumulé).
+     * Statistiques de vol d'un pilote : nombre de vols, temps de vol cumulé,
+     * nombre de lieux de poser distincts et nombre de pays distincts visités
+     * (un pays visité plusieurs fois ne compte qu'une fois).
      *
-     * @return array{nb_vols:int, total_sec:int}
+     * @return array{nb_vols:int, total_sec:int, nb_lieux:int, nb_pays:int}
      */
     public static function statsParUtilisateur(int $idUtilisateur): array
     {
-        $stmt = Database::pdo()->prepare(
+        $pdo = Database::pdo();
+
+        // Vols + temps de vol cumulé (table vols).
+        $stmt = $pdo->prepare(
             "SELECT COUNT(*) AS nb_vols, COALESCE(SUM(duree_sec), 0) AS total_sec
              FROM vols WHERE id_utilisateur = :u"
         );
         $stmt->execute(['u' => $idUtilisateur]);
         $a = $stmt->fetch() ?: [];
 
+        // Lieux + pays distincts, via les relevés du pilote (table releves → lieux).
+        $stmt = $pdo->prepare(
+            "SELECT COUNT(DISTINCT r.id_lieu) AS nb_lieux,
+                    COUNT(DISTINCT l.pays)    AS nb_pays
+             FROM releves r
+             JOIN lieux l ON l.id = r.id_lieu
+             WHERE r.id_utilisateur = :u"
+        );
+        $stmt->execute(['u' => $idUtilisateur]);
+        $b = $stmt->fetch() ?: [];
+
         return [
             'nb_vols'   => (int) ($a['nb_vols'] ?? 0),
             'total_sec' => (int) ($a['total_sec'] ?? 0),
+            'nb_lieux'  => (int) ($b['nb_lieux'] ?? 0),
+            'nb_pays'   => (int) ($b['nb_pays'] ?? 0),
         ];
     }
 

@@ -38,7 +38,7 @@ return [
     'home.letter_p1'  => "I’m Jim ‘Ridge’ Vance. They gave me that nickname because I’ve crossed a fair share of those damn ridges! Throughout my life as a bush pilot, I’ve logged every single wild spot I ever landed on in my logbook. And it sure came in handy when I had to make emergency landings to get myself out of tight spots… But since my logbook was just on paper, I couldn’t share it with other pilots.",
     'home.letter_p2'  => "My young friend Sitka, who knows way more about this stuff than I do, created this website where you can log all your bush flights, take photos, and leave comments on your flights or those of other pilots. Put it to good use.",
     'home.letter_bye' => "Happy flying and fly safe!",
-    'home.presentation_link' => 'Learn more about the project',
+    'home.presentation_link' => 'Learn more...',
 
     // "About" page
     'page.presentation.title' => 'About',
@@ -240,7 +240,14 @@ return [
     'pilots.places'     => 'place(s)',
     'pilots.surveys'    => 'survey(s)',
     'pilots.flights'    => 'flight(s)',
+    'pilots.countries'  => 'country(ies)',
     'pilots.since'      => 'member since',
+    'pilots.col_name'      => 'Pilot name',
+    'pilots.col_hours'     => 'Flight time',
+    'pilots.col_flights'   => 'Flights',
+    'pilots.col_places'    => 'Places',
+    'pilots.col_countries' => 'Countries visited',
+    'pilots.sort_hint'     => 'Sort',
     'pilots.back'       => 'Back to the pilots list',
 
     // Public pilot profile

@@ -129,8 +129,8 @@ class Utilisateur
 
     /**
      * Liste des pilotes (membres) avec leurs statistiques de contribution :
-     * nombre de relevés et nombre de lieux distincts visités. Les plus actifs
-     * d'abord, puis par pseudo.
+     * nombre de relevés, de lieux distincts visités et de pays distincts. Les
+     * plus actifs d'abord, puis par pseudo.
      *
      * @return array<int,array<string,mixed>>
      */
@@ -140,11 +140,14 @@ class Utilisateur
             "SELECT u.id, u.pseudo, u.avatar, u.date_inscription,
                     COUNT(r.id) AS nb_releves,
                     COUNT(DISTINCT r.id_lieu) AS nb_lieux,
-                    (SELECT COUNT(*) FROM vols v WHERE v.id_utilisateur = u.id) AS nb_vols
+                    COUNT(DISTINCT l.pays) AS nb_pays,
+                    (SELECT COUNT(*) FROM vols v WHERE v.id_utilisateur = u.id) AS nb_vols,
+                    (SELECT COALESCE(SUM(v.duree_sec), 0) FROM vols v WHERE v.id_utilisateur = u.id) AS total_sec
              FROM utilisateurs u
              LEFT JOIN releves r ON r.id_utilisateur = u.id
+             LEFT JOIN lieux l  ON l.id = r.id_lieu
              GROUP BY u.id, u.pseudo, u.avatar, u.date_inscription
-             ORDER BY nb_releves DESC, u.pseudo ASC"
+             ORDER BY u.pseudo ASC"
         );
 
         return $stmt->fetchAll();

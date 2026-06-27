@@ -652,23 +652,51 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
 }
 .lieu-item-main { text-decoration: none; display: flex; flex-direction: column; gap: .2rem; }
 .lieu-item-nom { color: var(--title); font-weight: 700; }
-/* --- Liste des pilotes --- */
-.pilote-list { list-style: none; padding: 0; margin: 1rem 0 0; }
-.pilote-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: .3rem 1rem;
-    padding: .7rem .9rem;
+/* --- Liste des pilotes : tableau triable --- */
+.pilote-table-wrap { margin: 1rem 0 0; overflow-x: auto; }
+.pilote-table {
+    width: 100%;
+    border-collapse: collapse;
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 8px;
-    margin-bottom: .6rem;
+    overflow: hidden;
+}
+.pilote-table th,
+.pilote-table td {
+    padding: .6rem .9rem;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+}
+.pilote-table tbody tr:last-child td { border-bottom: 0; }
+.pilote-table tbody tr:hover { background: var(--panel-2); }
+.pilote-table thead th {
+    color: var(--muted);
+    font-size: .85rem;
+    font-weight: 600;
+    user-select: none;
+}
+/* Colonnes numériques (heures, vols, lieux, pays) alignées à droite */
+.pilote-table th + th,
+.pilote-table .col-num { text-align: right; }
+/* En-têtes triables : curseur + indicateur de tri */
+.pilote-table thead th[data-sort-type] { cursor: pointer; }
+.pilote-table thead th[data-sort-type]:hover { color: var(--title); }
+.pilote-table thead th[data-sort-type]::after {
+    content: " \2195";              /* ⇅ : colonne triable, neutre */
+    opacity: .35;
+    font-size: .8em;
+}
+.pilote-table thead th[aria-sort="ascending"]::after  { content: " \25B2"; opacity: 1; }  /* ▲ */
+.pilote-table thead th[aria-sort="descending"]::after { content: " \25BC"; opacity: 1; }  /* ▼ */
+.pilote-table thead th[data-sort-type]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
 }
 .pilote-ident { display: inline-flex; align-items: center; gap: .5rem; }
 .pilote-ident strong { color: var(--title); }
-.pilote-meta { font-size: .85rem; }
+.pilote-table .col-num { font-variant-numeric: tabular-nums; }
 .avatar-mini.avatar-none {
     display: inline-flex; align-items: center; justify-content: center;
     background: var(--panel-2); color: var(--muted);
