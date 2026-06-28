@@ -254,6 +254,7 @@ return [
     'profil.flights_heading' => 'Ses vols',
     'profil.no_flights'      => 'Ce pilote n\'a pas encore envoyé de vol.',
     'profil.awards'          => 'Écussons',
+    'awards.none'            => 'Aucun écusson pour le moment.',
 
     // Mes vols
     'page.my_flights.title'   => 'Mes vols',

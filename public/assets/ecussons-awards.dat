@@ -1,0 +1,71 @@
+
+atterrissages;10;Campeur;Il a posé ses roues dans l'herbe et a sorti la tente. C'est le début de l'aventure.
+atterrissages;25;Coureur des sentiers;Il commence à s'éloigner des sentiers battus et cherche de nouveaux terrains.
+atterrissages;50;Chasseur de clairières;Le hors-piste n'est plus un hasard, il sait lire le terrain et éviter les pièges.
+atterrissages;75;Éclaireur;Il ouvre la voie là où les autres n'osent pas encore regarder.
+atterrissages;100;Explorateur;La barre des 100 ! Les zones blanches de la carte sont son terrain de jeu.
+atterrissages;150;Veilleur des vallées;Il est capable de se poser sur des bandes de terre improbables et d'en repartir.
+atterrissages;200;Voyageur au long cours;Enchaîner les bivouacs loin de toute civilisation ne lui fait pas peur. Il vit en autonomie totale avec sa machine.
+atterrissages;250;Vétéran du bush;Le climat, la boue, les cailloux... Plus rien ne l'impressionne. C'est un dur à cuire.
+atterrissages;300;Maître des horizons;Il survole et domine les environnements les plus hostiles de la planète.
+atterrissages;400;Sorcier des Pistes;À ce niveau, ce n'est plus du pilotage, c'est de la magie. Il fait atterrir un avion là où on ne poserait pas un hélicoptère.
+atterrissages;500;Légende des Pistes Oubliées;Celui qui a repoussé toutes les limites de la carte.
+
+
+pays;5;Saute-Guichet;Il a franchi son premier poste-frontière sauvage. Les formalités commencent.
+pays;10;Braconnier de Visas;Il commence à accumuler les tampons d'aérodromes improbables et de checkpoints isolés.
+pays;15;Passeport à Rallonge;"Son passeport commence à saturer ; il a dû faire agrafer des pages supplémentaires."
+pays;20;As du Tamponnage;Rien ne l'arrête, il obtient ses autorisations de poser même dans les pays les plus tatillons.
+pays;25;Diplomate du Bush;25 pays. Il sait négocier avec n'importe quelle autorité locale après s'être posé dans une clairière.
+pays;30;Maître des Checkpoints;Les barrières administratives s'effacent devant son hélice. Il connaît toutes les ficelles mondiales.
+pays;40;Négociateur des Zones Grises;Entre accords tacites et terrains non cartographiés, il évolue là où les frontières n’ont plus vraiment de sens.
+pays;50;Trafiquant d'Horizons;Le palier mythique. Il s'est posé partout, s'affranchissant des frontières de la Terre entière.
+
+
+vols;10;Premier Envol;Il quitte le nid de plus en plus souvent. L'appel des airs commence à se faire sentir.
+vols;25;Saute-Mouton;Il enchaîne les courtes distances et commence à prendre confiance une fois en l'air.
+vols;50;Navigateur des Plaines;Les repères au sol deviennent familiers. Il trace ses premières vraies lignes droites.
+vols;75;Guetteur de Nuages;Il sait lire le ciel, anticiper la météo et jouer avec les courants d'air.
+vols;100;Franchisseur de Caps;La barre des 100 vols ! Voyager dans la troisième dimension devient une seconde nature.
+vols;150;Coureur de Vent;Capable de maintenir son cap même quand les éléments décident de lui compliquer la tâche.
+vols;200;Nomade du Ciel;Enchaîner les heures de vol loin de sa base ne lui fait pas peur. La cabine est sa deuxième maison.
+vols;250;Pilote au Long Cours;Les longues navigations à traverser des contrées entières sont sa spécialité. Un vrai routard des airs.
+vols;300;Maître des Courants;Il anticipe chaque turbulence, survole les reliefs avec aisance et domine son plan de vol.
+vols;400;Passeur d'Horizons;À ce niveau, la météo n'est plus un obstacle mais un partenaire de jeu. Il traverse les continents comme on traverse la rue.
+vols;500;Légende des Cieux Oubliés;Celui qui a accumulé assez de milles aériens pour faire plusieurs fois le tour du globe. Le ciel n'a plus aucun secret pour lui.
+
+
+landings;10;The Camper;He set his wheels down in the grass and pitched his tent. The adventure begins.
+landings;25;The Trail Runner;He is starting to venture off the beaten path, looking for new terrain.
+landings;50;The Clearing Hunter;"Backcountry flying is no longer an accident; he knows how to read the terrain and avoid traps."
+landings;75;The Scout;He blazes the trail where others don't even dare look yet.
+landings;100;The Explorer;The 100-mark! The blank spots on the map are his personal playground.
+landings;150;The Valley Watchman;He is capable of landing on the most improbable strips of land and taking off again.
+landings;200;The Long-Haul Traveler;Stringing together bivouacs far from any civilization doesn't scare him. He lives in total self-sufficiency with his machine.
+landings;250;The Bush Veteran;The weather, the mud, the rocks... Nothing impresses him anymore. He is one tough cookie.
+landings;300;The Master of Horizons;He flies over and dominates the most hostile environments on the planet.
+landings;400;The Strip Wizard;At this level, it’s no longer flying—it’s magic. He lands a plane where you wouldn't even park a helicopter.
+landings;500;Legend of the Forgotten Strips;The one who has pushed all the boundaries of the map.
+
+
+countries;5;Counter-Hopper;He crossed his first wild border post. The formalities begin.
+countries;10;Visa Poacher;He is starting to collect stamps from improbable airfields and isolated checkpoints.
+countries;15;Extended Passport;"His passport is reaching capacity; he had to have extra pages stapled in."
+countries;20;Stamping Ace;"Nothing stops him; he gets his landing permits even in the most nitpicking countries."
+countries;25;Bush Diplomat;25 countries. He knows how to negotiate with any local authority after landing in a clearing.
+countries;30;Checkpoint Master;Administrative barriers vanish before his propeller. He knows every trick in the global book.
+countries;40;Grey Zone Negotiator;Between tacit agreements and unmapped terrain, he operates where borders no longer truly make sense.
+countries;50;Horizon Smuggler;The mythical tier. He has landed everywhere, breaking free from the borders of the entire Earth.
+
+
+flights;10;First Takeoff;He leaves the nest more and more often. The call of the skies is starting to be felt.
+flights;25;Hopscotch Flyer;He chains short hops and is starting to gain confidence once airborne.
+flights;50;Plains Navigator;Ground references are becoming familiar. He draws his first real straight routes.
+flights;75;Cloud Watcher;He can read the sky, anticipate the weather, and work with air currents.
+flights;100;Cape Crosser;100 flights reached! Traveling in three dimensions starts to feel like second nature.
+flights;150;Wind Runner;Able to hold his course even when the elements try to make things difficult.
+flights;200;Sky Nomad;Chaining flight hours far from home base doesn’t scare him. The cockpit is his second home.
+flights;250;Long-Haul Pilot;Long-range navigation across entire regions is his specialty. A true air traveler.
+flights;300;Master of Currents;He anticipates every turbulence, clears terrain with ease, and masters his flight plan.
+flights;400;Horizon Walker;At this level, weather is no longer an obstacle but a playmate. He crosses continents like crossing the street.
+flights;500;Forgotten Skies Legend;Having accumulated enough air miles to circle the globe multiple times over, the sky holds no more secrets for him.

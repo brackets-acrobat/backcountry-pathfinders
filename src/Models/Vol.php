@@ -131,18 +131,20 @@ class Vol
 
     /**
      * Statistiques de vol d'un pilote : nombre de vols, temps de vol cumulé,
-     * nombre de lieux de poser distincts et nombre de pays distincts visités
-     * (un pays visité plusieurs fois ne compte qu'une fois).
+     * nombre d'atterrissages cumulés, nombre de lieux de poser distincts et
+     * nombre de pays distincts visités (un pays visité plusieurs fois compte 1).
      *
-     * @return array{nb_vols:int, total_sec:int, nb_lieux:int, nb_pays:int}
+     * @return array{nb_vols:int, total_sec:int, nb_landings:int, nb_lieux:int, nb_pays:int}
      */
     public static function statsParUtilisateur(int $idUtilisateur): array
     {
         $pdo = Database::pdo();
 
-        // Vols + temps de vol cumulé (table vols).
+        // Vols + temps de vol cumulé + atterrissages cumulés (table vols).
         $stmt = $pdo->prepare(
-            "SELECT COUNT(*) AS nb_vols, COALESCE(SUM(duree_sec), 0) AS total_sec
+            "SELECT COUNT(*) AS nb_vols,
+                    COALESCE(SUM(duree_sec), 0)        AS total_sec,
+                    COALESCE(SUM(nb_atterrissages), 0) AS nb_landings
              FROM vols WHERE id_utilisateur = :u"
         );
         $stmt->execute(['u' => $idUtilisateur]);
@@ -160,10 +162,11 @@ class Vol
         $b = $stmt->fetch() ?: [];
 
         return [
-            'nb_vols'   => (int) ($a['nb_vols'] ?? 0),
-            'total_sec' => (int) ($a['total_sec'] ?? 0),
-            'nb_lieux'  => (int) ($b['nb_lieux'] ?? 0),
-            'nb_pays'   => (int) ($b['nb_pays'] ?? 0),
+            'nb_vols'     => (int) ($a['nb_vols'] ?? 0),
+            'total_sec'   => (int) ($a['total_sec'] ?? 0),
+            'nb_landings' => (int) ($a['nb_landings'] ?? 0),
+            'nb_lieux'    => (int) ($b['nb_lieux'] ?? 0),
+            'nb_pays'     => (int) ($b['nb_pays'] ?? 0),
         ];
     }
 

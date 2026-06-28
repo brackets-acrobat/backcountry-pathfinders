@@ -254,6 +254,7 @@ return [
     'profil.flights_heading' => 'Their flights',
     'profil.no_flights'      => 'This pilot hasn\'t sent any flight yet.',
     'profil.awards'          => 'Awards',
+    'awards.none'            => 'No badges yet.',
 
     // My flights
     'page.my_flights.title'   => 'My flights',

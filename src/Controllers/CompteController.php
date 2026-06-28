@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\Ecussons;
 use App\Core\View;
 use App\Models\CleApi;
 use App\Models\Lieu;
@@ -30,12 +31,19 @@ class CompteController
         $flash = $_SESSION['compte_flash'] ?? null;
         unset($_SESSION['compte_flash']);
 
+        $stats = Vol::statsParUtilisateur(Auth::id());
+
         (new View())->render('compte/index', [
             'title'       => t('page.account.title'),
             'utilisateur' => Utilisateur::parId(Auth::id()),
             'cles'        => CleApi::parUtilisateur(Auth::id()),
             'nouvelleCle' => $_SESSION['nouvelle_cle'] ?? null,
             'flash'       => $flash,
+            'ecussons'    => Ecussons::pour([
+                'flights'   => $stats['nb_vols'],
+                'countries' => $stats['nb_pays'],
+                'landings'  => $stats['nb_landings'],
+            ]),
         ]);
     }
 

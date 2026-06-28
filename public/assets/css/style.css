@@ -1113,6 +1113,26 @@ i.ph-star.star-empty { color: var(--muted); }   /* étoiles non remplies */
     .profil-awards { margin-left: 0; width: 100%; }
 }
 
+/* --- Écussons (badges) : profil pilote + Mon compte --- */
+.ecussons-liste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+}
+.ecusson { display: block; }
+.ecusson-img {
+    width: 150px;
+    height: auto;            /* bannières 200×100 (ratio 2:1) */
+    display: block;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .4));
+}
+.ecussons-vide { font-size: .85rem; margin: .2rem 0; }
+/* Sur « Mon compte », la boîte n'a pas de fond panel : un peu d'air sous le titre */
+.compte-ecussons { margin: .2rem 0 1.4rem; }
+
 /* Suppression d'un vol (toggle <details>) */
 .vol-delete { margin-top: .3rem; }
 .vol-delete-detail { margin-top: 1.5rem; }

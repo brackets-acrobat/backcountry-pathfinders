@@ -26,6 +26,12 @@ $avatar = $utilisateur['avatar'] ?? null;
         </div>
     <?php endif; ?>
 
+    <!-- Écussons -->
+    <h2><i class="ph-light ph-medal"></i> <?= t('profil.awards') ?></h2>
+    <div class="compte-ecussons">
+        <?php include __DIR__ . '/../partials/ecussons.php'; ?>
+    </div>
+
     <!-- Avatar -->
     <h2><?= t('account.avatar_section') ?></h2>
     <p class="compte-intro"><?= t('account.avatar_intro') ?></p>

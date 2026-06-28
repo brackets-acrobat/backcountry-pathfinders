@@ -30,7 +30,9 @@ use App\Core\View;
 
         <aside class="profil-awards">
             <h2 class="profil-awards-title"><i class="ph-light ph-medal"></i> <?= t('profil.awards') ?></h2>
-            <div class="profil-awards-body"></div>
+            <div class="profil-awards-body">
+                <?php include __DIR__ . '/../partials/ecussons.php'; ?>
+            </div>
         </aside>
     </header>
 
