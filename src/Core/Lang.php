@@ -52,6 +52,7 @@ class Lang
                 'expires'  => time() + self::COOKIE_DUREE,
                 'path'     => '/',
                 'samesite' => 'Lax',
+                'secure'   => !empty($_SERVER['HTTPS']),   // transmis en clair sur HTTP local, chiffré en prod
             ]);
         }
 

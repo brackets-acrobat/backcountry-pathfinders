@@ -43,5 +43,8 @@ use App\Core\View;
         <button type="submit" class="btn"><?= t('login.submit') ?></button>
     </form>
 
+    <p class="form-alt">
+        <a href="<?= BASE_URL ?>/mot-de-passe-oublie"><?= t('login.forgot_link') ?></a>
+    </p>
     <p class="form-alt"><?= t('login.no_account') ?> <a href="<?= BASE_URL ?>/inscription"><?= t('login.register_link') ?></a></p>
 </section>

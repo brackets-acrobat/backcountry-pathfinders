@@ -10,6 +10,7 @@ use App\Core\View;
 /** @var array<string,string>|null $actuOld */
 /** @var array<string,mixed>|null $actuEdit */
 /** @var array<int,array<string,mixed>> $actuListe */
+/** @var array<int,array<string,mixed>> $utilisateurs */
 /** @var array<int,array<string,mixed>> $activites */
 /** @var string|null $filtre */
 /** @var array<int,bool> $hasIp */
@@ -18,8 +19,9 @@ use App\Core\View;
 
 // Onglets d'administration (barre du haut) : [section, icône, libellé].
 $tabs = [
-    ['activite', 'ph-pulse',     t('admin.tab_activite')],
-    ['news',     'ph-newspaper', t('admin.tab_news')],
+    ['activite',     'ph-pulse',     t('admin.tab_activite')],
+    ['news',         'ph-newspaper', t('admin.tab_news')],
+    ['utilisateurs', 'ph-users',     t('admin.tab_utilisateurs')],
 ];
 
 // Filtres de la barre latérale (onglet « Activité ») : [valeur du filtre, icône, libellé].
@@ -188,6 +190,116 @@ $moiId = Auth::id();
 
                 <?php endif; ?>
             </div>
+        </div>
+
+    <?php elseif ($section === 'utilisateurs'): /* onglet « Utilisateurs » */ ?>
+
+        <div class="admin-content admin-content-full">
+            <?php if ($utilisateurs === []): ?>
+                <p class="muted"><?= t('admin.users_empty') ?></p>
+            <?php else: ?>
+                <p class="muted admin-users-count">
+                    <?= count($utilisateurs) ?> <?= t('admin.users_total') ?>
+                </p>
+                <div class="admin-table-wrap">
+                    <table class="admin-users-table">
+                        <thead>
+                            <tr>
+                                <th><?= t('admin.users_col_pseudo') ?></th>
+                                <th><?= t('admin.users_col_email') ?></th>
+                                <th><?= t('admin.users_col_role') ?></th>
+                                <th><?= t('admin.users_col_2fa') ?></th>
+                                <th><?= t('admin.users_col_inscription') ?></th>
+                                <th class="admin-users-col-actions"><?= t('admin.users_col_actions') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($utilisateurs as $u): ?>
+                                <?php
+                                $uid    = (int) $u['id'];
+                                $role   = (string) $u['role'];
+                                $estMoi = $uid === $moiId;
+                                ?>
+                                <tr>
+                                    <td class="admin-users-pseudo">
+                                        <a href="<?= BASE_URL ?>/pilote/<?= $uid ?>"><?= View::e((string) $u['pseudo']) ?></a>
+                                        <?php if ($estMoi): ?>
+                                            <span class="admin-users-you"><?= t('admin.users_you') ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= View::e((string) $u['email']) ?></td>
+                                    <td>
+                                        <span class="admin-role admin-role-<?= View::e($role) ?>">
+                                            <?= t('admin.role_' . $role) ?>
+                                        </span>
+                                    </td>
+                                    <td><?= !empty($u['totp_actif']) ? t('admin.users_yes') : t('admin.users_no') ?></td>
+                                    <td class="admin-users-date"><?= View::e(substr((string) $u['date_inscription'], 0, 10)) ?></td>
+                                    <td class="admin-users-actions">
+                                        <?php if (!$estMoi): ?>
+                                            <button type="button" class="btn-icon btn-icon-danger admin-user-del-btn"
+                                                    data-id="<?= $uid ?>"
+                                                    data-nom="<?= View::e((string) $u['pseudo']) ?>"
+                                                    title="<?= View::e(t('admin.users_delete')) ?>"
+                                                    aria-label="<?= View::e(t('admin.users_delete')) ?>">
+                                                <i class="ph-light ph-trash"></i>
+                                            </button>
+                                        <?php else: ?>
+                                            <span class="muted">—</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modale de confirmation de suppression d'un utilisateur -->
+                <div id="user-modal-overlay" class="admin-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="user-modal-titre">
+                    <div class="admin-modal">
+                        <h3 id="user-modal-titre"><?= View::e(t('admin.users_delete')) ?></h3>
+                        <p id="user-modal-text"></p>
+                        <div class="admin-modal-actions">
+                            <button type="button" id="user-modal-cancel" class="btn btn-ghost">
+                                <?= View::e(t('admin.modal_cancel')) ?>
+                            </button>
+                            <form id="user-modal-form" method="post" action="">
+                                <input type="hidden" name="csrf" value="<?= View::e(Auth::jetonCsrf()) ?>">
+                                <input type="hidden" name="retour" value="utilisateurs">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="ph-light ph-trash"></i> <?= View::e(t('admin.modal_delete')) ?>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                (function () {
+                    const base    = <?= json_encode(BASE_URL, JSON_UNESCAPED_SLASHES) ?>;
+                    const gabarit = <?= json_encode(t('admin.users_delete_confirm')) ?>;
+                    const overlay = document.getElementById('user-modal-overlay');
+                    const elText  = document.getElementById('user-modal-text');
+                    const form    = document.getElementById('user-modal-form');
+                    const cancel  = document.getElementById('user-modal-cancel');
+
+                    function ouvrir(btn) {
+                        elText.textContent = gabarit.replace('%s', btn.dataset.nom);
+                        form.action = base + '/admin/pilote/' + btn.dataset.id + '/supprimer';
+                        overlay.classList.add('is-open');
+                        cancel.focus();
+                    }
+                    function fermer() { overlay.classList.remove('is-open'); }
+
+                    document.querySelectorAll('.admin-user-del-btn').forEach(b => {
+                        b.addEventListener('click', () => ouvrir(b));
+                    });
+                    cancel.addEventListener('click', fermer);
+                    overlay.addEventListener('click', e => { if (e.target === overlay) fermer(); });
+                    document.addEventListener('keydown', e => { if (e.key === 'Escape') fermer(); });
+                }());
+                </script>
+            <?php endif; ?>
         </div>
 
     <?php else: /* onglet « Activité récente » */ ?>

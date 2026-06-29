@@ -46,6 +46,20 @@ App\Core\Turnstile::configure($config['turnstile'] ?? []);
 // --- Géocodage inverse (pays + région à la création d'un lieu) ---
 App\Core\Geocodage::configure($config['geocodage'] ?? []);
 
+// --- Envoi d'e-mails (SMTP) : « mot de passe oublié », etc. ---
+App\Core\Mailer::configure($config['mail'] ?? []);
+
+// URL absolue du site (pour les liens dans les e-mails). Priorité à la config ;
+// sinon déduite de la requête courante (scheme + hôte + BASE_URL).
+$urlConfig = trim((string) ($config['app']['url'] ?? ''));
+if ($urlConfig !== '') {
+    define('SITE_URL', rtrim($urlConfig, '/'));
+} else {
+    $scheme = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http';
+    $hote   = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    define('SITE_URL', $scheme . '://' . $hote . BASE_URL);
+}
+
 // --- Session ---
 App\Core\Auth::demarrer();
 
@@ -86,8 +100,11 @@ $router = new Router();
 $router->get('/', 'App\Controllers\AccueilController@index');
 $router->get('/carte', 'App\Controllers\CarteController@index');
 $router->get('/presentation', 'App\Controllers\PresentationController@index');
+$router->get('/confidentialite', 'App\Controllers\ConfidentialiteController@index');
+$router->get('/mentions-legales', 'App\Controllers\MentionsLegalesController@index');
 $router->get('/pilotes', 'App\Controllers\PiloteController@index');
 $router->get('/pilote/(\d+)', 'App\Controllers\PiloteController@profil');
+$router->get('/actualites', 'App\Controllers\ActualiteController@liste');
 $router->get('/actualite/(\d+)', 'App\Controllers\ActualiteController@detail');
 $router->get('/lieu/(\d+)', 'App\Controllers\LieuController@detail');
 $router->post('/lieu/(\d+)/commentaire', 'App\Controllers\LieuController@ajouterCommentaire');
@@ -124,6 +141,12 @@ $router->post('/inscription', 'App\Controllers\AuthController@inscription');
 $router->get('/connexion',    'App\Controllers\AuthController@formulaireConnexion');
 $router->post('/connexion',   'App\Controllers\AuthController@connexion');
 $router->get('/deconnexion',  'App\Controllers\AuthController@deconnexion');
+
+// Mot de passe oublié + réinitialisation par lien e-mail.
+$router->get('/mot-de-passe-oublie',  'App\Controllers\AuthController@formulaireMotDePasseOublie');
+$router->post('/mot-de-passe-oublie', 'App\Controllers\AuthController@envoyerLienReinit');
+$router->get('/reinitialiser/([a-f0-9]{64})',  'App\Controllers\AuthController@formulaireReinit');
+$router->post('/reinitialiser/([a-f0-9]{64})', 'App\Controllers\AuthController@reinitialiser');
 
 // Double authentification (TOTP) des administrateurs
 $router->get('/connexion/2fa',            'App\Controllers\AuthController@formulaire2fa');

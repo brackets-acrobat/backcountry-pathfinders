@@ -65,6 +65,38 @@ class Actualite
     }
 
     /**
+     * Nombre total d'actualités PUBLIÉES (pour la pagination de la page « News »).
+     */
+    public static function compterPubliees(): int
+    {
+        return (int) Database::pdo()->query(
+            "SELECT COUNT(*) FROM actualites WHERE statut = 'publie'"
+        )->fetchColumn();
+    }
+
+    /**
+     * Une page d'actualités PUBLIÉES (les plus récentes d'abord), pour la
+     * page publique « News ». $offset et $limite sont bornés/assainis.
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public static function pagePubliees(int $offset, int $limite): array
+    {
+        $offset = max(0, $offset);
+        $limite = max(1, $limite);
+        $stmt = Database::pdo()->prepare(
+            "SELECT id, titre, contenu, date_creation
+             FROM actualites WHERE statut = 'publie'
+             ORDER BY date_creation DESC, id DESC
+             LIMIT :lim OFFSET :off"
+        );
+        $stmt->bindValue('lim', $limite, \PDO::PARAM_INT);
+        $stmt->bindValue('off', $offset, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Une actualité PUBLIÉE pour l'affichage public (avec le pseudo de l'auteur),
      * ou null si introuvable / non publiée.
      */

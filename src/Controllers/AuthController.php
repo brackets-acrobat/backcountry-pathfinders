@@ -8,7 +8,9 @@ use App\Core\Auth;
 use App\Core\Totp;
 use App\Core\Turnstile;
 use App\Core\View;
+use App\Core\Mailer;
 use App\Models\ConnexionPersistante;
+use App\Models\PasswordReset;
 use App\Models\Utilisateur;
 use PDOException;
 
@@ -280,6 +282,155 @@ class AuthController
             'uri'     => Totp::uriOtpauth($secret, $compte, self::TOTP_ISSUER),
             'erreurs' => $erreurs,
         ]);
+    }
+
+    /** Affiche le formulaire « Mot de passe oublié » (saisie de l'e-mail). */
+    public function formulaireMotDePasseOublie(): void
+    {
+        if (Auth::estConnecte()) { $this->rediriger('/'); return; }
+        (new View())->render('auth/mot-de-passe-oublie', [
+            'title'   => t('page.forgot.title'),
+            'erreurs' => [],
+            'envoye'  => false,
+        ]);
+    }
+
+    /**
+     * Traite la demande de réinitialisation : si l'e-mail correspond à un
+     * compte, envoie un lien. Le message affiché est TOUJOURS le même (qu'un
+     * compte existe ou non) pour ne pas révéler quels e-mails sont inscrits.
+     */
+    public function envoyerLienReinit(): void
+    {
+        if (Auth::estConnecte()) { $this->rediriger('/'); return; }
+
+        $email   = trim((string) ($_POST['email'] ?? ''));
+        $erreurs = [];
+
+        if (!Auth::verifierCsrf($_POST['csrf'] ?? null)) {
+            $erreurs[] = 'error.csrf';
+        }
+        if (!Turnstile::verifier($_POST[Turnstile::champ()] ?? null, $_SERVER['REMOTE_ADDR'] ?? null)) {
+            $erreurs[] = 'error.captcha';
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $erreurs[] = 'error.email_invalid';
+        }
+
+        if ($erreurs) {
+            (new View())->render('auth/mot-de-passe-oublie', [
+                'title'   => t('page.forgot.title'),
+                'erreurs' => $erreurs,
+                'envoye'  => false,
+            ]);
+            return;
+        }
+
+        // Compte existant + envoi possible → on émet un jeton et on envoie le lien.
+        // (Anti-énumération : aucune trace de l'issue n'est renvoyée à l'écran.)
+        $u = Utilisateur::parEmail($email);
+        if ($u !== null && Mailer::estActif()) {
+            $jeton = PasswordReset::creer((int) $u['id']);
+            $lien  = SITE_URL . '/reinitialiser/' . $jeton;
+            Mailer::envoyer(
+                $email,
+                t('mail.reset_subject'),
+                $this->corpsMailReinit((string) $u['pseudo'], $lien)
+            );
+        }
+
+        (new View())->render('auth/mot-de-passe-oublie', [
+            'title'   => t('page.forgot.title'),
+            'erreurs' => [],
+            'envoye'  => true,
+        ]);
+    }
+
+    /**
+     * Affiche le formulaire de saisie d'un nouveau mot de passe (lien reçu par
+     * e-mail). Jeton invalide ou expiré → page avec message d'erreur.
+     */
+    public function formulaireReinit(string $jeton): void
+    {
+        $valide = PasswordReset::validerUtilisateur($jeton) !== null;
+        (new View())->render('auth/reinit', [
+            'title'   => t('page.reset.title'),
+            'jeton'   => $jeton,
+            'valide'  => $valide,
+            'succes'  => false,
+            'erreurs' => [],
+        ]);
+    }
+
+    /** Traite le nouveau mot de passe soumis depuis le lien de réinitialisation. */
+    public function reinitialiser(string $jeton): void
+    {
+        $idUser  = PasswordReset::validerUtilisateur($jeton);
+        $erreurs = [];
+
+        if (!Auth::verifierCsrf($_POST['csrf'] ?? null)) {
+            $erreurs[] = 'error.csrf';
+        }
+        if ($idUser === null) {
+            (new View())->render('auth/reinit', [
+                'title'   => t('page.reset.title'),
+                'jeton'   => $jeton,
+                'valide'  => false,
+                'succes'  => false,
+                'erreurs' => [],
+            ]);
+            return;
+        }
+
+        $mdp  = (string) ($_POST['mot_de_passe'] ?? '');
+        $mdp2 = (string) ($_POST['confirmation'] ?? '');
+
+        if (!Utilisateur::motDePasseValide($mdp)) {
+            $erreurs[] = 'error.password_weak';
+        }
+        if ($mdp !== $mdp2) {
+            $erreurs[] = 'error.password_mismatch';
+        }
+
+        if (!$erreurs) {
+            Utilisateur::majMotDePasse($idUser, $mdp);
+            PasswordReset::consommer($jeton);
+            // Sécurité : on révoque les connexions persistantes existantes du compte.
+            ConnexionPersistante::revoquerUtilisateur($idUser);
+
+            (new View())->render('auth/reinit', [
+                'title'   => t('page.reset.title'),
+                'jeton'   => $jeton,
+                'valide'  => true,
+                'succes'  => true,
+                'erreurs' => [],
+            ]);
+            return;
+        }
+
+        (new View())->render('auth/reinit', [
+            'title'   => t('page.reset.title'),
+            'jeton'   => $jeton,
+            'valide'  => true,
+            'succes'  => false,
+            'erreurs' => $erreurs,
+        ]);
+    }
+
+    /** Construit le corps HTML de l'e-mail de réinitialisation. */
+    private function corpsMailReinit(string $pseudo, string $lien): string
+    {
+        $lienEch = htmlspecialchars($lien, ENT_QUOTES);
+        return '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#222;line-height:1.6">'
+            . '<p>' . sprintf(t('mail.reset_hello'), htmlspecialchars($pseudo, ENT_QUOTES)) . '</p>'
+            . '<p>' . t('mail.reset_intro') . '</p>'
+            . '<p style="margin:24px 0"><a href="' . $lienEch . '"'
+            . ' style="display:inline-block;padding:11px 20px;background:#2e7d32;color:#fff;'
+            . 'text-decoration:none;border-radius:6px;font-weight:bold">' . t('mail.reset_button') . '</a></p>'
+            . '<p style="font-size:13px;color:#666">' . t('mail.reset_expire') . '</p>'
+            . '<p style="font-size:13px;color:#666">' . t('mail.reset_ignore') . '</p>'
+            . '<p style="font-size:12px;color:#999;word-break:break-all">' . $lienEch . '</p>'
+            . '</div>';
     }
 
     public function deconnexion(): void

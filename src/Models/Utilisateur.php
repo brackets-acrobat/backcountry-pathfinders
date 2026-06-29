@@ -153,6 +153,23 @@ class Utilisateur
         return $stmt->fetchAll();
     }
 
+    /**
+     * Liste complète des comptes pour l'espace d'administration : inclut des
+     * informations sensibles (e-mail, rôle, 2FA) réservées aux admins. Les plus
+     * récents d'abord.
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public static function tousPourAdmin(): array
+    {
+        return Database::pdo()->query(
+            "SELECT id, pseudo, email, avatar, role, totp_actif, date_inscription,
+                    (ip_derniere_connexion IS NOT NULL AND ip_derniere_connexion != '') AS a_ip
+             FROM utilisateurs
+             ORDER BY date_inscription DESC, id DESC"
+        )->fetchAll();
+    }
+
     /** Met à jour le pseudo + l'e-mail. Le pseudo se répercute partout (jointures). */
     public static function majProfil(int $id, string $pseudo, string $email): void
     {

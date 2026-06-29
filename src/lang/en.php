@@ -14,6 +14,7 @@ return [
     'nav.admin'        => 'Admin',
     'nav.home'     => 'Home',
     'nav.map'      => 'Map',
+    'nav.news'     => 'News',
     'nav.presentation' => 'About',
     'nav.pilots'   => 'Pilots list',
     'nav.login'    => 'Log in',
@@ -22,7 +23,7 @@ return [
     'lang.switch'  => 'Switch language',
 
     // Footer
-    'footer.tagline' => 'Backcountry Pathfinders community — MSFS 2024 landing spot surveys',
+    'footer.tagline' => 'Backcountry Pathfinders community — © 2026 Cyril MILANI',
 
     // Common labels
     'common.email'    => 'Email',
@@ -40,7 +41,12 @@ return [
     'home.letter_bye' => "Happy flying and fly safe!",
     'home.presentation_link' => 'Learn more...',
     'home.news_heading'      => 'Latest news',
-    'actu.back'              => 'Back to home',
+    'news.page_title'        => 'News',
+    'news.empty'             => 'No news yet.',
+    'pager.prev'             => 'Previous',
+    'pager.next'             => 'Next',
+    'pager.page'             => 'Page %d of %d',
+    'actu.back'              => 'Previous page',
     'actu.published_on'      => 'Published on',
     'actu.updated_on'        => 'updated on',
     'actu.by'                => 'by',
@@ -76,6 +82,112 @@ return [
     'presentation.s5_punch'   => "Welcome to the Pathfinders. Buckle up — the map's waiting.",
     'presentation.cta_map'    => 'View the map',
 
+    // "Privacy policy" page (GDPR)
+    'page.privacy.title' => 'Privacy policy',
+    'privacy.title'   => 'Privacy policy',
+    'privacy.updated' => 'Last updated: 29 June 2026',
+
+    'privacy.s_controller_h' => 'Data controller',
+    'privacy.s_controller_p' => 'The Backcountry Pathfinders website is published by the project owner (Cyril Milani). For any question about your personal data, you can write to the contact address given below. This document explains what data we collect, why, how long we keep it and what your rights are.',
+
+    'privacy.s_data_h'     => 'Data we collect',
+    'privacy.s_data_intro' => 'We follow the data-minimisation principle: we only collect what is needed for the site to work.',
+    'privacy.data_account_t'   => 'Account data:',
+    'privacy.data_account_d'   => 'username, email address, password (never stored in clear text — it is hashed with bcrypt), and your avatar if you add one. This data is only requested if you create an account.',
+    'privacy.data_content_t'   => 'Content you publish:',
+    'privacy.data_content_d'   => 'your flights, surveyed landing spots (geographic coordinates, photos, characteristics), comments and ratings. This content is visible to the community.',
+    'privacy.data_technical_t' => 'Technical data:',
+    'privacy.data_technical_d' => 'your IP address at login time is recorded for security purposes (abuse prevention and IP banning by moderation). The web server logs may also temporarily keep your IP address.',
+
+    'privacy.s_cookies_h'     => 'Cookies',
+    'privacy.s_cookies_intro' => 'A cookie is a small file stored on your device. The site uses no advertising or tracking cookies (no Google Analytics, no social-network pixel). Here is the exhaustive list of cookies set by the site itself:',
+    'privacy.cookies_first_h'    => 'Cookies set by the site',
+    'privacy.cookies_th_name'     => 'Name',
+    'privacy.cookies_th_purpose'  => 'Purpose',
+    'privacy.cookies_th_duration' => 'Lifetime',
+    'privacy.cookie_session_d'    => 'Session identifier: keeps you logged in, anti-CSRF token, temporary messages, chosen language. Essential for the site to work.',
+    'privacy.cookie_session_dur'  => 'Session (deleted when you close the browser)',
+    'privacy.cookie_lang_d'       => 'Remembers your language (French or English). Set only when you switch language.',
+    'privacy.cookie_lang_dur'     => '1 year',
+    'privacy.cookie_remember_d'   => 'Persistent "remember me" login. Set only if you tick that box at login.',
+    'privacy.cookie_remember_dur' => '30 days',
+    'privacy.cookies_necessary_note' => 'These three cookies are strictly necessary or functional: they are not used for tracking and are exempt from prior consent.',
+    'privacy.cookies_third_h' => 'Third-party cookies',
+    'privacy.cookies_third_p' => 'On the sign-up, log-in and comment pages, we use Cloudflare Turnstile to tell you apart from a bot. This service may set a technical cookie of its own, solely for bot detection. Cloudflare designs Turnstile to be privacy-preserving and does not use it for advertising. No third-party cookie is set on the public pages (home, map, news, about).',
+
+    'privacy.s_thirdparty_h'     => 'Third-party services',
+    'privacy.s_thirdparty_intro' => 'To work, the site loads some resources from external services. When your browser contacts them, your IP address is technically passed to them:',
+    'privacy.tp_turnstile' => 'anti-bot protection of forms (sign-up, log-in, comment).',
+    'privacy.tp_cdn'       => 'delivery of the mapping library (Leaflet), icons and QR-code generation (admins only).',
+    'privacy.tp_tiles'     => 'map backgrounds (tiles) shown on the interactive map and the spot pages.',
+    'privacy.tp_geocode'   => 'reverse geocoding (deriving a spot\'s country and region). This call is made by our server, so your IP address is not passed to this service.',
+    'privacy.tp_ip_note'   => 'These services may apply their own privacy policies. No data is shared with them for commercial purposes.',
+
+    'privacy.s_legal_h' => 'Purposes and legal basis',
+    'privacy.s_legal_p' => 'Account data is processed to manage your account and access to the site (performance of the service you request). Content you publish is processed on the basis of your voluntary act of publishing. Technical data (IP address) is processed under the site\'s legitimate interest in ensuring its security and preventing abuse.',
+
+    'privacy.s_retention_h'   => 'Retention periods',
+    'privacy.retention_account'  => 'Account data: kept as long as your account exists; deleted when you request account deletion.',
+    'privacy.retention_session'  => 'Session cookie: deleted when you close the browser.',
+    'privacy.retention_remember' => '"Remember me" cookie and associated token: 30 days, or until you log out.',
+    'privacy.retention_content'  => 'Published content: kept until removed by you or by moderation.',
+
+    'privacy.s_recipients_h' => 'Who receives your data',
+    'privacy.s_recipients_p' => 'Your data is never sold, rented or shared with third parties for commercial purposes. The content you choose to publish is visible to other users. The site is hosted by our hosting provider, acting as a processor.',
+
+    'privacy.s_rights_h'     => 'Your rights',
+    'privacy.s_rights_intro' => 'Under the General Data Protection Regulation (GDPR), you have the following rights:',
+    'privacy.right_access'      => 'right of access to your data;',
+    'privacy.right_rectify'     => 'right to rectification (you can edit your profile from "My account");',
+    'privacy.right_erase'       => 'right to erasure of your data and account;',
+    'privacy.right_portability' => 'right to data portability;',
+    'privacy.right_object'      => 'right to object to and restrict processing;',
+    'privacy.right_complaint'   => 'right to lodge a complaint with your data-protection authority (in France, the CNIL — www.cnil.fr).',
+    'privacy.rights_exercise'   => 'To exercise these rights, write to us at:',
+    'privacy.contact_email'     => 'contact@pathfinders.sixk.me',
+
+    'privacy.s_security_h' => 'Security',
+    'privacy.s_security_p' => 'Passwords are hashed (bcrypt) and never stored in clear text. Administrator accounts are protected by two-factor authentication (2FA). Cookies are configured with the HttpOnly and SameSite attributes, and the Secure attribute over HTTPS. We implement reasonable technical measures to protect your data, without being able to guarantee absolute security.',
+
+    'privacy.s_changes_h' => 'Changes to this policy',
+    'privacy.s_changes_p' => 'This policy may be updated to reflect changes to the site or to regulations. The last-updated date is shown at the top of this page.',
+
+    'footer.privacy' => 'Privacy policy',
+
+    // "Legal notice" page (French LCEN)
+    'page.legal_notice.title' => 'Legal notice',
+    'legal_notice.title' => 'Legal notice',
+    'legal_notice.intro' => 'In accordance with articles 6-III and 19 of French Act No. 2004-575 of 21 June 2004 on confidence in the digital economy (LCEN), here is the information about the publisher and the host of the pathfinders.sixk.me website.',
+
+    'legal_notice.editor_h'     => 'Website publisher',
+    'legal_notice.owner_label'  => 'Owner',
+    'legal_notice.owner_value'  => 'Cyril MILANI',
+    'legal_notice.contact_label'=> 'Contact',
+    'legal_notice.dev_label'    => 'Design and development',
+    'legal_notice.dev_value'    => 'Cyril MILANI — contact@pathfinders.sixk.me',
+
+    'legal_notice.hosting_h'     => 'Hosting',
+    'legal_notice.hosting_intro' => 'The website and its administration interface (API) are hosted by:',
+    'legal_notice.host_name'    => 'o2switch',
+    'legal_notice.host_company' => 'SAS o2switch — Chez Eclats Group',
+    'legal_notice.host_address' => '222-224 Boulevard Gustave Flaubert, 63000 Clermont-Ferrand, France',
+    'legal_notice.host_phone'   => 'Phone: +33 4 44 44 60 40',
+
+    'legal_notice.ip_h'  => 'Intellectual property',
+    'legal_notice.ip_p1' => 'Content published by users (photographs, surveys, comments and ratings) remains the property of its authors, who warrant that they hold the rights to it; by publishing it, the user grants its distribution on pathfinders.sixk.me. The site\'s other texts, photographs and illustrations are produced by pathfinders.sixk.me, used with the written permission of their author, or sourced from royalty-free image banks.',
+    'legal_notice.ip_p2' => 'It is forbidden to reproduce, display, transfer, distribute or record all or part of these elements, in any form whatsoever, without prior written authorisation. Where authorisation is granted, the user must credit pathfinders.sixk.me as the source — in the presentation of the content and at its original size — and include a link back to the corresponding content.',
+
+    'legal_notice.links_h' => 'External links',
+    'legal_notice.links_p' => 'Sites linked directly or indirectly to pathfinders.sixk.me are not under its control. Consequently, pathfinders.sixk.me accepts no responsibility for the information published on those sites. Links to external sites are provided for convenience only and do not imply any endorsement of their content.',
+
+    'legal_notice.liability_h' => 'Liability',
+    'legal_notice.liability_p' => 'pathfinders.sixk.me strives to ensure that the information published is accurate and up to date, but cannot be held liable for errors, for any unavailability of the service, or for any damage resulting from its use.',
+
+    'legal_notice.data_h' => 'Personal data and cookies',
+    'legal_notice.data_p' => 'The processing of your personal data and the cookies used are detailed on the',
+
+    'footer.legal_notice' => 'Legal notice',
+
     // "Map" page
     'page.map.title'  => 'Spots map',
     'map.heading'     => 'Landing spots map',
@@ -103,6 +215,23 @@ return [
     'page.admin.title'       => 'Administration',
     'admin.tab_activite'     => 'Recent activity',
     'admin.tab_news'         => 'News',
+    'admin.tab_utilisateurs' => 'Users',
+    'admin.users_empty'        => 'No users.',
+    'admin.users_total'        => 'user(s)',
+    'admin.users_col_pseudo'      => 'Username',
+    'admin.users_col_email'       => 'Email',
+    'admin.users_col_role'        => 'Role',
+    'admin.users_col_2fa'         => '2FA',
+    'admin.users_col_inscription' => 'Joined',
+    'admin.users_col_actions'     => 'Actions',
+    'admin.users_delete'          => 'Delete user',
+    'admin.users_delete_confirm'  => 'Permanently delete user "%s"? Their flights, places and comments will be kept but anonymised.',
+    'admin.users_you'          => '(you)',
+    'admin.users_yes'          => 'Yes',
+    'admin.users_no'           => 'No',
+    'admin.role_membre'        => 'Member',
+    'admin.role_moderateur'    => 'Moderator',
+    'admin.role_admin'         => 'Administrator',
     'admin.news_new'         => 'New article',
     'admin.news_manage'      => 'Manage articles',
     'admin.news_soon'        => 'This section will be available soon.',
@@ -246,6 +375,34 @@ return [
     'login.remember'      => 'Remember me (1 month)',
     'login.no_account'    => 'No account yet?',
     'login.register_link' => 'Create an account',
+    'login.forgot_link'   => 'Forgot your password?',
+
+    // Forgot password + reset
+    'page.forgot.title'   => 'Forgot password',
+    'forgot.heading'      => 'Forgot password',
+    'forgot.intro'        => 'Enter your account email address. If it matches an account, you will receive a link to choose a new password.',
+    'forgot.submit'       => 'Send the link',
+    'forgot.sent'         => 'If an account is linked to this address, an email with a reset link has just been sent. Remember to check your spam folder.',
+    'forgot.back_login'   => 'Back to login',
+
+    'page.reset.title'      => 'New password',
+    'reset.heading'         => 'New password',
+    'reset.intro'           => 'Choose a new password for your account.',
+    'reset.new_password'    => 'New password',
+    'reset.confirm_password'=> 'Confirm password',
+    'reset.password_hint'   => 'At least 8 characters, with an uppercase letter, a lowercase letter, a digit and a special character.',
+    'reset.submit'          => 'Reset password',
+    'reset.success'         => 'Your password has been reset. You can now log in.',
+    'reset.go_login'        => 'Log in',
+    'reset.invalid'         => 'This reset link is invalid or has expired.',
+    'reset.retry'           => 'Request a new link',
+
+    'mail.reset_subject' => 'Reset your password',
+    'mail.reset_hello'   => 'Hello %s,',
+    'mail.reset_intro'   => 'You requested to reset the password of your Backcountry Pathfinders account. Click the button below to choose a new one.',
+    'mail.reset_button'  => 'Reset my password',
+    'mail.reset_expire'  => 'This link is valid for one hour.',
+    'mail.reset_ignore'  => 'If you did not request this, simply ignore this email: your password will remain unchanged.',
 
     // Navigation (continued)
     'nav.account' => 'My account',

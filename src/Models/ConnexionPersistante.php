@@ -99,6 +99,14 @@ class ConnexionPersistante
         self::effacerCookie();
     }
 
+    /** Révoque TOUS les jetons d'un utilisateur (ex. après réinitialisation du mot de passe). */
+    public static function revoquerUtilisateur(int $idUtilisateur): void
+    {
+        Database::pdo()->prepare(
+            "DELETE FROM connexions_persistantes WHERE id_utilisateur = :u"
+        )->execute(['u' => $idUtilisateur]);
+    }
+
     private static function supprimerParSelecteur(string $selecteur): void
     {
         Database::pdo()->prepare(

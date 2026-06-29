@@ -35,9 +35,12 @@ class AdminController
         unset($_SESSION['admin_flash']);
 
         // Onglet d'administration en cours (barre d'onglets en haut).
-        $sections = ['activite', 'news'];
+        $sections = ['activite', 'news', 'utilisateurs'];
         $brutSection = (string) ($_GET['section'] ?? '');
         $section = in_array($brutSection, $sections, true) ? $brutSection : 'activite';
+
+        // Onglet « Utilisateurs » : liste complète des comptes (e-mail, rôle, 2FA).
+        $utilisateurs = $section === 'utilisateurs' ? \App\Models\Utilisateur::tousPourAdmin() : [];
 
         $activites  = [];
         $filtre     = null;
@@ -120,6 +123,7 @@ class AdminController
             'actuOld'    => $actuOld,
             'actuEdit'   => $actuEdit,
             'actuListe'  => $actuListe,
+            'utilisateurs' => $utilisateurs,
             'activites'  => $activites,
             'filtre'     => $filtre,
             'hasIp'      => $hasIp,
@@ -177,16 +181,19 @@ class AdminController
         if (!$this->garderAdmin()) return;
         if (!$this->garderCsrf())  return;
 
+        // Retour vers l'onglet d'où vient l'action (liste « Utilisateurs ») si demandé.
+        $retour = ($_POST['retour'] ?? '') === 'utilisateurs' ? '/admin?section=utilisateurs' : '/admin';
+
         // Interdire l'auto-suppression.
         if ($id === Auth::id()) {
             $this->flash('err', 'admin.error_self');
-            $this->rediriger('/admin');
+            $this->rediriger($retour);
             return;
         }
 
         Database::pdo()->prepare('DELETE FROM utilisateurs WHERE id = ?')->execute([$id]);
         $this->flash('ok', 'admin.deleted_pilote');
-        $this->rediriger('/admin');
+        $this->rediriger($retour);
     }
 
     public function bannirPilote(int $id): void

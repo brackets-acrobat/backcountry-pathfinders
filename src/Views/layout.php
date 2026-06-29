@@ -29,9 +29,10 @@ $title = $title ?? 'Backcountry Pathfinders';
         <!-- Bloc nav : en ligne sur desktop, popover déroulant (hamburger) sur mobile -->
         <div class="nav-panel" id="nav-panel">
             <div class="header-left">
+                <a href="<?= BASE_URL ?>/presentation"><?= t('nav.presentation') ?></a>
+                <a href="<?= BASE_URL ?>/actualites"><?= t('nav.news') ?></a>
                 <a href="<?= BASE_URL ?>/pilotes"><?= t('nav.pilots') ?></a>
                 <a href="<?= BASE_URL ?>/carte"><?= t('nav.map') ?></a>
-                <a href="<?= BASE_URL ?>/presentation"><?= t('nav.presentation') ?></a>
             </div>
             <nav class="site-nav">
                 <?php if (!Auth::estConnecte()): ?>
@@ -104,6 +105,11 @@ $title = $title ?? 'Backcountry Pathfinders';
 
     <footer class="site-footer">
         <small><?= t('footer.tagline') ?></small>
+        <small class="site-footer-links">
+            <a href="<?= BASE_URL ?>/mentions-legales"><?= t('footer.legal_notice') ?></a>
+            <span class="site-footer-sep">·</span>
+            <a href="<?= BASE_URL ?>/confidentialite"><?= t('footer.privacy') ?></a>
+        </small>
     </footer>
 
     <script src="<?= asset('js/app.js') ?>"></script>

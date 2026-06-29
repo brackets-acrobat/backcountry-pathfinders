@@ -11,7 +11,8 @@ $dateMaj = $actualite['date_maj'] ?? null;
 ?>
 <article class="actu-article">
     <p class="actu-back">
-        <a href="<?= BASE_URL ?>/"><i class="ph-light ph-arrow-left"></i> <?= t('actu.back') ?></a>
+        <a href="<?= BASE_URL ?>/actualites"
+           onclick="if (history.length > 1) { history.back(); return false; }"><i class="ph-light ph-arrow-left"></i> <?= t('actu.back') ?></a>
     </p>
 
     <h1 class="actu-article-title"><?= View::e((string) $actualite['titre']) ?></h1>

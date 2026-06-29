@@ -16,6 +16,18 @@ class Auth
     public static function demarrer(): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
+            // Durcissement du cookie de session, indépendamment du php.ini du serveur :
+            //  - HttpOnly : inaccessible au JavaScript (anti-vol XSS) ;
+            //  - SameSite=Lax : pas envoyé en requête tierce (anti-CSRF) ;
+            //  - Secure : posé uniquement sur HTTPS (en local HTTP, on le laisse off
+            //    sinon le cookie ne serait jamais transmis et la session casserait).
+            session_set_cookie_params([
+                'lifetime' => 0,            // cookie de session (effacé à la fermeture du navigateur)
+                'path'     => '/',
+                'httponly' => true,
+                'samesite' => 'Lax',
+                'secure'   => !empty($_SERVER['HTTPS']),
+            ]);
             session_start();
         }
     }
