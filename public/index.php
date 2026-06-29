@@ -88,6 +88,7 @@ $router->get('/carte', 'App\Controllers\CarteController@index');
 $router->get('/presentation', 'App\Controllers\PresentationController@index');
 $router->get('/pilotes', 'App\Controllers\PiloteController@index');
 $router->get('/pilote/(\d+)', 'App\Controllers\PiloteController@profil');
+$router->get('/actualite/(\d+)', 'App\Controllers\ActualiteController@detail');
 $router->get('/lieu/(\d+)', 'App\Controllers\LieuController@detail');
 $router->post('/lieu/(\d+)/commentaire', 'App\Controllers\LieuController@ajouterCommentaire');
 $router->post('/lieu/(\d+)/note', 'App\Controllers\LieuController@enregistrerNote');
@@ -104,6 +105,9 @@ $router->post('/admin/commentaire/(\d+)/supprimer', 'App\Controllers\AdminContro
 $router->post('/admin/note/(\d+)/supprimer',        'App\Controllers\AdminController@supprimerNote');
 $router->post('/admin/pilote/(\d+)/supprimer',      'App\Controllers\AdminController@supprimerPilote');
 $router->post('/admin/pilote/(\d+)/bannir',         'App\Controllers\AdminController@bannirPilote');
+$router->post('/admin/actualite',                   'App\Controllers\AdminController@enregistrerActualite');
+$router->post('/admin/actualite/image',             'App\Controllers\AdminController@televerserImage');
+$router->post('/admin/actualite/(\d+)/supprimer',   'App\Controllers\AdminController@supprimerActualite');
 
 // Données de la carte (JSON public)
 $router->get('/api/lieux', 'App\Controllers\CarteController@lieux');
