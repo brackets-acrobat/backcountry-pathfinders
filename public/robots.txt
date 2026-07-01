@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Espaces privés / techniques : inutiles à indexer
+Disallow: /admin
+Disallow: /compte
+Disallow: /mes-lieux
+Disallow: /mes-vols
+Disallow: /connexion
+Disallow: /inscription
+Disallow: /deconnexion
+Disallow: /mot-de-passe-oublie
+Disallow: /reinitialiser/
+Disallow: /langue/
+Disallow: /api/
+
+Sitemap: https://pathfinders.sixk.me/sitemap.xml

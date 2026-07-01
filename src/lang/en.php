@@ -154,6 +154,17 @@ return [
 
     'footer.privacy' => 'Privacy policy',
 
+    // Cookie consent banner
+    'cookie.aria'       => 'Cookie consent banner',
+    'cookie.message'    => 'This site uses cookies that are strictly necessary for it to work, as well as third-party services (map tiles, anti-bot protection) that may set cookies. You can accept or decline the latter.',
+    'cookie.accept'     => 'Accept',
+    'cookie.refuse'     => 'Decline',
+    'cookie.learn_more' => 'Learn more',
+    'cookie.manage'     => 'Manage cookies',
+
+    // SEO / social sharing metadata (Open Graph)
+    'meta.description' => 'Backcountry Pathfinders: the community map of backcountry landing spots for Microsoft Flight Simulator. Surveys, ratings and shared experience between bush pilots.',
+
     // "Legal notice" page (French LCEN)
     'page.legal_notice.title' => 'Legal notice',
     'legal_notice.title' => 'Legal notice',

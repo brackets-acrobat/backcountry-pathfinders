@@ -88,6 +88,65 @@
     });
 })();
 
+// --- Bandeau de consentement aux cookies ---
+// Cookie de premier niveau `bcp_consent` = "accepted" | "refused", mémorisé 6 mois.
+// Tant qu'aucun choix n'est fait, le bandeau reste affiché. Les scripts tiers
+// non essentiels (analytics futurs, etc.) peuvent lire window.bcpConsent.get()
+// ou écouter l'événement `bcp:consent` pour se déclencher seulement si accepté.
+(function () {
+    var NAME = 'bcp_consent';
+    var MAX_AGE = 60 * 60 * 24 * 182; // ~6 mois, en secondes
+
+    function lire() {
+        var m = document.cookie.match(/(?:^|;\s*)bcp_consent=([^;]+)/);
+        return m ? decodeURIComponent(m[1]) : null;
+    }
+    function ecrire(valeur) {
+        var secure = location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = NAME + '=' + encodeURIComponent(valeur) +
+            '; Max-Age=' + MAX_AGE + '; Path=/; SameSite=Lax' + secure;
+    }
+
+    // API publique pour d'éventuels scripts tiers à venir.
+    window.bcpConsent = {
+        get: lire,
+        accepted: function () { return lire() === 'accepted'; }
+    };
+
+    var banner = document.getElementById('cookie-banner');
+
+    function afficher() { if (banner) banner.hidden = false; }
+    function masquer() { if (banner) banner.hidden = true; }
+
+    function definir(valeur) {
+        ecrire(valeur);
+        masquer();
+        try {
+            document.dispatchEvent(new CustomEvent('bcp:consent', { detail: valeur }));
+        } catch (e) {}
+    }
+
+    // Affichage initial : seulement si aucun choix n'a encore été mémorisé.
+    if (banner && lire() === null) afficher();
+
+    if (banner) {
+        var accept = banner.querySelector('.js-cookie-accept');
+        var refuse = banner.querySelector('.js-cookie-refuse');
+        if (accept) accept.addEventListener('click', function () { definir('accepted'); });
+        if (refuse) refuse.addEventListener('click', function () { definir('refused'); });
+    }
+
+    // Lien « Gérer les cookies » du pied : ré-ouvre le bandeau pour changer d'avis.
+    var manage = document.querySelector('.js-cookie-manage');
+    if (manage) {
+        manage.addEventListener('click', function (e) {
+            e.preventDefault();
+            afficher();
+            if (banner) banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    }
+})();
+
 // --- Tri client des tableaux .js-sortable (liste des pilotes…) ---
 // Chaque <th data-sort-type="text|number"> est cliquable : 1er clic = croissant,
 // 2e clic = décroissant. Les cellules portent data-sort-value (valeur de tri).

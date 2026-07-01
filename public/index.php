@@ -126,6 +126,9 @@ $router->post('/admin/actualite',                   'App\Controllers\AdminContro
 $router->post('/admin/actualite/image',             'App\Controllers\AdminController@televerserImage');
 $router->post('/admin/actualite/(\d+)/supprimer',   'App\Controllers\AdminController@supprimerActualite');
 
+// Plan du site (XML dynamique) pour les moteurs de recherche
+$router->get('/sitemap.xml', 'App\Controllers\SitemapController@xml');
+
 // Données de la carte (JSON public)
 $router->get('/api/lieux', 'App\Controllers\CarteController@lieux');
 

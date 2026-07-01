@@ -154,6 +154,17 @@ return [
 
     'footer.privacy' => 'Politique de confidentialité',
 
+    // Bandeau de consentement aux cookies
+    'cookie.aria'       => 'Bandeau de consentement aux cookies',
+    'cookie.message'    => 'Ce site utilise des cookies strictement nécessaires à son fonctionnement, ainsi que des services tiers (fond de carte, protection anti-robots) susceptibles de déposer des cookies. Vous pouvez accepter ou refuser ces derniers.',
+    'cookie.accept'     => 'Accepter',
+    'cookie.refuse'     => 'Refuser',
+    'cookie.learn_more' => 'En savoir plus',
+    'cookie.manage'     => 'Gérer les cookies',
+
+    // Métadonnées SEO / partage social (Open Graph)
+    'meta.description' => 'Backcountry Pathfinders : la carte communautaire des lieux de poser en pleine nature pour Microsoft Flight Simulator. Relevés, notes et partage d\'expérience entre pilotes de brousse.',
+
     // Page « Mentions légales » (LCEN)
     'page.legal_notice.title' => 'Mentions légales',
     'legal_notice.title' => 'Mentions légales',

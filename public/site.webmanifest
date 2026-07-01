@@ -1,0 +1,12 @@
+{
+  "name": "Backcountry Pathfinders",
+  "short_name": "Pathfinders",
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#0b0c0e",
+  "background_color": "#0b0c0e",
+  "icons": [
+    { "src": "web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "web-app-manifest-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
